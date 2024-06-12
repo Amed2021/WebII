@@ -1,55 +1,91 @@
+/*letra*/
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
 .login-container {
-  max-width: 300px;
-  margin: 40px auto;
+  max-width: 360px;
+  margin: 20px auto;
   padding: 20px;
-  border: 1px solid #ffff;
   border: 1px solid #000;
   position: relative;
-  height: 550px; /* Aumenta la altura */
-  margin-top: 110px;
-  background-color: rgba(255, 255, 255, 0.8); /* Fondo difuminado */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Sombra difuminada */
+  height: 575px; 
+  margin-top: 150px; /* Ajustar la posición del contenedor */
+  left: 90px; /* mover el contenedor */
+  background-color: rgba(255, 255, 255, 0.8); 
+}
+
+h2 {
+  text-align: center; /* Centra el título */
 }
 
 input[type="text"],
 input[type="password"] {
-  width: calc(100% - 10px); 
+  width: calc(100% - 10px);
   height: 40px;
-  margin: 20px auto; 
+  margin: 69px auto -60px auto;
   padding: 10px;
   border: 1px solid #ccc;
   box-sizing: border-box; 
-  border-radius: 5px; /* Esquinas redondeadas */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Borde difuminado */
+  border-radius: 5px; 
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
+  display: block; 
 }
 
 button[type="submit"] {
-  width: 100%;
+  width: calc(100% - 70px); 
+  background-color: #4cb5f9; 
   color: #fff;
-  padding: 10px;
+  padding: 7px; 
   border: none;
-  border-radius: 5px;
+  border-radius: 10px; 
   cursor: pointer;
-  margin-top: 20px; /* Añade espacio arriba del botón */
-  background-color: rgba(0, 0, 0, 0.8); /* Color de fondo del botón */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Borde difuminado */
+  margin-top: 25px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
+  display: block;
+  margin: 62px auto; 
+}
+button[type="submit"]:hover {
+  background-color: #0098f7;
 }
 
 .contenedor {
-  width: 340px; 
-  height: 50px; 
-  margin: 0 auto; 
+  width: 400px; 
+  height: 40px; 
+  margin: 10px auto 0; /* Reducir margen superior */
   display: flex; 
   justify-content: center; 
   align-items: center;
   border: 1px solid #000;
+  position: relative; 
+  left: 90px; 
 }
 
 .texto-abajo {
-  width: 300px;
-  margin: 290px auto 0; /* Margen superior suficiente para separarlo del contenedor */
-  text-align: center;
+  width: 100%;
+  margin-top: 170px; 
+  display: flex; 
+  justify-content: center; 
+  margin-left: 100px;
+  font-weight: bold;
 }
+
+.texto-abajo p {
+  margin: 0 10px; /* Agregar espacio entre los textos */
+}
+
 
 .login-container p {
   text-align: center;
@@ -79,4 +115,47 @@ button[type="submit"] {
   padding: 0 10px;
   position: relative;
   z-index: 1;
+}
+.img-3d img {
+  position: absolute;
+  top: 270px; /* Mover la imagen un poco hacia abajo */
+  left: 240px; /* Mover la imagen un poco hacia la derecha */
+  max-width: 90%;
+  height: auto;
+  z-index: -1;
+}
+
+
+
+/* Estilos para los botones de Google, Facebook y GitHub */
+.loginButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  margin: 10px 0;
+  padding: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 20px; /* Ajuste el valor según sea necesario */
+}
+
+
+.icon {
+  width: 25px;
+  height: 25px;
+  margin-right: 14px;
+}
+
+.google {
+  background-color: #df4930;
+}
+
+.facebook {
+  background-color: #507cc0;
+}
+
+.github {
+  background-color: gray;
 }
