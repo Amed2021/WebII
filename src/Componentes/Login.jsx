@@ -22,21 +22,27 @@ function Login() {
       <div className="login-container">
         <h2>FACECHAT</h2>
         <form>
-          <label>Usuario o correo</label>
-          <input type="text" value={username} onChange={handleUsernameChange} />
+         
+          <input type="text" value={username} placeholder='Usuario o correo' onChange={handleUsernameChange} />
           <br />
-          <label>Contraseña</label>
-          <input type="password" value={password} onChange={handlePasswordChange} />
+        
+          <input type="password" value={password} placeholder='Contraseña' onChange={handlePasswordChange} />
           <br />
           <button onClick={handleLogin}>Iniciar sesión</button>
           <p>OR</p>
           <button>G</button>
           <button>Github</button>
-          <p>No tienes una cuenta? <a href="#">Registrate</a></p>
-          <p>privacidad</p>
-          <p>2024 Facechat from web II</p>
-          <p>Normas y reglamento</p>
         </form>
+      </div>
+
+      <div className='contenedor'>
+        <p>No tienes una cuenta? <a href="#">Registrate</a></p>
+      </div>
+
+      <div className='texto-abajo'>
+        <p>Privacidad</p>
+        <p>2024 Facechat from web II</p>
+        <p>Normas y reglamento</p>
       </div>
     </div>
   );

@@ -2,33 +2,81 @@
   max-width: 300px;
   margin: 40px auto;
   padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ffff;
+  border: 1px solid #000;
+  position: relative;
+  height: 550px; /* Aumenta la altura */
+  margin-top: 110px;
+  background-color: rgba(255, 255, 255, 0.8); /* Fondo difuminado */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Sombra difuminada */
 }
 
-label {
-  display: block;
-  margin-bottom: 10px;
-}
-
-input[type="text"], input[type="password"] {
-  width: 100%;
+input[type="text"],
+input[type="password"] {
+  width: calc(100% - 10px); 
   height: 40px;
-  margin-bottom: 20px;
+  margin: 20px auto; 
   padding: 10px;
   border: 1px solid #ccc;
+  box-sizing: border-box; 
+  border-radius: 5px; /* Esquinas redondeadas */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Borde difuminado */
 }
 
 button[type="submit"] {
-  background-color: #4CAF50;
+  width: 100%;
   color: #fff;
-  padding: 10px 20px;
+  padding: 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-top: 20px; /* Añade espacio arriba del botón */
+  background-color: rgba(0, 0, 0, 0.8); /* Color de fondo del botón */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Borde difuminado */
 }
 
-button[type="submit"]:hover {
-  background-color: #3e8e41;
+.contenedor {
+  width: 340px; 
+  height: 50px; 
+  margin: 0 auto; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+  border: 1px solid #000;
+}
+
+.texto-abajo {
+  width: 300px;
+  margin: 290px auto 0; /* Margen superior suficiente para separarlo del contenedor */
+  text-align: center;
+}
+
+.login-container p {
+  text-align: center;
+  position: relative;
+}
+
+.login-container p::before,
+.login-container p::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background-color: #ddd;
+}
+
+.login-container p::before {
+  left: 0;
+}
+
+.login-container p::after {
+  right: 0;
+}
+
+.login-container p span {
+  background-color: #fff;
+  padding: 0 10px;
+  position: relative;
+  z-index: 1;
 }
