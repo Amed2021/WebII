@@ -1,76 +1,45 @@
 import React, { useState } from 'react';
+import './'; 
 
-import Google from "../img/google.png";
-import Facebook from "../img/facebook.png";
-import Github from "../img/github.png";
+function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-const Login = () => {
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  };
 
-  const [isRegister, setIsRegister] = useState(false);
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
 
-  const google = ()=>{
-    window.open("http://localhost:5000/auth/google", "_self");
-  }
-
-  const github = ()=>{
-    window.open("http://localhost:5000/auth/github", "_self");
-  }
-
-  const facebook = ()=>{
-    window.open("http://localhost:5000/auth/facebook", "_self");
-  }
-
+  const handleLogin = () => {
+    console.log('Login button clicked');
+  };
 
   return (
-    <div className="login">
-    <div className="wrapper">
-      <h1 className="loginTitle">{isRegister ? "Create an Account" : "Choose a Login Method"}</h1>
-      <div className="left">
-        <div className="loginButton google" onClick={google}>
-          <img src={Google} alt="Google" className="icon" />
-          Google
-        </div>
-        <div className="loginButton facebook" onClick={facebook}>
-          <img src={Facebook} alt="Facebook" className="icon" />
-          Facebook
-        </div>
-        <div className="loginButton github" onClick={github}>
-          <img src={Github} alt="Github" className="icon" />
-          GitHub
-        </div>
-      </div>
-      <div className="center">
-        <div className="line"/>
-        <div className="or">OR</div>
-      </div>
-      <div className="right">
-      {isRegister ? (
-            <>
-        <input type="text" className="input" placeholder="Username" />
-        <input type="email" className="input" placeholder="Email" />
-        <input type="password" className="input" placeholder="Password" />
-        <button className="submit">Register</button>
-        <div className="toggleText"> Already have an account? 
-        <span className="toggleLink" onClick={() => setIsRegister(false)}> Log In</span>
-        </div>
-        </>
-          ) : (
-            <>
-              <input type="text" className="input" placeholder="Username" />
-              <input type="password" className="input" placeholder="Password" />
-              <button className="submit">Login</button>
-              <div className="toggleText">
-                Don't have an account? 
-                <span className="toggleLink" onClick={() => setIsRegister(true)}> Register</span>
-              </div>
-            </>
-          )}
+    <div className="App">
+      <div className="login-container">
+        <h2>FACECHAT</h2>
+        <form>
+          <label>Usuario o correo</label>
+          <input type="text" value={username} onChange={handleUsernameChange} />
+          <br />
+          <label>Contraseña</label>
+          <input type="password" value={password} onChange={handlePasswordChange} />
+          <br />
+          <button onClick={handleLogin}>Iniciar sesión</button>
+          <p>OR</p>
+          <button>G</button>
+          <button>Github</button>
+          <p>No tienes una cuenta? <a href="#">Registrate</a></p>
+          <p>privacidad</p>
+          <p>2024 Facechat from web II</p>
+          <p>Normas y reglamento</p>
+        </form>
       </div>
     </div>
-  </div>
   );
-};
-
-
+}
 
 export default Login;
