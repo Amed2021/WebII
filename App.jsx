@@ -1,7 +1,7 @@
 // App.jsx
 import React from 'react';
 import Login from './src/Componentes/Login';
-import './App.css'
+import '../WebII/src/App.css';
 
 
 function App() {
