@@ -6,7 +6,7 @@ import FacebookIcon from '../imagenes/facebook.png';
 import GithubIcon from '../imagenes/github.png';
 
 
-function Login() {
+function Login( { onSwitchForm } ) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -43,23 +43,11 @@ function Login() {
         <div className="login-container">
           <h2>FACECHAT</h2>
           <form>
-            <input
-              type="text"
-              value={username}
-              placeholder='Usuario o correo'
-              onChange={handleUsernameChange}
-            />
+            <input type="text" value={username} placeholder='Usuario o correo' onChange={handleUsernameChange}/>
             <br />
-            <input
-              type="password"
-              value={password}
-              placeholder='Contraseña'
-              onChange={handlePasswordChange}
-            />
+            <input type="password" value={password} placeholder='Contraseña' onChange={handlePasswordChange}/>
             <br />
-            <button type="submit" onClick={handleLogin}>
-              Iniciar sesión
-            </button>
+            <button type="submit" onClick={handleLogin}> Iniciar sesión</button>
             <p>OR</p>
             <div className="loginButton google" onClick={google}>
   <img src={GoogleIcon} alt="Google" className="icon" />
@@ -78,7 +66,7 @@ function Login() {
         </div>
       </div>
       <div className='contenedor'>
-        <p>No tienes una cuenta? <a href="#">Registrate</a></p>
+        <p>No tienes una cuenta? <a href="#" onClick={onSwitchForm} >Registrate</a></p>
       </div>
       <div className='texto-abajo'>
         <p>Privacidad</p>

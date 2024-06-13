@@ -159,3 +159,48 @@ button[type="submit"]:hover {
 .github {
   background-color: gray;
 }
+
+
+
+@media only screen and (max-width: 768px) {
+  .login-container {
+    max-width: 300px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    margin: 40px auto -40px auto;
+  }
+
+  .contenedor {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .texto-abajo {
+    margin-top: 70px;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .login-container {
+    max-width: 250px;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    margin: 30px auto -30px auto;
+  }
+
+  .contenedor {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 250px;
+  }
+
+  .texto-abajo {
+    margin-top: 50px;
+  }
+}

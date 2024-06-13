@@ -1,16 +1,19 @@
 // App.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import Login from './src/Componentes/Login';
-import '../WebII/src/App.css';
-
+import Registro from './src/Componentes/Registro';
 
 function App() {
-  return (
-    <div>
-      <h1></h1>
-      <Login />
-    </div>
-  );
+const  [isLogin, setIsLogin] = useState(true);
+
+const switchForm = () => {
+  setIsLogin(!isLogin);
+};
+return(
+  <div>
+    {isLogin ? <Login onSwitchForm={switchForm} /> : <Registro onSwitchForm={switchForm}/>}
+  </div>
+);
 }
 
 export default App;

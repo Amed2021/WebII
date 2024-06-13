@@ -1,0 +1,156 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.registro-container {
+  max-width: 360px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #000;
+  position: relative;
+  height: 575px; 
+  margin-top: 150px; /* Ajustar la posición del contenedor */
+  left: 90px; /* mover el contenedor */
+  background-color: rgba(255, 255, 255, 0.8); 
+}
+
+h2 {
+  text-align: center; /* Centra el título */
+}
+
+input[type="email"],
+input[type="text"],
+input[type="password"] {
+  width: calc(100% - 10px);
+  height: 40px;
+  margin: 69px auto -60px auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box; 
+  border-radius: 5px; 
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
+  display: block; 
+}
+
+button[type="submit"] {
+  width: calc(100% - 70px); 
+  background-color: #4cb5f9; 
+  color: #fff;
+  padding: 7px; 
+  border: none;
+  border-radius: 10px; 
+  cursor: pointer;
+  margin-top: 25px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
+  display: block;
+  margin: 62px auto; 
+}
+
+button[type="submit"]:hover {
+  background-color: #0098f7;
+}
+
+.img-4 img {
+  position: absolute;
+  top: 250px; /* Mover la imagen un poco hacia arriba */
+  left: 280px; /* Mover la imagen un poco hacia la izquierda */
+  width: 400px; /* Ajustar el ancho de la imagen */
+  height: auto; /* Mantener la proporción */
+  z-index: -1;
+}
+
+
+.registro-texto-abajo {
+  width: 30%;
+  margin-top: 90px;
+  display: flex;
+  justify-content: space-between; /* Distribuir los elementos en una sola fila horizontal */
+  font-weight: bold;
+  margin-left: 750px;
+}
+
+.registro-texto-abajo p {
+  margin: 0 8px; 
+}
+
+.registro-footer {
+  text-align: center;
+  margin-top: 30px;
+  background-color: rgba(255, 255, 255, 0.8); /* Agregar fondo blanco transparente */
+  padding: 6px;
+  border: 1px solid #000;
+  width: 385px;
+  margin-left: 850px
+}
+
+.registro-footer a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.registro-footer a:hover {
+  text-decoration: underline;
+}
+.terminos{
+text-align: center;
+margin-top: 70px;
+font-weight: bold;
+font-size: small;
+}
+
+@media only screen and (max-width: 768px) {
+  .registro-container {
+    max-width: 300px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  input[type="email"],
+  input[type="text"],
+  input[type="password"] {
+    margin: 40px auto -40px auto;
+  }
+
+  .registro-texto-abajo {
+    margin-top: 70px;
+    margin-left: 0;
+  }
+
+  .img-4 img {
+    top: 50px;
+    left: 20px;
+    width: 200px;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .registro-container {
+    max-width: 250px;
+  }
+
+  input[type="email"],
+  input[type="text"],
+  input[type="password"] {
+    margin: 30px auto -30px auto;
+  }
+
+  .registro-texto-abajo {
+    margin-top: 50px;
+  }
+
+  .img-4 img {
+    top: 30px;
+    left: 10px;
+    width: 150px;
+  }
+}
