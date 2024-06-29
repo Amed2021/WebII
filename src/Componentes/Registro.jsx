@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import '../Registro.css'; // Asegúrate de que la ruta sea correcta
+import '../Registro.css'; 
 import imagen4 from '../imagenes/imagen4.png';
+
 
 function Registro({ onSwitchForm }) {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [fechaNacimiento, setFechaNacimiento] = useState('');
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -23,6 +25,9 @@ function Registro({ onSwitchForm }) {
   const handleConfirmPasswordChange = (event) => {
     setConfirmPassword(event.target.value);
   };
+  const handleFechaNacimientoChange = (event) =>{
+    setFechaNacimiento(event.target.value);
+  }
 
   const handleRegister = () => {
     console.log('Register button clicked');
@@ -43,6 +48,8 @@ function Registro({ onSwitchForm }) {
           <input type="password" value={password} placeholder='Contraseña' onChange={handlePasswordChange} />
           <br />
           <input type="password" value={confirmPassword} placeholder='Confirmar contraseña' onChange={handleConfirmPasswordChange} />
+          <br />
+          <input type="date" value={fechaNacimiento} onChange={handleFechaNacimientoChange} />
           <br />
         
           <button type="submit" onClick={handleRegister}>Registrarse

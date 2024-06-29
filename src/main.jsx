@@ -1,7 +1,8 @@
-// App.jsx
+
 import React, { useState } from 'react';
-import Login from './src/Componentes/Login';
-import Registro from './src/Componentes/Registro';
+import ReactDOM from 'react-dom';
+import Login from './Componentes/Login';
+import Registro from './Componentes/Registro';
 
 function App() {
 const  [isLogin, setIsLogin] = useState(true);
@@ -16,8 +17,7 @@ return(
 );
 }
 
-export default App;
-
+ReactDOM.render(<App />, document.getElementById('root'));
 
 
 

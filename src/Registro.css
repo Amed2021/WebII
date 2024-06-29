@@ -19,18 +19,19 @@ code {
   border: 1px solid #000;
   position: relative;
   height: 575px; 
-  margin-top: 150px; /* Ajustar la posición del contenedor */
-  left: 90px; /* mover el contenedor */
+  margin-top: 150px; 
+  left: 90px; 
   background-color: rgba(255, 255, 255, 0.8); 
 }
 
 h2 {
-  text-align: center; /* Centra el título */
+  text-align: center; 
 }
 
 input[type="email"],
 input[type="text"],
-input[type="password"] {
+input[type="password"], 
+input[type="date"]{
   width: calc(100% - 10px);
   height: 40px;
   margin: 69px auto -60px auto;
@@ -62,10 +63,10 @@ button[type="submit"]:hover {
 
 .img-4 img {
   position: absolute;
-  top: 250px; /* Mover la imagen un poco hacia arriba */
-  left: 280px; /* Mover la imagen un poco hacia la izquierda */
-  width: 400px; /* Ajustar el ancho de la imagen */
-  height: auto; /* Mantener la proporción */
+  top: 250px; 
+  left: 280px; 
+  width: 400px; 
+  height: auto; 
   z-index: -1;
 }
 
@@ -74,7 +75,7 @@ button[type="submit"]:hover {
   width: 30%;
   margin-top: 90px;
   display: flex;
-  justify-content: space-between; /* Distribuir los elementos en una sola fila horizontal */
+  justify-content: space-between; 
   font-weight: bold;
   margin-left: 750px;
 }
@@ -86,7 +87,7 @@ button[type="submit"]:hover {
 .registro-footer {
   text-align: center;
   margin-top: 30px;
-  background-color: rgba(255, 255, 255, 0.8); /* Agregar fondo blanco transparente */
+  background-color: rgba(255, 255, 255, 0.8); 
   padding: 6px;
   border: 1px solid #000;
   width: 385px;
@@ -140,7 +141,8 @@ font-size: small;
 
   input[type="email"],
   input[type="text"],
-  input[type="password"] {
+  input[type="password"],
+  input[type="date"]{
     margin: 30px auto -30px auto;
   }
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { gapi } from 'gapi-script';
 import GoogleLogin from 'react-google-login';
+
 import '../App.css';
 import imagen from '../imagenes/image3.png';
 import GoogleIcon from '../imagenes/google.png';
@@ -8,6 +9,8 @@ import FacebookIcon from '../imagenes/facebook.png';
 import GithubIcon from '../imagenes/github.png';
 
 const clientID = '10768739818-1o1a42j9gmstffm0f895s5qqdn85dh4i.apps.googleusercontent.com';
+
+
 
 function Login({ onSwitchForm }) {
   const [user, setUser] = useState({});
@@ -17,8 +20,10 @@ function Login({ onSwitchForm }) {
     function start() {
       gapi.client.init({
         clientId: clientID,
-        scope: ''
+        scope: 'profile email'
+       
       });
+      
     }
     gapi.load('client:auth2', start);
   }, []);
