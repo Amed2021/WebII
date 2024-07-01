@@ -8,8 +8,7 @@ import GoogleIcon from '../imagenes/google.png';
 import FacebookIcon from '../imagenes/facebook.png';
 import GithubIcon from '../imagenes/github.png';
 
-const clientID = '10768739818-1o1a42j9gmstffm0f895s5qqdn85dh4i.apps.googleusercontent.com';
-
+const clientID = '948578022378-ht25dltghdtmdu2qqdo9mfeltg4fq65m.apps.googleusercontent.com';
 
 
 function Login({ onSwitchForm }) {
