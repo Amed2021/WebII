@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { gapi } from 'gapi-script';
-import GoogleLogin from 'react-google-login';
+import { GoogleLogin } from 'react-google-login';
+import GitHubLogin from 'react-github-login';
 
 import '../App.css';
 import imagen from '../imagenes/image3.png';
@@ -9,7 +10,8 @@ import FacebookIcon from '../imagenes/facebook.png';
 import GithubIcon from '../imagenes/github.png';
 
 const clientID = '948578022378-ht25dltghdtmdu2qqdo9mfeltg4fq65m.apps.googleusercontent.com';
-
+const githubClientId = 'Ov23liHsXcD6sZZ5xCAB';
+const githubCallbackUrl = 'http://localhost:3000/callback';
 
 function Login({ onSwitchForm }) {
   const [user, setUser] = useState({});
@@ -20,21 +22,29 @@ function Login({ onSwitchForm }) {
       gapi.client.init({
         clientId: clientID,
         scope: 'profile email'
-       
       });
-      
     }
     gapi.load('client:auth2', start);
   }, []);
 
-  const onSuccess = (response) => {
+  const onSuccessGoogle = (response) => {
     setUser(response.profileObj);
     setIsLoggedIn(true);
-    console.log('Login successful:', response);
+    console.log('Google login successful:', response);
   };
 
-  const onFailure = (response) => {
-    console.log('Login failed:', response);
+  const onFailureGoogle = (response) => {
+    console.log('Google login failed:', response);
+  };
+
+  const onSuccessGithub = (response) => {
+    console.log('GitHub login successful:', response);
+    setIsLoggedIn(true);
+    setUser({ name: response.profile.name, imageUrl: response.profile.avatar_url });
+  };
+
+  const onFailureGithub = (response) => {
+    console.log('GitHub login failed:', response);
   };
 
   const handleLogout = () => {
@@ -62,8 +72,8 @@ function Login({ onSwitchForm }) {
                 <div className="loginButton google">
                   <GoogleLogin
                     clientId={clientID}
-                    onSuccess={onSuccess}
-                    onFailure={onFailure}
+                    onSuccess={onSuccessGoogle}
+                    onFailure={onFailureGoogle}
                     buttonText="Continue with Google"
                     cookiePolicy={'single_host_origin'}
                     render={renderProps => (
@@ -78,9 +88,19 @@ function Login({ onSwitchForm }) {
                   <img src={FacebookIcon} alt="Facebook" className="icon" />
                   Facebook
                 </div>
-                <div className="loginButton github" onClick={() => window.open("URL_DE_AUTENTICACIÓN_DE_GITHUB", "_self")}>
-                  <img src={GithubIcon} alt="Github" className="icon" />
-                  GitHub
+                <div className="loginButton github">
+                  <GitHubLogin
+                    clientId={githubClientId}
+                    onSuccess={onSuccessGithub}
+                    onFailure={onFailureGithub}
+                    buttonText={<>
+                      <img src={GithubIcon} alt="Github" className="icon" />
+                      <span>GitHub</span>
+                    </>}
+                    redirectUri={githubCallbackUrl}
+                    className="github-button"
+                    cssClass="github-button" 
+                  />
                 </div>
               </form>
             </>
