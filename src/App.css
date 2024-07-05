@@ -160,6 +160,10 @@ button[type="submit"]:hover {
   background-color: gray;
 }
 
+.nav-wrapper{
+  margin-top: 39%;
+}
+
 
 
 @media only screen and (max-width: 768px) {
