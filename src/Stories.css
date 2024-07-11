@@ -1,0 +1,14 @@
+.carousel{
+    height: 300px;
+    width: 1154px;
+    perspective: 250px;
+    margin: -81px 0 0 125px;
+    
+}
+.carousel-item, .active{
+      max-width: 70%;
+    }
+.carousel-img{
+    
+      max-width: 50%;
+    }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 
-import '../App.css';
+import '../Navbar.css';
 
 
 
@@ -12,16 +12,18 @@ function Navbar() {
     
 
     <nav>
-    <div class="nav-wrapper">
-      <a href="#!" class="brand-logo"><i class="material-icons">cloud</i>Logo</a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="sass.html"><i class="material-icons">search</i></a></li>
-        <li><a href="badges.html"><i class="material-icons">view_module</i></a></li>
-        <li><a href="collapsible.html"><i class="material-icons">refresh</i></a></li>
-        <li><a href="mobile.html"><i class="material-icons">more_vert</i></a></li>
-      </ul>
-    </div>
-  </nav>
+  <div class="nav-wrapper">
+    <ul class="hide-on-med-and-down center-icons">
+      <li><a href="sass.html" className="MenuIcons" ><i class="material-icons medium">home</i></a></li>
+      <li><a href="badges.html" className="MenuIcons"><i class="material-icons medium">chat</i></a></li>
+      <li><a href="collapsible.html" className="MenuIcons"><i class="material-icons medium">history</i></a></li>
+      <li><a href="mobile.html" className="MenuIcons"><i class="material-icons medium">control_point</i></a></li>
+      <li><a href="collapsible.html" className="MenuIcons"><i class="material-icons medium">person</i></a></li>
+      <li><a href="mobile.html" className="MenuIcons"><i class="material-icons medium">settings</i></a></li>
+    </ul>
+  </div>
+</nav>
+
 
 
   );
