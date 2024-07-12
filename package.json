@@ -12,8 +12,11 @@
   "dependencies": {
     "@react-three/drei": "^9.106.0",
     "@react-three/fiber": "^8.16.8",
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2",
     "gapi-script": "^1.2.0",
     "googleapis": "^140.0.1",
+    "mongodb": "^6.8.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-facebook-login": "^4.1.1",

@@ -6,14 +6,13 @@ import GitHubLogin from 'react-github-login';
 import '../App.css';
 import imagen from '../imagenes/image3.png';
 import GoogleIcon from '../imagenes/google.png';
-import FacebookIcon from '../imagenes/facebook.png';
 import GithubIcon from '../imagenes/github.png';
 
 const clientID = '948578022378-ht25dltghdtmdu2qqdo9mfeltg4fq65m.apps.googleusercontent.com';
 const githubClientId = 'Ov23liHsXcD6sZZ5xCAB';
 const githubCallbackUrl = 'http://localhost:3000/callback';
 
-function Login({ onSwitchForm }) {
+function Login({ onSwitchForm, prop1 = 'default value', prop2 = 42 }) {
   const [user, setUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -84,10 +83,7 @@ function Login({ onSwitchForm }) {
                     )}
                   />
                 </div>
-                <div className="loginButton facebook" onClick={() => window.open("URL_DE_AUTENTICACIÓN_DE_FACEBOOK", "_self")}>
-                  <img src={FacebookIcon} alt="Facebook" className="icon" />
-                  Facebook
-                </div>
+              
                 <div className="loginButton github">
                   <GitHubLogin
                     clientId={githubClientId}
