@@ -1,10 +1,11 @@
+// Registro.jsx
 import React, { useState } from 'react';
 import '../Registro.css';
 import imagen4 from '../imagenes/imagen4.png';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebase';
 import Swal from 'sweetalert2';
-
+import { useNavigate } from 'react-router-dom';
 
 const Registro = ({ onSwitchForm }) => {
   const [email, setEmail] = useState('');
@@ -13,6 +14,7 @@ const Registro = ({ onSwitchForm }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [fechaNacimiento, setFechaNacimiento] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleEmailChange = (event) => setEmail(event.target.value);
   const handleUsernameChange = (event) => setUsername(event.target.value);
@@ -58,7 +60,15 @@ const Registro = ({ onSwitchForm }) => {
         text: 'Usuario registrado con éxito',
         icon: 'success'
       });
-      // Redirigir al usuario  
+      
+      setEmail('');
+      setUsername('');
+      setPassword('');
+      setConfirmPassword('');
+      setFechaNacimiento('');
+      
+      // Navegar al login después de registro exitoso
+      navigate('/');
     } catch (error) {
       console.error('Error al registrar el usuario:', error);
       Swal.fire({
@@ -70,33 +80,30 @@ const Registro = ({ onSwitchForm }) => {
   };
 
   return (
-    <>
-      <div className='registro-wrapper'>
-        <div className='img-4'>
-          <img src={imagen4} alt="img4" />
-        </div>
-        <div className="registro-container">
-          <h2>FACECHAT</h2>
-          <form onSubmit={handleRegister}>
-            <input type="email" value={email} placeholder='Correo electrónico' onChange={handleEmailChange} required />
-            <br />
-            <input type="text" value={username} placeholder='Nombre de usuario' onChange={handleUsernameChange} required />
-            <br />
-            <input type="password" value={password} placeholder='Contraseña' onChange={handlePasswordChange} required />
-            <br />
-            <input type="password" value={confirmPassword} placeholder='Confirmar contraseña' onChange={handleConfirmPasswordChange} required />
-            <br />
-            <input type="date" value={fechaNacimiento} onChange={handleFechaNacimientoChange} required />
-            <br />
-            <button type="submit">Registrarse</button>
-            <div className='terminos'>
-              <p>Al registrarte aceptas los términos y condiciones</p>
-            </div>
-          </form>
-        
-        </div>
+    <div className='registro-wrapper'>
+      <div className='img-4'>
+        <img src={imagen4} alt="img4" />
+      </div>
+      <div className="registro-container">
+        <h2>FACECHAT</h2>
+        <form onSubmit={handleRegister}>
+          <input type="email" value={email} placeholder='Correo electrónico' onChange={handleEmailChange} required />
+          <br />
+          <input type="text" value={username} placeholder='Nombre de usuario' onChange={handleUsernameChange} required />
+          <br />
+          <input type="password" value={password} placeholder='Contraseña' onChange={handlePasswordChange} required />
+          <br />
+          <input type="password" value={confirmPassword} placeholder='Confirmar contraseña' onChange={handleConfirmPasswordChange} required />
+          <br />
+          <input type="date" value={fechaNacimiento} onChange={handleFechaNacimientoChange} required />
+          <br />
+          <button type="submit">Registrarse</button>
+          <div className='terminos'>
+            <p>Al registrarte aceptas los términos y condiciones</p>
+          </div>
+        </form>
         <div className='registro-footer'>
-          <p>¿Ya tienes una cuenta? <a href="#" onClick={onSwitchForm}>Inicia sesión</a></p>
+        <p>No tienes una cuenta? <a href="#" onClick={(e) => { e.preventDefault(); onSwitchForm(); }}>Regístrate</a></p>
         </div>
         <div className='registro-texto-abajo'>
           <p>Privacidad</p>
@@ -104,7 +111,7 @@ const Registro = ({ onSwitchForm }) => {
           <p>Normas y reglamento</p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
