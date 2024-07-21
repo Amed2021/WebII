@@ -1,28 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import '../Registro.css'; 
+import React, { useState } from 'react';
+import '../Registro.css';
 import imagen4 from '../imagenes/imagen4.png';
-import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebase';
 import Swal from 'sweetalert2';
 
-export const Registro = ({ onSwitchForm }) => {
+
+const Registro = ({ onSwitchForm }) => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [fechaNacimiento, setFechaNacimiento] = useState('');
-  
   const [error, setError] = useState('');
-  const [user, setUser] = useState(null);
-
-  
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
-
-    return () => unsubscribe();
-  }, []);
 
   const handleEmailChange = (event) => setEmail(event.target.value);
   const handleUsernameChange = (event) => setUsername(event.target.value);
@@ -68,7 +58,7 @@ export const Registro = ({ onSwitchForm }) => {
         text: 'Usuario registrado con éxito',
         icon: 'success'
       });
-      // redirigir al usuario 
+      // Redirigir al usuario  
     } catch (error) {
       console.error('Error al registrar el usuario:', error);
       Swal.fire({
@@ -103,6 +93,7 @@ export const Registro = ({ onSwitchForm }) => {
               <p>Al registrarte aceptas los términos y condiciones</p>
             </div>
           </form>
+        
         </div>
         <div className='registro-footer'>
           <p>¿Ya tienes una cuenta? <a href="#" onClick={onSwitchForm}>Inicia sesión</a></p>
@@ -116,3 +107,5 @@ export const Registro = ({ onSwitchForm }) => {
     </>
   );
 };
+
+export default Registro;
