@@ -4,6 +4,8 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './Componentes/App'; 
 
+
+
 function Main() {
   const [isLogin, setIsLogin] = useState(true);
 
@@ -14,6 +16,7 @@ function Main() {
   return (
     <BrowserRouter>
       <App onSwitchForm={switchForm} isLogin={isLogin} />
+      
     </BrowserRouter>
   );
 }

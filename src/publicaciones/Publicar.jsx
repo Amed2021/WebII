@@ -1,0 +1,9 @@
+
+export const Publicar = () => {
+  return (
+    <>
+    
+    
+    </>
+  )
+}

@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
+
 import { gapi } from 'gapi-script';
+
 import { GoogleLogin } from 'react-google-login';
 import GitHubLogin from 'react-github-login';
+
 import { useNavigate } from 'react-router-dom';
+
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebase'; 
 
 import '../App.css';
+
 import imagen from '../imagenes/image3.png';
 import GoogleIcon from '../imagenes/google.png';
 import GithubIcon from '../imagenes/github.png';
@@ -69,6 +74,10 @@ function Login({ onSwitchForm }) {
 
   const onFailureGithub = (response) => {
     console.log('GitHub login failed:', response);
+  };
+
+  const handleNavigate = (path) => {
+    navigate(path);
   };
 
   const handleLogout = () => {
@@ -150,9 +159,9 @@ function Login({ onSwitchForm }) {
       <p>No tienes una cuenta? <a href="#" onClick={onSwitchForm}>Registrate</a></p>
       </div>
       <div className='texto-abajo'>
-        <p>Privacidad</p>
+      <p><a href="#" onClick={() => handleNavigate('/privacidad')}>Privacidad</a></p>
         <p>2024 Facechat from web II</p>
-        <p>Normas y reglamento</p>
+        <p><a href='#' onClick={() => handleNavigate('/normas')}> Normas y reglamento </a></p>
       </div>
     </div>
   );
