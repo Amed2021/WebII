@@ -1,23 +1,17 @@
-import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
 import './App.css';
 import Navbar from './Componentes/Navbar';
-import Sidebar from './Componentes/Sidebar';
+import Sidebar from './Componentes/Sidebar'; 
 import Stories from './Componentes/Stories';
-import './Stories.css';
-
 
 function Home() {
-
-    
-
   return (
     <div>
-    <Sidebar/>
-    <Stories/>
-    <Navbar/>
+      <Sidebar />
+      <Stories />
+      <Navbar />
     </div>
   );
 }
 
-ReactDOM.render(<Home />, document.getElementById('root'));
+export default Home;

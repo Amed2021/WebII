@@ -12,16 +12,23 @@
   "dependencies": {
     "@react-three/drei": "^9.106.0",
     "@react-three/fiber": "^8.16.8",
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2",
+    "firebase": "^10.12.4",
     "gapi-script": "^1.2.0",
     "googleapis": "^140.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-facebook-login": "^4.1.1",
     "react-github-login": "^1.0.3",
     "react-google-login": "^5.2.2",
+<<<<<<< HEAD
     "react-materialize": "^3.10.0",
     "react-modal": "^3.16.1",
     "react-responsive-carousel": "^3.2.23",
+=======
+    "react-router-dom": "^6.25.1",
+    "sweetalert2": "^11.12.3",
+>>>>>>> 4705932a7864871e426c04f406219cb9724db958
     "three": "^0.165.0"
   },
   "devDependencies": {

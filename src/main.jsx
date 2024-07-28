@@ -1,24 +1,21 @@
 
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
-import Login from './Componentes/Login';
-import Registro from './Componentes/Registro';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './Componentes/App'; 
 
-function App() {
-const  [isLogin, setIsLogin] = useState(true);
+function Main() {
+  const [isLogin, setIsLogin] = useState(true);
 
-const switchForm = () => {
-  setIsLogin(!isLogin);
-};
-return(
-  <div>
-    {isLogin ? <Login onSwitchForm={switchForm} /> : <Registro onSwitchForm={switchForm}/>}
-  </div>
-);
+  const switchForm = () => {
+    setIsLogin(!isLogin);
+  };
+
+  return (
+    <BrowserRouter>
+      <App onSwitchForm={switchForm} isLogin={isLogin} />
+    </BrowserRouter>
+  );
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
-
-
-
-
+createRoot(document.getElementById('root')).render(<Main />);

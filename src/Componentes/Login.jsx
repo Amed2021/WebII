@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { gapi } from 'gapi-script';
 import { GoogleLogin } from 'react-google-login';
 import GitHubLogin from 'react-github-login';
+import { useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../config/firebase'; 
 
 import '../App.css';
 import imagen from '../imagenes/image3.png';
 import GoogleIcon from '../imagenes/google.png';
-import FacebookIcon from '../imagenes/facebook.png';
 import GithubIcon from '../imagenes/github.png';
 
 const clientID = '948578022378-ht25dltghdtmdu2qqdo9mfeltg4fq65m.apps.googleusercontent.com';
@@ -14,8 +16,11 @@ const githubClientId = 'Ov23liHsXcD6sZZ5xCAB';
 const githubCallbackUrl = 'http://localhost:3000/callback';
 
 function Login({ onSwitchForm }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [user, setUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     function start() {
@@ -27,10 +32,24 @@ function Login({ onSwitchForm }) {
     gapi.load('client:auth2', start);
   }, []);
 
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      setUser(userCredential.user);
+      setIsLoggedIn(true);
+      navigate('/home');
+    } catch (error) {
+      console.error('Error al iniciar sesión:', error);
+    
+    }
+  };
+
   const onSuccessGoogle = (response) => {
     setUser(response.profileObj);
     setIsLoggedIn(true);
     console.log('Google login successful:', response);
+    navigate('/home');
   };
 
   const onFailureGoogle = (response) => {
@@ -39,8 +58,13 @@ function Login({ onSwitchForm }) {
 
   const onSuccessGithub = (response) => {
     console.log('GitHub login successful:', response);
+    setUser({
+      name: response.profile.name,
+      imageUrl: response.profile.avatar_url
+    });
     setIsLoggedIn(true);
-    setUser({ name: response.profile.name, imageUrl: response.profile.avatar_url });
+    
+    window.location.href = '/home'; 
   };
 
   const onFailureGithub = (response) => {
@@ -62,10 +86,22 @@ function Login({ onSwitchForm }) {
           <h2>FACECHAT</h2>
           {!isLoggedIn ? (
             <>
-              <form>
-                <input type="text" placeholder='Usuario o correo' />
+              <form onSubmit={handleLogin}>
+                <input 
+                  type="email" 
+                  placeholder='Correo electrónico' 
+                  value={email} 
+                  onChange={(e) => setEmail(e.target.value)} 
+                  required 
+                />
                 <br />
-                <input type="password" placeholder='Contraseña' />
+                <input 
+                  type="password" 
+                  placeholder='Contraseña' 
+                  value={password} 
+                  onChange={(e) => setPassword(e.target.value)} 
+                  required 
+                />
                 <br />
                 <button type="submit">Iniciar sesión</button>
                 <p>OR</p>
@@ -84,10 +120,7 @@ function Login({ onSwitchForm }) {
                     )}
                   />
                 </div>
-                <div className="loginButton facebook" onClick={() => window.open("URL_DE_AUTENTICACIÓN_DE_FACEBOOK", "_self")}>
-                  <img src={FacebookIcon} alt="Facebook" className="icon" />
-                  Facebook
-                </div>
+              
                 <div className="loginButton github">
                   <GitHubLogin
                     clientId={githubClientId}
@@ -114,7 +147,7 @@ function Login({ onSwitchForm }) {
         </div>
       </div>
       <div className='contenedor'>
-        <p>No tienes una cuenta? <a href="#" onClick={onSwitchForm}>Registrate</a></p>
+      <p>No tienes una cuenta? <a href="#" onClick={onSwitchForm}>Registrate</a></p>
       </div>
       <div className='texto-abajo'>
         <p>Privacidad</p>
