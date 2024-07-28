@@ -1,6 +1,5 @@
 import React from 'react';
 import NormasImg from '../imagenes/normas.jpg';
-
 import { Link } from 'react-router-dom';
 
 const styles = {
@@ -17,9 +16,14 @@ const styles = {
   image: {
     position: 'absolute',
     bottom: '20px',
-    right: '-200px',
-    width: '200px',
-    height: 'auto'
+    right: '-420px',
+    width: '400px',
+    height: 'auto',
+    transform: 'perspective(500px) rotateY(10deg) scale(1.1)',
+    transition: 'transform 0.3s'
+  },
+  imageHover: {
+    transform: 'perspective(500px) rotateY(0deg) scale(1.2)'
   },
   heading: {
     marginTop: '20px'
@@ -27,6 +31,13 @@ const styles = {
   paragraph: {
     marginTop: '10px',
     textAlign: 'justify'
+  },
+  backLink: {
+    display: 'block',
+    marginTop: '20px',
+    textDecoration: 'none',
+    color: '#007BFF',
+    fontWeight: 'bold'
   }
 };
 
@@ -67,7 +78,13 @@ const Normas = () => {
       <p style={styles.paragraph}>
         Recuerda que estas normas están diseñadas para proteger a todos los miembros de nuestra comunidad y asegurar que Facechat siga siendo un lugar seguro y agradable para todos. Si tienes alguna pregunta sobre estas normas o necesitas más información, no dudes en ponerte en contacto con nuestro equipo de soporte.
       </p>
-      <img src={NormasImg} alt="Normas" style={styles.image} />
+      <img
+        src={NormasImg}
+        alt="Normas"
+        style={styles.image}
+        onMouseEnter={(e) => (e.currentTarget.style.transform = styles.imageHover.transform)}
+        onMouseLeave={(e) => (e.currentTarget.style.transform = styles.image.transform)}
+      />
       <Link to="/" style={styles.backLink}>Volver al inicio</Link>
     </div>
   );

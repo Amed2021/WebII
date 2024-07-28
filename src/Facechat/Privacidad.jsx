@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import PrivacidadImg from '../imagenes/privacidad.jpg';
 
@@ -9,34 +8,51 @@ const styles = {
     textAlign: 'center',
     position: 'relative',
     maxWidth: '800px',
-    margin: '0 auto'
+    margin: '0 auto',
+   
   },
   image: {
     position: 'absolute',
     top: '20px',
-    left: '-550px',
+    left: '-450px',
     width: '250px',
-    height: 'auto'
+    height: 'auto',
+    transform: 'perspective(500px) rotateY(10deg) scale(1.1)',
+    transition: 'transform 0.3s',
+  },
+  imageHover: {
+    transform: 'perspective(500px) rotateY(0deg) scale(1.2)',
   },
   heading: {
-    marginTop: '20px'
+    marginTop: '20px',
+    fontSize: '24px',
+    color: '#333',
   },
   paragraph: {
     marginTop: '10px',
-    textAlign: 'justify'
+    textAlign: 'justify',
+    color: '#555',
+    lineHeight: '1.6',
   },
   backLink: {
     display: 'block',
     marginTop: '20px',
     textDecoration: 'none',
-    color: '#007BFF'
-  }
+    color: '#007BFF',
+    fontWeight: 'bold',
+  },
 };
 
 const Privacidad = () => {
   return (
     <div style={styles.container}>
-      <img src={PrivacidadImg} alt="Privacidad" style={styles.image} />
+      <img
+        src={PrivacidadImg}
+        alt="Privacidad"
+        style={styles.image}
+        onMouseEnter={(e) => (e.currentTarget.style.transform = styles.imageHover.transform)}
+        onMouseLeave={(e) => (e.currentTarget.style.transform = styles.image.transform)}
+      />
       <h2 style={styles.heading}>Privacidad en Facechat</h2>
       <p style={styles.paragraph}>
         En Facechat, nos tomamos en serio tu privacidad. Sabemos que confías en nosotros para mantener segura tu información personal y nos esforzamos por garantizar que tu experiencia en nuestra plataforma sea segura y respetuosa con tu privacidad. 
@@ -69,7 +85,6 @@ const Privacidad = () => {
       <p style={styles.paragraph}>
         Si en algún momento decides que ya no deseas utilizar nuestros servicios, te proporcionamos opciones claras para cerrar tu cuenta y eliminar tu información personal de nuestros sistemas. Nos esforzamos por hacer este proceso lo más sencillo y transparente posible.
       </p>
-    
       <Link to="/" style={styles.backLink}>Volver al inicio</Link>
     </div>
   );
