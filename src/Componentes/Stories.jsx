@@ -1,5 +1,6 @@
 // Stories.js
 import React, { useState } from 'react';
+import '../Stories.css';
 import { Carousel, Modal, Button, Icon } from 'react-materialize';
 
 const stories = [
