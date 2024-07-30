@@ -1,31 +1,29 @@
-import React, { useState, useEffect } from 'react';
-
-
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import '../Navbar.css';
 
-
-
 function Navbar() {
- 
+  const navigate = useNavigate();
+
+  const handleProfileClick = () => {
+    navigate('/perfil');
+  };
 
   return (
-    
-
-    <nav>
-  <div class="nav-wrapper">
-    <ul class="hide-on-med-and-down center-icons">
-      <li><a href="sass.html" className="MenuIcons" ><i class="material-icons medium">home</i></a></li>
-      <li><a href="badges.html" className="MenuIcons"><i class="material-icons medium">chat</i></a></li>
-      <li><a href="collapsible.html" className="MenuIcons"><i class="material-icons medium">history</i></a></li>
-      <li><a href="mobile.html" className="MenuIcons"><i class="material-icons medium">control_point</i></a></li>
-      <li><a href="collapsible.html" className="MenuIcons"><i class="material-icons medium">person</i></a></li>
-      <li><a href="mobile.html" className="MenuIcons"><i class="material-icons medium">settings</i></a></li>
-    </ul>
-  </div>
-</nav>
-
-
-
+    <div>
+      <nav>
+        <div className="nav-wrapper">
+          <ul className="hide-on-med-and-down center-icons">
+            <li><Link to="/home" className="MenuIcons"><i className="material-icons medium">home</i></Link></li>
+            <li><Link to="/chat" className="MenuIcons"><i className="material-icons medium">chat</i></Link></li>
+            <li><Link to="/history" className="MenuIcons"><i className="material-icons medium">history</i></Link></li>
+            <li><Link to="/create" className="MenuIcons"><i className="material-icons medium">control_point</i></Link></li>
+            <li><a onClick={handleProfileClick} className="MenuIcons"><i className="material-icons medium">person</i></a></li>
+            <li><Link to="/settings" className="MenuIcons"><i className="material-icons medium">settings</i></Link></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
   );
 }
 

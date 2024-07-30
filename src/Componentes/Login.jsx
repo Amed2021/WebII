@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebase'; 
 
+
+
 import '../App.css';
 
 import imagen from '../imagenes/image3.png';
@@ -27,6 +29,8 @@ function Login({ onSwitchForm }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
+
+
   useEffect(() => {
     function start() {
       gapi.client.init({
@@ -39,8 +43,17 @@ function Login({ onSwitchForm }) {
 
   const handleLogin = async (event) => {
     event.preventDefault();
+
+
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = {
+        uid: userCredential.user.uid,
+        email: userCredential.user.email,
+        displayName: userCredential.user.displayName || 'Usuario Logueado',
+       
+      };
+      setUser(user);
       setUser(userCredential.user);
       setIsLoggedIn(true);
       navigate('/home');
@@ -112,7 +125,7 @@ function Login({ onSwitchForm }) {
                   required 
                 />
                 <br />
-                <button type="submit">Iniciar sesión</button>
+                <button onClick={handleLogin} type="submit">Iniciar sesión</button>
                 <p>OR</p>
                 <div className="loginButton google">
                   <GoogleLogin
