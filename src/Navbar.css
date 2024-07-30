@@ -1,8 +1,29 @@
-.nav-wrapper{
-    margin-top: 23%;
-  }
-  
-  .sidenav-trigger {
-    margin-left: 97%;
-    
-  }
+/* src/Navbar.css */
+.nav-wrapper {
+  background-color: #d66367; 
+  margin-top: 23%; 
+}
+
+.MenuIcons {
+  color: #fff; 
+  font-size: 24px; 
+  border: none; 
+  background: none; 
+  cursor: pointer; 
+}
+
+.MenuIcons:hover {
+  color: #f5c6c7; 
+}
+
+button {
+  background-color: transparent; 
+  border: none; 
+  padding: 0; 
+  margin: 0; 
+  cursor: pointer; 
+}
+
+.material-icons.medium {
+  vertical-align: middle; 
+}

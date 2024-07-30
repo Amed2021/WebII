@@ -1,19 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../Componentes/Navbar';
+import Swal from 'sweetalert2';
+import { useUser } from '../Contexto/UserContext'; 
 
 function Perfil() {
-  const [profileImage, setProfileImage] = useState(null);
+  const { user, setUser } = useUser(); 
+  const [profileImage, setProfileImage] = useState(user?.photoUrl || 'default-profile.png');
   const [userInfo, setUserInfo] = useState({
-    nombre: "Nombre del Usuario",
-    situacionSentimental: "Soltero/a",
-    lugarDeTrabajo: "Empresa X",
-    provincia: "Provincia Y",
-    biografia: "Breve biografía del usuario",
-    estado: ""
+    nombre: user?.displayName || '',
+    situacionSentimental: '',
+    lugarDeTrabajo: '',
+    provincia: '',
+    biografia: '',
+    estado: ''
   });
-  const [amigos, setAmigos] = useState(["Amigo 1", "Amigo 2", "Amigo 3"]);
-  const [publicaciones, setPublicaciones] = useState(["Publicación 1", "Publicación 2", "Publicación 3"]);
   const [isEditing, setIsEditing] = useState(false);
+  const [amigos, setAmigos] = useState([]); 
+  const [publicaciones, setPublicaciones] = useState([]); 
+
+  useEffect(() => {
+    if (user) {
+      setProfileImage(user.photoUrl || 'default-profile.png');
+      setUserInfo(prevInfo => ({
+        ...prevInfo,
+        nombre: user.displayName || ''
+      }));
+    }
+  }, [user]);
 
   const handleImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -23,16 +36,15 @@ function Perfil() {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setUserInfo({ ...userInfo, [name]: value });
-  };
-
-  const handleStatusChange = () => {
-    setUserInfo({ ...userInfo, estado: userInfo.estado });
+    setUserInfo(prevInfo => ({ ...prevInfo, [name]: value }));
   };
 
   const handleSaveChanges = () => {
-    // Aquí puedes añadir lógica para guardar los cambios en un backend o en el estado global
-    alert('Cambios guardados');
+    Swal.fire({
+      title: 'Éxito',
+      text: 'Cambios Guardados',
+      icon: 'success'
+    });
     setIsEditing(false);
   };
 
@@ -45,7 +57,7 @@ function Perfil() {
       <div style={styles.profileHeader}>
         <div style={styles.profileImageContainer}>
           <img 
-            src={profileImage || 'default-profile.png'} 
+            src={profileImage} 
             alt="Foto de Perfil" 
             style={styles.profileImage}
           />
@@ -113,10 +125,10 @@ function Perfil() {
             onChange={handleInputChange} 
             style={styles.statusInput}
           />
-          <button onClick={handleStatusChange} style={styles.updateStatusButton}>Actualizar Estado</button>
+          <button onClick={handleSaveChanges} style={styles.updateStatusButton}>Actualizar Estado</button>
         </div>
         <div style={styles.profileButtons}>
-          <button style={styles.editProfileButton}>Editar Perfil</button>
+          <button onClick={handleEditProfile} style={styles.editProfileButton}>Editar Perfil</button>
           <button style={styles.viewStoriesButton}>Ver Historias</button>
           <button style={styles.friendsButton}>Amigos ({amigos.length})</button>
           <button style={styles.photosButton}>Fotos</button>
@@ -141,7 +153,7 @@ const styles = {
   profilePage: {
     padding: '20px',
     fontFamily: '-apple-system, BlinkMacSystemFont, \'Segoe UI\', \'Roboto\', \'Oxygen\', \'Ubuntu\', \'Cantarell\', \'Fira Sans\', \'Droid Sans\', \'Helvetica Neue\', sans-serif',
-    marginBottom: '-99px', 
+    marginBottom: '-99px',
   },
   profileHeader: {
     display: 'flex',
@@ -157,10 +169,43 @@ const styles = {
     height: '250px',
     objectFit: 'cover',
     border: '2px solid #ccc',
-    borderRadius: '0 0 20px 0', // Borde inferior derecho redondeado
+    borderRadius: '0 0 20px 0', 
   },
   profileInfo: {
     flex: 1,
+  },
+  infoInput: {
+    border: '1px solid #ccc',
+    borderRadius: '5px',
+    padding: '5px',
+    width: '100%',
+    marginBottom: '10px',
+  },
+  infoTextarea: {
+    border: '1px solid #ccc',
+    borderRadius: '5px',
+    padding: '5px',
+    width: '100%',
+    minHeight: '100px',
+    marginBottom: '10px',
+  },
+  saveChangesButton: {
+    backgroundColor: '#4cb5f9',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    padding: '10px 15px',
+    cursor: 'pointer',
+    marginTop: '15px',
+  },
+  editProfileButton: {
+    backgroundColor: '#4cb5f9',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    padding: '10px 15px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s',
   },
   profileActions: {
     display: 'flex',
@@ -192,15 +237,6 @@ const styles = {
     gap: '10px', // Añade espacio entre los botones
     marginBottom: '20px',
   },
-  editProfileButton: {
-    backgroundColor: '#4cb5f9',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    padding: '10px 15px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s',
-  },
   viewStoriesButton: {
     backgroundColor: '#4cb5f9',
     color: '#fff',
@@ -225,32 +261,8 @@ const styles = {
     borderRadius: '5px',
     padding: '10px 15px',
   },
-  saveChangesButton: {
-    backgroundColor: '#4cb5f9',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    padding: '10px 15px',
-    cursor: 'pointer',
-    marginTop: '15px',
-  },
   profilePosts: {
     marginTop: '20px',
-  },
-  infoInput: {
-    border: '1px solid #ccc',
-    borderRadius: '5px',
-    padding: '5px',
-    width: '100%',
-    marginBottom: '10px',
-  },
-  infoTextarea: {
-    border: '1px solid #ccc',
-    borderRadius: '5px',
-    padding: '5px',
-    width: '100%',
-    minHeight: '100px',
-    marginBottom: '10px',
   },
 };
 
