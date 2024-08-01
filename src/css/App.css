@@ -21,10 +21,13 @@ code {
   padding: 20px;
   border: 1px solid #000;
   position: relative;
-  height: 575px; 
+  height: fit-content; 
   margin-top: 150px; 
   left: 90px;
   background-color: rgba(255, 255, 255, 0.8); 
+  display: grid;
+  justify-content: center;
+  justify-items: center;
 }
 
 h2 {
@@ -137,8 +140,6 @@ button[type="submit"]:hover {
   transform: rotateY(0deg) rotateX(0deg); 
 }
 
-
-
 /* Estilos para los botones de Google, Facebook y GitHub */
 .loginButton {
   display: flex;
@@ -150,9 +151,15 @@ button[type="submit"]:hover {
   border: 1px solid #ccc;
   border-radius: 5px;
   cursor: pointer;
-  margin-left: 20px; 
 }
 
+.loginButton button,
+.loginButton button div {
+    display: inline-flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
 
 .icon {
   width: 25px;

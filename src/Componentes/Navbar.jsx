@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import '../Navbar.css';
+import '../css/Navbar.css';
 import Chat from '../Chats/Chat'; 
 import Historias from '../publicaciones/Historias'; 
 import Publicar from '../publicaciones/Publicar'; 
