@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import '../Sidebar.css';
+import '../css/Sidebar.css';
 
 function Sidebar() {
   useEffect(() => {

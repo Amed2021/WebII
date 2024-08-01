@@ -1,0 +1,137 @@
+/* Global Styles */
+
+.carousel {
+  height: 300px;
+  width: 100%; /* Changed to 100% to make it responsive */
+  perspective: 250px;
+  margin: 0; /* Removed negative margin */
+}
+
+.carousel-item, .active {
+  max-width: 70%;
+}
+
+.carousel-img {
+  max-width: 50%;
+}
+
+/* Stories.css */
+
+.stories-container {
+  padding: 10px 0;
+  background-color: #f5f5f5;
+}
+
+.stories-carousel .carousel-item {
+  text-align: center;
+  cursor: pointer;
+}
+
+.story-item .story-image {
+  width: 100px !important;
+  height: 120px;
+  border: 2px solid #f5f5f5;
+  padding: 2px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.story-item .story-name {
+  font-size: 12px;
+  color: #333;
+  margin-top: 5px;
+}
+
+.story-modal {
+  padding: 20px;
+}
+
+.story-content {
+  text-align: center;
+}
+
+.modal-story-image {
+  max-width: 100%;
+  height: auto;
+}
+
+.story-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.story-navigation .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-footer{
+
+  display: none;
+}
+/* Media Queries */
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  .carousel {
+    height: 250px;
+  }
+  .carousel-item, .active {
+    max-width: 80%;
+  }
+  .carousel-img {
+    max-width: 60%;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .carousel {
+    height: 300px;
+  }
+  .carousel-item, .active {
+    max-width: 70%;
+  }
+  .carousel-img {
+    max-width: 50%;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .carousel {
+    height: 350px;
+  }
+  .carousel-item, .active {
+    max-width: 60%;
+  }
+  .carousel-img {
+    max-width: 40%;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .carousel {
+    height: 400px;
+  }
+  .carousel-item, .active {
+    max-width: 50%;
+  }
+  .carousel-img {
+    max-width: 30%;
+  }
+}
+
+/* 1366 x 768 resolution */
+@media (min-width: 1366px) and (max-width: 1366px) and (min-height: 768px) and (max-height: 768px) {
+  .carousel {
+    height: 320px;
+  }
+  .carousel-item, .active {
+    max-width: 65%;
+  }
+  .carousel-img {
+    max-width: 45%;
+  }
+}

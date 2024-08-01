@@ -1,6 +1,6 @@
-// Registro.jsx
+
 import React, { useState } from 'react';
-import '../Registro.css';
+import '../css/Registro.css';
 import imagen4 from '../imagenes/imagen4.png';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebase';
@@ -25,6 +25,8 @@ const Registro = ({ onSwitchForm }) => {
   const handleRegister = async (event) => {
     event.preventDefault();
     setError('');
+
+  
 
     const today = new Date();
     const birthDate = new Date(fechaNacimiento);
@@ -79,6 +81,12 @@ const Registro = ({ onSwitchForm }) => {
     }
   };
 
+
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
+
+  
   return (
     <div className='registro-wrapper'>
       <div className='img-4'>
@@ -103,12 +111,12 @@ const Registro = ({ onSwitchForm }) => {
           </div>
         </form>
         <div className='registro-footer'>
-        <p>No tienes una cuenta? <a href="#" onClick={(e) => { e.preventDefault(); onSwitchForm(); }}>Regístrate</a></p>
+        <p>Tienes una cuenta? <a href="#" onClick={(e) => { e.preventDefault(); onSwitchForm(); }}>Inicia sesión</a></p>
         </div>
         <div className='registro-texto-abajo'>
-          <p>Privacidad</p>
+        <p><a href="#" onClick={() => handleNavigate('/privacidad')}>Privacidad</a></p>
           <p>2024 Facechat from web II</p>
-          <p>Normas y reglamento</p>
+          <p><a href='#' onClick={() => handleNavigate('/normas')}> Normas y reglamento </a></p>
         </div>
       </div>
     </div>

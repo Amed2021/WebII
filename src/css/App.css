@@ -21,10 +21,13 @@ code {
   padding: 20px;
   border: 1px solid #000;
   position: relative;
-  height: 575px; 
+  height: fit-content; 
   margin-top: 150px; 
   left: 90px;
   background-color: rgba(255, 255, 255, 0.8); 
+  display: grid;
+  justify-content: center;
+  justify-items: center;
 }
 
 h2 {
@@ -62,7 +65,7 @@ button[type="submit"]:hover {
 }
 
 .contenedor {
-  width: 400px; 
+  width: 365px; 
   height: 40px; 
   margin: 10px auto 0; 
   display: flex; 
@@ -116,16 +119,26 @@ button[type="submit"]:hover {
   position: relative;
   z-index: 1;
 }
+
+
+.img-3d {
+  perspective: 1000px; 
+}
+
 .img-3d img {
   position: absolute;
-  top: 270px; /* Mover la imagen un poco hacia abajo */
-  left: 240px; /* Mover la imagen un poco hacia la derecha */
+  top: 150px; 
+  left: 240px; 
   max-width: 90%;
   height: auto;
   z-index: -1;
+  transform: rotateY(30deg) rotateX(15deg); /* Transformaciones 3D */
+  transition: transform 0.5s ease; /* Transición suave para la transformación */
 }
 
-
+.img-3d img:hover {
+  transform: rotateY(0deg) rotateX(0deg); 
+}
 
 /* Estilos para los botones de Google, Facebook y GitHub */
 .loginButton {
@@ -138,9 +151,15 @@ button[type="submit"]:hover {
   border: 1px solid #ccc;
   border-radius: 5px;
   cursor: pointer;
-  margin-left: 20px; 
 }
 
+.loginButton button,
+.loginButton button div {
+    display: inline-flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
 
 .icon {
   width: 25px;
