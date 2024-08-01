@@ -1,0 +1,95 @@
+/* src/components/Admin.css */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+  }
+  
+  .App {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    position: fixed;
+    height: 100%;
+    transition: width 0.3s;
+  }
+  
+  .sidebar-button {
+    background-color: #d3d3d3;
+    border: none;
+    padding: 15px;
+    text-align: left;
+    cursor: pointer;
+    margin-bottom: 10px;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .sidebar-button.active {
+    background-color: #1e90ff;
+    color: white;
+  }
+  
+  .sidebar-button:hover {
+    background-color: #1e90ff;
+    color: white;
+  }
+  
+  .main-content {
+    margin-left: 260px;
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    transition: margin-left 0.3s;
+  }
+  
+  .admin-list {
+    display: grid;
+    gap: 10px;
+  }
+  
+  .admin-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .block-button {
+    background-color: #1e90ff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 100%;
+      height: auto;
+      position: static;
+      flex-direction: row;
+      justify-content: space-around;
+    }
+  
+    .main-content {
+      margin-left: 0;
+      padding: 20px;
+    }
+  
+    .App {
+      flex-direction: column;
+    }
+  }
+  
