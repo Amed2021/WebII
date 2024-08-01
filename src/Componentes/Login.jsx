@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { gapi } from 'gapi-script';
-import { GoogleLogin } from 'react-google-login';
-import GitHubLogin from 'react-github-login';
+import { getAuth, signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebase'; 
@@ -13,8 +12,6 @@ import GoogleIcon from '../imagenes/google.png';
 import GithubIcon from '../imagenes/github.png';
 
 const clientID = '948578022378-ht25dltghdtmdu2qqdo9mfeltg4fq65m.apps.googleusercontent.com';
-const githubClientId = 'Ov23liHsXcD6sZZ5xCAB';
-const githubCallbackUrl = 'http://localhost:3000/callback';
 
 function Login({ onSwitchForm }) {
   const [email, setEmail] = useState('');
@@ -48,34 +45,40 @@ function Login({ onSwitchForm }) {
     }
   };
 
-  const onSuccessGoogle = (response) => {
-    const user = {
-      uid: response.profileObj.googleId,
-      email: response.profileObj.email,
-      displayName: response.profileObj.name,
-      photoUrl: response.profileObj.picture,
-    };
-    setUser(user); // Actualiza el contexto de usuario
-    navigate('/home');
+  const handleGoogleLogin = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(getAuth(), provider)
+      .then((result) => {
+        const user = {
+          uid: result.user.uid,
+          email: result.user.email,
+          displayName: result.user.displayName,
+          photoUrl: result.user.photoURL,
+        };
+        setUser(user); // Actualiza el contexto de usuario
+        navigate('/home');
+      })
+      .catch((error) => {
+        console.error('Error al iniciar sesión con Google:', error);
+      });
   };
 
-  const onFailureGoogle = (response) => {
-    console.log('Google login failed:', response);
-  };
-
-  const onSuccessGithub = (response) => {
-    const user = {
-      uid: response.profile.id,
-      email: response.profile.email,
-      displayName: response.profile.name,
-      photoUrl: response.profile.avatar_url,
-    };
-    setUser(user); // Actualiza el contexto de usuario
-    navigate('/home');
-  };
-
-  const onFailureGithub = (response) => {
-    console.log('GitHub login failed:', response);
+  const handleGithubLogin = () => {
+    const provider = new GithubAuthProvider();
+    signInWithPopup(getAuth(), provider)
+      .then((result) => {
+        const user = {
+          uid: result.user.uid,
+          email: result.user.email,
+          displayName: result.user.displayName,
+          photoUrl: result.user.photoURL,
+        };
+        setUser(user); // Actualiza el contexto de usuario
+        navigate('/home');
+      })
+      .catch((error) => {
+        console.error('Error al iniciar sesión con GitHub:', error);
+      });
   };
 
   return (
@@ -106,33 +109,25 @@ function Login({ onSwitchForm }) {
             <button type="submit">Iniciar sesión</button>
             <p>OR</p>
             <div className="loginButton google">
-              <GoogleLogin
-                clientId={clientID}
-                onSuccess={onSuccessGoogle}
-                onFailure={onFailureGoogle}
-                buttonText="Continue with Google"
+              <button
+                onClick={handleGoogleLogin}
                 cookiePolicy={'single_host_origin'}
-                render={renderProps => (
-                  <div onClick={renderProps.onClick} disabled={renderProps.disabled}>
-                    <img src={GoogleIcon} alt="Google" className="icon" />
-                    Google
-                  </div>
-                )}
-              />
+              >
+                <div>
+                  <img src={GoogleIcon} alt="Google" className="icon" />
+                  Google
+                </div>
+              </button>
             </div>
             <div className="loginButton github">
-              <GitHubLogin
-                clientId={githubClientId}
-                onSuccess={onSuccessGithub}
-                onFailure={onFailureGithub}
-                buttonText={<>
-                  <img src={GithubIcon} alt="Github" className="icon" />
-                  <span>GitHub</span>
-                </>}
-                redirectUri={githubCallbackUrl}
+              <button
+                onClick={handleGithubLogin}
                 className="github-button"
                 cssClass="github-button" 
-              />
+              >
+                <img src={GithubIcon} alt="Github" className="icon" />
+                <span>GitHub</span>
+              </button>
             </div>
           </form>
         </div>
