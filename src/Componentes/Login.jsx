@@ -110,7 +110,7 @@ function Login({ onSwitchForm }) {
             <button type="submit">Iniciar sesión</button>
             <p>OR</p>
             <div className="loginButton google">
-              <button onClick={handleGoogleLogin}>
+              <button onClick={handleGoogleLogin} className="google-button">
                 <div>
                   <img src={GoogleIcon} alt="Google" className="icon" />
                   Google
