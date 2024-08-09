@@ -19,7 +19,7 @@ function Sidebar() {
   ];
 
   return (
-    <div>
+    <div className="side-icon">
       <ul id="slide-out" className="sidenav">
         <li>
           <div className="user-view">
