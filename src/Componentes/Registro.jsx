@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import '../CSS/Registro.css';
+import '../css/Registro.css';
 import imagen4 from '../imagenes/imagen4.png';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebase';

@@ -7,7 +7,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebase'; 
 import { useUser } from '../Contexto/UserContext';
 
-import '../CSS/App.css';
+import '../css/App.css';
 import imagen from '../imagenes/image3.png';
 import GoogleIcon from '../imagenes/google.png';
 import GithubIcon from '../imagenes/github.png';
