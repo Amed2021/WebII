@@ -2,6 +2,7 @@ import { db } from "./firebase";
 import {
   addDoc,
   collection,
+  where,
   deleteDoc,
   doc,
   getDoc,
@@ -24,15 +25,31 @@ export const onFindAll = async (collectionStr) => {
 export const onFindById = async (collectionStr, paramId) => {
   const result = await getDoc(doc(db, collectionStr, paramId));
 
-  let item = {
-    id: result.id,
-    task: result.data().task,
-    deadline: result.data().deadline,
-    completed: result.data().completed,
-  };
+  if (result.data()) {
+    let item = {
+      id: result.id,
+      task: result.data().task,
+      deadline: result.data().deadline,
+      completed: result.data().completed,
+    };
+  
+    return item;
+  }
 
-  return item;
+  return null;
 };
+
+export const onFindByUserId = async (collectionStr, paramId) => {
+  const result = await getDocs(
+    query(collection(db, collectionStr), where("userId", "==", paramId))
+  );
+
+  let items = result.docs.map((doc) => {
+    return { ...doc.data(), id: doc.id };
+  });
+
+  return items;
+}
 
 export const onInsert = async (collectionStr, document) => {
   delete document.id;
