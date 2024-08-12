@@ -1,45 +1,95 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useHistory } from 'react';
+import "../css/Perfil.css";
 import Navbar from '../Componentes/Navbar';
 import Swal from 'sweetalert2';
 import { useUser } from '../Contexto/UserContext'; 
+import { onFindByUserId, onInsert, onUpdate } from '../config/api';
+import defaultProfile from '../imagenes/default-profile.png';
+import sendIcon from '../imagenes/send-icon.png';
 
 function Perfil() {
   const { user, setUser } = useUser(); 
-  const [profileImage, setProfileImage] = useState(user?.photoUrl || 'default-profile.png');
-  const [userInfo, setUserInfo] = useState({
-    nombre: user?.displayName || '',
-    situacionSentimental: '',
-    lugarDeTrabajo: '',
-    provincia: '',
-    biografia: '',
-    estado: ''
-  });
+
+  const initialData = {
+    id: '', // Solo Firebase ID, no confundir con el ID de usuario
+    userId: user?.uid || '',
+    name: user?.displayName || '',
+    photoUrl: user?.photoUrl || '',
+    relationship: '',
+    workplace: '',
+    address: '',
+    bio: '',
+    status: ''
+  };
+
+  const [profile, setProfile] = useState(initialData);
   const [isEditing, setIsEditing] = useState(false);
   const [amigos, setAmigos] = useState([]); 
-  const [publicaciones, setPublicaciones] = useState([]); 
+  const [publicaciones, setPublicaciones] = useState([]);
 
-  useEffect(() => {
+  useEffect( () => {
     if (user) {
-      setProfileImage(user.photoUrl || 'default-profile.png');
-      setUserInfo(prevInfo => ({
-        ...prevInfo,
-        nombre: user.displayName || ''
-      }));
+      async function fetchData(user) {
+        return await onFindByUserId('perfiles', user.uid);
+      }
+
+      fetchData(user).then((data) => {
+        let dbProfile = data[0] || undefined;
+
+        // Crear perfil si no existe
+        if (!dbProfile) {
+          dbProfile = {
+            id: '',
+            userId: user.uid,
+            name: user.displayName,
+            photoUrl: user.photoUrl,
+            relationship: '',
+            workplace: '',
+            address: '',
+            bio: '',
+            status: ''
+          };
+
+          onInsert('perfiles', dbProfile);
+
+          // Es necesario volver a traer la data para obtener el ID del documento en Firestore
+          fetchData(user).then((data) => {
+            dbProfile = data[0] || undefined;
+          });
+        }
+
+        setProfile({
+          id: dbProfile.id,
+          userId: dbProfile.userId || user.uid,
+          name: dbProfile.name || dbProfile.displayName || '',
+          photoUrl: dbProfile.photoUrl || user.photoUrl || defaultProfile,
+          relationship: dbProfile.relationship || '',
+          workplace: dbProfile.workplace || '',
+          address: dbProfile.address || '',
+          bio: dbProfile.bio || '',
+          status: ''
+        });
+      });
+    } else {
+      // Redirect home
+      let history = useHistory();
+      history.push("/");
     }
   }, [user]);
 
   const handleImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
-      setProfileImage(URL.createObjectURL(event.target.files[0]));
+      setProfile(prevInfo => ({ ...prevInfo, photoUrl: URL.createObjectURL(event.target.files[0]) }));
     }
   };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setUserInfo(prevInfo => ({ ...prevInfo, [name]: value }));
+    setProfile(prevInfo => ({ ...prevInfo, [name]: value }));
   };
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
+    await onUpdate('perfiles', profile.id, profile);
     Swal.fire({
       title: 'Éxito',
       text: 'Cambios Guardados',
@@ -53,217 +103,120 @@ function Perfil() {
   };
 
   return (
-    <div style={styles.profilePage}>
-      <div style={styles.profileHeader}>
-        <div style={styles.profileImageContainer}>
-          <img 
-            src={profileImage} 
-            alt="Foto de Perfil" 
-            style={styles.profileImage}
-          />
-          <input type="file" onChange={handleImageChange} />
+    <>
+      <div className="profilePage">
+        <div className="profileHeader">
+          <div className="profileImageContainer">
+            <img 
+              src={profile.photoUrl} 
+              alt="Foto de Perfil" 
+              className="profileImage"
+            />
+            <label htmlFor="file-upload" className="custom-file-upload">
+            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clipPath="url(#clip0_119_161)">
+                <path d="M12.5 15.8334C14.341 15.8334 15.8334 14.341 15.8334 12.5C15.8334 10.6591 14.341 9.16669 12.5 9.16669C10.6591 9.16669 9.16669 10.6591 9.16669 12.5C9.16669 14.341 10.6591 15.8334 12.5 15.8334Z" fill="black"/>
+                <path d="M9.37498 2.08331L7.46873 4.16665H4.16665C3.02081 4.16665 2.08331 5.10415 2.08331 6.24998V18.75C2.08331 19.8958 3.02081 20.8333 4.16665 20.8333H20.8333C21.9791 20.8333 22.9166 19.8958 22.9166 18.75V6.24998C22.9166 5.10415 21.9791 4.16665 20.8333 4.16665H17.5312L15.625 2.08331H9.37498ZM12.5 17.7083C9.62498 17.7083 7.29165 15.375 7.29165 12.5C7.29165 9.62498 9.62498 7.29165 12.5 7.29165C15.375 7.29165 17.7083 9.62498 17.7083 12.5C17.7083 15.375 15.375 17.7083 12.5 17.7083Z" fill="black"/>
+              </g>
+              <defs>
+                <clipPath id="clip0_119_161">
+                  <rect width="25" height="25" fill="white"/>
+                </clipPath>
+              </defs>
+            </svg>
+            </label>
+            <input id="file-upload" type="file" onChange={handleImageChange} />
+          </div>
+          <div className="profileInfo">
+            {isEditing ? (
+              <div>
+                <input 
+                  type="text" 
+                  name="name" 
+                  value={profile.name} 
+                  onChange={handleInputChange} 
+                  className="infoInput"
+                />
+                <input 
+                  type="text" 
+                  name="relationship" 
+                  value={profile.relationship} 
+                  onChange={handleInputChange} 
+                  className="infoInput"
+                />
+                <input 
+                  type="text" 
+                  name="workplace" 
+                  value={profile.workplace} 
+                  onChange={handleInputChange} 
+                  className="infoInput"
+                />
+                <input 
+                  type="text" 
+                  name="address" 
+                  value={profile.address} 
+                  onChange={handleInputChange} 
+                  className="infoInput"
+                />
+                <textarea 
+                  name="bio" 
+                  value={profile.bio} 
+                  onChange={handleInputChange} 
+                  className="infoTextarea"
+                />
+                <button onClick={handleSaveChanges} className="saveChangesButton">Guardar Cambios</button>
+              </div>
+            ) : (
+              <div>
+                <h1>{profile.name}</h1>
+                <p><b>Información</b></p>
+                <p><strong>Situación Sentimental:</strong> {profile.relationship}</p>
+                <p><strong>Lugar de Trabajo:</strong> {profile.workplace}</p>
+                <p><strong>Dirección:</strong> {profile.address}</p>
+                <p><strong>Biografía:</strong> {profile.bio}</p>
+              </div>
+            )}
+          </div>
         </div>
-        <div style={styles.profileInfo}>
-          {isEditing ? (
-            <div>
-              <input 
-                type="text" 
-                name="nombre" 
-                value={userInfo.nombre} 
-                onChange={handleInputChange} 
-                style={styles.infoInput}
-              />
-              <input 
-                type="text" 
-                name="situacionSentimental" 
-                value={userInfo.situacionSentimental} 
-                onChange={handleInputChange} 
-                style={styles.infoInput}
-              />
-              <input 
-                type="text" 
-                name="lugarDeTrabajo" 
-                value={userInfo.lugarDeTrabajo} 
-                onChange={handleInputChange} 
-                style={styles.infoInput}
-              />
-              <input 
-                type="text" 
-                name="provincia" 
-                value={userInfo.provincia} 
-                onChange={handleInputChange} 
-                style={styles.infoInput}
-              />
-              <textarea 
-                name="biografia" 
-                value={userInfo.biografia} 
-                onChange={handleInputChange} 
-                style={styles.infoTextarea}
-              />
-              <button onClick={handleSaveChanges} style={styles.saveChangesButton}>Guardar Cambios</button>
-            </div>
-          ) : (
-            <div>
-              <h1>{userInfo.nombre}</h1>
-              <p><strong>Situación Sentimental:</strong> {userInfo.situacionSentimental}</p>
-              <p><strong>Lugar de Trabajo:</strong> {userInfo.lugarDeTrabajo}</p>
-              <p><strong>Provincia:</strong> {userInfo.provincia}</p>
-              <p><strong>Biografía:</strong> {userInfo.biografia}</p>
-              <button onClick={handleEditProfile} style={styles.editProfileButton}>Editar Perfil</button>
-            </div>
-          )}
-        </div>
-      </div>
 
-      <div style={styles.profileActions}>
-        <div style={styles.profileStatus}>
-          <label>Estado:</label>
-          <input 
-            type="text" 
-            name="estado" 
-            value={userInfo.estado} 
-            onChange={handleInputChange} 
-            style={styles.statusInput}
-          />
-          <button onClick={handleSaveChanges} style={styles.updateStatusButton}>Actualizar Estado</button>
+        <div className="profileActions">
+          <div className="profileStatus">
+            <label>Estado:</label>
+            <input 
+              type="text" 
+              name="status" 
+              value={profile.status}
+              placeholder="Como te sientes?"
+              onChange={handleInputChange} 
+              className="statusInput"
+            />
+            <button onClick={handleSaveChanges} className="updateStatusButton">
+              <img src={sendIcon}></img>
+            </button>
+            <div className="statusAdjacentButtons">
+              <button onClick={handleEditProfile} className="editProfileButton">Editar Perfil</button>
+              <button className="viewStoriesButton">Ver Historias</button>
+            </div>
+          </div>
+          <div className="profileButtons">
+            <button className="friendsButton">Amigos ({amigos.length})</button>
+            <button className="photosButton">Fotos</button>
+          </div>
         </div>
-        <div style={styles.profileButtons}>
-          <button onClick={handleEditProfile} style={styles.editProfileButton}>Editar Perfil</button>
-          <button style={styles.viewStoriesButton}>Ver Historias</button>
-          <button style={styles.friendsButton}>Amigos ({amigos.length})</button>
-          <button style={styles.photosButton}>Fotos</button>
-        </div>
-      </div>
 
-      <div style={styles.profilePosts}>
-        <h2>Publicaciones</h2>
-        <ul>
-          {publicaciones.map((publicacion, index) => (
-            <li key={index}>{publicacion}</li>
-          ))}
-        </ul>
+        <div className="profilePosts">
+          <p><b>Publicaciones</b></p>
+          <ul>
+            {publicaciones.map((publicacion, index) => (
+              <li key={index}>{publicacion}</li>
+            ))}
+          </ul>
+        </div>
+        
+        <Navbar />
       </div>
-      
-      <Navbar />
-    </div>
+    </>
   );
 }
-
-const styles = {
-  profilePage: {
-    padding: '20px',
-    fontFamily: '-apple-system, BlinkMacSystemFont, \'Segoe UI\', \'Roboto\', \'Oxygen\', \'Ubuntu\', \'Cantarell\', \'Fira Sans\', \'Droid Sans\', \'Helvetica Neue\', sans-serif',
-    marginBottom: '-99px',
-  },
-  profileHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    marginBottom: '20px',
-  },
-  profileImageContainer: {
-    marginRight: '20px',
-    position: 'relative',
-  },
-  profileImage: {
-    width: '250px', // Aumenta el tamaño del recuadro de la foto
-    height: '250px',
-    objectFit: 'cover',
-    border: '2px solid #ccc',
-    borderRadius: '0 0 20px 0', 
-  },
-  profileInfo: {
-    flex: 1,
-  },
-  infoInput: {
-    border: '1px solid #ccc',
-    borderRadius: '5px',
-    padding: '5px',
-    width: '100%',
-    marginBottom: '10px',
-  },
-  infoTextarea: {
-    border: '1px solid #ccc',
-    borderRadius: '5px',
-    padding: '5px',
-    width: '100%',
-    minHeight: '100px',
-    marginBottom: '10px',
-  },
-  saveChangesButton: {
-    backgroundColor: '#4cb5f9',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    padding: '10px 15px',
-    cursor: 'pointer',
-    marginTop: '15px',
-  },
-  editProfileButton: {
-    backgroundColor: '#4cb5f9',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    padding: '10px 15px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s',
-  },
-  profileActions: {
-    display: 'flex',
-    flexDirection: 'column', 
-    alignItems: 'flex-start',
-    marginBottom: '20px',
-  },
-  profileStatus: {
-    marginBottom: '15px',
-  },
-  statusInput: {
-    marginRight: '10px',
-    padding: '5px',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
-  },
-  updateStatusButton: {
-    backgroundColor: '#4cb5f9',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    padding: '10px 15px',
-    cursor: 'pointer',
-    marginTop: '10px',
-  },
-  profileButtons: {
-    display: 'flex',
-    flexDirection: 'row',
-    gap: '10px', // Añade espacio entre los botones
-    marginBottom: '20px',
-  },
-  viewStoriesButton: {
-    backgroundColor: '#4cb5f9',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    padding: '10px 15px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s',
-  },
-  friendsButton: {
-    backgroundColor: '#d9d9d9',
-    color: '#000',
-    border: 'none',
-    borderRadius: '5px',
-    padding: '10px 15px',
-    cursor: 'pointer',
-  },
-  photosButton: {
-    backgroundColor: '#d9d9d9',
-    color: '#000',
-    border: 'none',
-    borderRadius: '5px',
-    padding: '10px 15px',
-  },
-  profilePosts: {
-    marginTop: '20px',
-  },
-};
 
 export default Perfil;
