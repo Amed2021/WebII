@@ -47,3 +47,16 @@ export const onUpdate = async (collectionStr, paramId, newDocument) => {
 export const onDelete = async (collectionStr, paramId) => {
   await deleteDoc(doc(db, collectionStr, paramId));
 };
+
+// Nueva función para obtener datos del usuario actual
+export const getUserData = async (userId) => {
+  const docRef = doc(db, 'users', userId); // Asume que la colección se llama 'users'
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    return docSnap.data();
+  } else {
+    console.log('No such document!');
+    return null;
+  }
+};
