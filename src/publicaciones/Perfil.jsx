@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useHistory } from 'react';
+import { useState, useEffect, useHistory } from 'react';
 import "../CSS/Perfil.css";
 import Navbar from '../Componentes/Navbar';
 import Swal from 'sweetalert2';
