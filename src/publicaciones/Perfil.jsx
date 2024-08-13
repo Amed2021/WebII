@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useHistory } from 'react';
-import "../css/Perfil.css";
+import "../CSS/Perfil.css";
 import Navbar from '../Componentes/Navbar';
 import Swal from 'sweetalert2';
 import { useUser } from '../Contexto/UserContext'; 

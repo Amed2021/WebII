@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../css/Styleconfiguraciones.css';
+import '../CSS/Styleconfiguraciones.css';
 
 export function Configuraciones() {
   const [activeSection, setActiveSection] = useState('password');
