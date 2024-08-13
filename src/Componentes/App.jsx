@@ -7,6 +7,11 @@ import Privacidad from '../Facechat/Privacidad';
 import Perfil from '../publicaciones/Perfil';
 import Configuraciones from '../publicaciones/Configuraciones';
 import { useUser } from '../Contexto/UserContext';
+import 'materialize-css/dist/css/materialize.min.css';
+
+
+
+
 
 
 function App({ onSwitchForm, isLogin }) {

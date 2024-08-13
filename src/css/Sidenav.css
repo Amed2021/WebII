@@ -1,0 +1,23 @@
+
+.sidenav {
+    width: 250px; 
+  }
+  
+  .sidenav .user-view {
+    background-color: #111;
+    color: #fff;
+  }
+  
+  .sidenav .user-view .background {
+    height: 200px;
+  }
+  
+  .sidenav .user-view .circle {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .sidenav .sidenav-trigger {
+    display: block; 
+  }
+  
