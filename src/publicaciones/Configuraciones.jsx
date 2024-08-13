@@ -1,26 +1,60 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';  // Importando SweetAlert2
 import '../CSS/Styleconfiguraciones.css';
+import { useUser } from '../Contexto/UserContext';
+import { onFindByUserEmail, onInsert } from '../config/api';
+import { reauthenticateWithCredential, EmailAuthProvider, updatePassword } from "firebase/auth";
 
 export function Configuraciones() {
+  const { user } = useUser(); // Usando el contexto para obtener el usuario autenticado
   const [activeSection, setActiveSection] = useState('password');
   const [userData, setUserData] = useState({ name: '', email: '', date: '' });
   const [contacts, setContacts] = useState([]);
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
 
   useEffect(() => {
     const fetchUserData = async () => {
-      try {
-        const response = await axios.get('/user');
-        setUserData(response.data);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
+      if (user) {
+        try {
+          // Buscando los datos del usuario por su email
+          const data = await onFindByUserEmail('perfiles', user.email);
+          let dbProfile = data[0] || undefined;
+
+          if (!dbProfile) {
+            // Si no se encuentra el perfil, se crea uno nuevo
+            dbProfile = {
+              id: '',
+              userId: user.uid,
+              name: user.displayName || 'Usuario Logueado', // Usar 'Usuario Logueado' si no hay nombre
+              email: user.email,
+              fechaRegistro: new Date().toLocaleDateString(),
+            };
+
+            await onInsert('perfiles', dbProfile);
+            setUserData({
+              name: dbProfile.name,
+              email: dbProfile.email,
+              date: dbProfile.fechaRegistro,
+            });
+          } else {
+            setUserData({
+              name: dbProfile.name,
+              email: dbProfile.email,
+              date: dbProfile.fechaRegistro,
+            });
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
       }
     };
 
-    if (activeSection === 'personal-info') {
+    if (activeSection === 'personal-info' && user) {
       fetchUserData();
     }
-  }, [activeSection]);
+  }, [activeSection, user]);
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -41,6 +75,38 @@ export function Configuraciones() {
     setActiveSection(section);
   };
 
+  const handlePasswordChange = async (event) => {
+    event.preventDefault();
+
+    if (!user) {
+      Swal.fire({
+        title: "Error",
+        text: "Usuario no autenticado",
+        icon: "error"
+      });
+      return;
+    }
+
+    try {
+      const credential = EmailAuthProvider.credential(user.email, oldPassword);
+      await reauthenticateWithCredential(user, credential);
+
+      await updatePassword(user, newPassword);
+      Swal.fire({
+        title: "Éxito",
+        text: "Contraseña actualizada exitosamente",
+        icon: "success"
+      });
+    } catch (error) {
+      console.error("Error al cambiar la contraseña:", error);
+      Swal.fire({
+        title: "Error",
+        text: `Hubo un error al cambiar la contraseña: ${error.message}`,
+        icon: "error"
+      });
+    }
+  };
+
   const handleReportSubmit = async (event) => {
     event.preventDefault();
     const form = event.target;
@@ -55,12 +121,20 @@ export function Configuraciones() {
         description,
       });
       if (response.status === 200) {
-        alert('Reporte enviado exitosamente');
+        Swal.fire({
+          title: "Éxito",
+          text: "Reporte enviado exitosamente",
+          icon: "success"
+        });
         form.reset();
       }
     } catch (error) {
       console.error('Error al enviar el reporte:', error);
-      alert('Hubo un error al enviar el reporte. Por favor, intenta nuevamente.');
+      Swal.fire({
+        title: "Error",
+        text: "Hubo un error al enviar el reporte. Por favor, intenta nuevamente.",
+        icon: "error"
+      });
     }
   };
 
@@ -68,12 +142,20 @@ export function Configuraciones() {
     try {
       const response = await axios.post('/block-contact', { contactId });
       if (response.status === 200) {
-        alert('Contacto bloqueado exitosamente');
+        Swal.fire({
+          title: "Éxito",
+          text: "Contacto bloqueado exitosamente",
+          icon: "success"
+        });
         setContacts(contacts.filter(contact => contact._id !== contactId));
       }
     } catch (error) {
       console.error('Error al bloquear el contacto:', error);
-      alert('Hubo un error al bloquear el contacto. Por favor, intenta nuevamente.');
+      Swal.fire({
+        title: "Error",
+        text: "Hubo un error al bloquear el contacto. Por favor, intenta nuevamente.",
+        icon: "error"
+      });
     }
   };
 
@@ -90,14 +172,24 @@ export function Configuraciones() {
         {activeSection === 'password' && (
           <div>
             <h2>Contraseña y seguridad</h2>
-            <form>
+            <form onSubmit={handlePasswordChange}>
               <label>
                 Contraseña Antigua
-                <input type="password" name="old-password" />
+                <input 
+                  type="password" 
+                  name="old-password" 
+                  value={oldPassword} 
+                  onChange={(e) => setOldPassword(e.target.value)} 
+                />
               </label>
               <label>
                 Nueva contraseña
-                <input type="password" name="new-password" />
+                <input 
+                  type="password" 
+                  name="new-password" 
+                  value={newPassword} 
+                  onChange={(e) => setNewPassword(e.target.value)} 
+                />
               </label>
               <button type="submit">Cambiar</button>
             </form>
@@ -108,7 +200,7 @@ export function Configuraciones() {
             <h2>Datos personales</h2>
             <p><strong>Nombre:</strong> {userData.name}</p>
             <p><strong>Correo:</strong> {userData.email}</p>
-            <p><strong>Fecha:</strong> {new Date(userData.date).toLocaleDateString()}</p>
+            <p><strong>Fecha de Registro:</strong> {new Date(userData.date).toLocaleDateString()}</p>
           </div>
         )}
         {activeSection === 'profile-posts' && (
