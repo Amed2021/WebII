@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 import { useState, useEffect, useHistory } from 'react';
 import "../CSS/Perfil.css";
+=======
+
+import { useState, useEffect, useHistory } from 'react';
+import "../css/Perfil.css";
+>>>>>>> ce9a0457e57748019a0f52a6f0920adec3942d9b
 import Navbar from '../Componentes/Navbar';
 import Swal from 'sweetalert2';
 import { useUser } from '../Contexto/UserContext'; 
