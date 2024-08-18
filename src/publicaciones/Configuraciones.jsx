@@ -5,6 +5,7 @@ import { useUser } from '../Contexto/UserContext';
 import { onFindByUserEmail, onInsert } from '../config/api';
 import Swal from 'sweetalert2';
 import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "firebase/auth";
+import { auth } from '../config/firebase';
 
 export function Configuraciones() {
   const { user } = useUser(); // Usando el contexto para obtener el usuario autenticado
@@ -88,15 +89,31 @@ export function Configuraciones() {
     }
 
     try {
-      const credential = EmailAuthProvider.credential(user.email, oldPassword);
-      await reauthenticateWithCredential(user, credential);
+      // Verifica si auth.currentUser está definido
+      if (!auth.currentUser) {
+        Swal.fire({
+          title: "Error",
+          text: "Usuario no autenticado",
+          icon: "error"
+        });
+        return;
+      }
 
-      await updatePassword(user, newPassword);
+      // Reautenticar al usuario
+      const credential = EmailAuthProvider.credential(user.email, oldPassword);
+      await reauthenticateWithCredential(auth.currentUser, credential);
+
+      // Actualizar la contraseña
+      await updatePassword(auth.currentUser, newPassword);
       Swal.fire({
         title: "Éxito",
         text: "Contraseña actualizada exitosamente",
         icon: "success"
       });
+
+      // Limpiar los campos del formulario
+      setOldPassword('');
+      setNewPassword('');
     } catch (error) {
       console.error("Error al cambiar la contraseña:", error);
       Swal.fire({
@@ -180,6 +197,7 @@ export function Configuraciones() {
                   name="old-password" 
                   value={oldPassword} 
                   onChange={(e) => setOldPassword(e.target.value)} 
+                  required 
                 />
               </label>
               <label>
@@ -189,6 +207,7 @@ export function Configuraciones() {
                   name="new-password" 
                   value={newPassword} 
                   onChange={(e) => setNewPassword(e.target.value)} 
+                  required 
                 />
               </label>
               <button type="submit">Cambiar</button>
