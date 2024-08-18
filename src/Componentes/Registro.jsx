@@ -1,11 +1,12 @@
-
-import React, { useState } from 'react';
+import { useState } from 'react';
+import PropTypes from 'prop-types'; // Importa PropTypes
 import '../CSS/Registro.css';
 import imagen4 from '../imagenes/imagen4.png';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebase';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import { onInsert } from '../config/api'; // Asegúrate de tener esta función para guardar en Firestore
 
 const Registro = ({ onSwitchForm }) => {
   const [email, setEmail] = useState('');
@@ -13,7 +14,6 @@ const Registro = ({ onSwitchForm }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [fechaNacimiento, setFechaNacimiento] = useState('');
-  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleEmailChange = (event) => setEmail(event.target.value);
@@ -24,9 +24,6 @@ const Registro = ({ onSwitchForm }) => {
 
   const handleRegister = async (event) => {
     event.preventDefault();
-    setError('');
-
-  
 
     const today = new Date();
     const birthDate = new Date(fechaNacimiento);
@@ -56,7 +53,20 @@ const Registro = ({ onSwitchForm }) => {
     }
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userId = userCredential.user.uid;
+      const isAdmin = email.endsWith('@facechat.com'); // Verificar si es administrador
+
+      // Guardar usuario en la base de datos con rol de administrador si corresponde
+      await onInsert('perfiles', {
+        id: userId,
+        userId,
+        name: username,
+        email,
+        fechaNacimiento,
+        isAdmin // Almacenar si el usuario es administrador
+      });
+
       Swal.fire({
         title: 'Éxito',
         text: 'Usuario registrado con éxito',
@@ -81,12 +91,10 @@ const Registro = ({ onSwitchForm }) => {
     }
   };
 
-
   const handleNavigate = (path) => {
     navigate(path);
   };
 
-  
   return (
     <div className='registro-wrapper'>
       <div className='img-4'>
@@ -107,20 +115,25 @@ const Registro = ({ onSwitchForm }) => {
           <br />
           <button type="submit">Registrarse</button>
           <div className='terminos'>
-            <p>Al registrarte aceptas los términos y condiciones</p>
+            <p></p>
           </div>
         </form>
         <div className='registro-footer'>
-        <p>Tienes una cuenta? <a href="#" onClick={(e) => { e.preventDefault(); onSwitchForm(); }}>Inicia sesión</a></p>
+          <p>Tienes una cuenta? <a href="#" onClick={(e) => { e.preventDefault(); onSwitchForm(); }}>Inicia sesión</a></p>
         </div>
         <div className='registro-texto-abajo'>
-        <p><a href="#" onClick={() => handleNavigate('/privacidad')}>Privacidad</a></p>
+          <p><a href="#" onClick={() => handleNavigate('/privacidad')}>Privacidad</a></p>
           <p>2024 Facechat from web II</p>
           <p><a href='#' onClick={() => handleNavigate('/normas')}> Normas y reglamento </a></p>
         </div>
       </div>
     </div>
   );
+};
+
+// Validación de PropTypes
+Registro.propTypes = {
+  onSwitchForm: PropTypes.func.isRequired,
 };
 
 export default Registro;

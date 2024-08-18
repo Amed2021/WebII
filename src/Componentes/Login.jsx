@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { gapi } from 'gapi-script';
 import { getAuth, signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from "firebase/auth";
@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebase'; 
 import { useUser } from '../Contexto/UserContext';
+import { onFindByUserId } from '../config/api';
 
 import '../CSS/App.css';
 import imagen from '../imagenes/image3.png';
@@ -39,8 +40,20 @@ function Login({ onSwitchForm }) {
         email: userCredential.user.email,
         displayName: userCredential.user.displayName || 'Usuario Logueado',
       };
+
+      // Verificar si el usuario es administrador
+      const userProfile = await onFindByUserId('perfiles', user.uid);
+      if (userProfile.length > 0) {
+        user.isAdmin = userProfile[0].isAdmin || false;
+      }
+
       setUser(user); // Actualiza el contexto de usuario
-      navigate('/home');
+      
+      if (user.isAdmin) {
+        navigate('/admin'); // Redirigir a la página de administración si es administrador
+      } else {
+        navigate('/home'); // Redirigir a la página de inicio si no es administrador
+      }
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
     }
@@ -49,15 +62,27 @@ function Login({ onSwitchForm }) {
   const handleGoogleLogin = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
-      .then((result) => {
+      .then(async (result) => {
         const user = {
           uid: result.user.uid,
           email: result.user.email,
           displayName: result.user.displayName,
           photoUrl: result.user.photoURL,
         };
+
+        // Verificar si el usuario es administrador
+        const userProfile = await onFindByUserId('perfiles', user.uid);
+        if (userProfile.length > 0) {
+          user.isAdmin = userProfile[0].isAdmin || false;
+        }
+
         setUser(user); // Actualiza el contexto de usuario
-        navigate('/home');
+        
+        if (user.isAdmin) {
+          navigate('/admin'); // Redirigir a la página de administración si es administrador
+        } else {
+          navigate('/home'); // Redirigir a la página de inicio si no es administrador
+        }
       })
       .catch((error) => {
         console.error('Error al iniciar sesión con Google:', error);
@@ -67,15 +92,27 @@ function Login({ onSwitchForm }) {
   const handleGithubLogin = () => {
     const provider = new GithubAuthProvider();
     signInWithPopup(auth, provider)
-      .then((result) => {
+      .then(async (result) => {
         const user = {
           uid: result.user.uid,
           email: result.user.email,
           displayName: result.user.displayName,
           photoUrl: result.user.photoURL,
         };
+
+        // Verificar si el usuario es administrador
+        const userProfile = await onFindByUserId('perfiles', user.uid);
+        if (userProfile.length > 0) {
+          user.isAdmin = userProfile[0].isAdmin || false;
+        }
+
         setUser(user); // Actualiza el contexto de usuario
-        navigate('/home');
+        
+        if (user.isAdmin) {
+          navigate('/admin'); // Redirigir a la página de administración si es administrador
+        } else {
+          navigate('/home'); // Redirigir a la página de inicio si no es administrador
+        }
       })
       .catch((error) => {
         console.error('Error al iniciar sesión con GitHub:', error);

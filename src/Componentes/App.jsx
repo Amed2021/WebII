@@ -6,6 +6,7 @@ import Normas from '../Facechat/Normas';
 import Privacidad from '../Facechat/Privacidad';
 import Perfil from '../publicaciones/Perfil';
 import Configuraciones from '../publicaciones/Configuraciones';
+import Admin from '../publicaciones/Admin'
 import { useUser } from '../Contexto/UserContext';
 import 'materialize-css/dist/css/materialize.min.css';
 
@@ -25,6 +26,7 @@ function App({ onSwitchForm, isLogin }) {
       <Route path="/normas" element={<Normas />} />
       <Route path="/perfil" element={<Perfil />} />
       <Route path="/configuraciones" element={<Configuraciones />} />
+      <Route path="/admin" element={<Admin />} />
     </Routes>
   );
 }
