@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import '../css/Sidenav.css';
+import '../CSS/Sidenav.css';
 
 const Sidenav = () => {
   useEffect(() => {

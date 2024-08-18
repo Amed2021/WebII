@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../CSS/Styleconfiguraciones.css';
+import { useUser } from '../Contexto/UserContext';
+import { onFindByUserEmail, onInsert } from '../config/api';
+import Swal from 'sweetalert2';
+import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "firebase/auth";
 
 export function Configuraciones() {
   const { user } = useUser(); // Usando el contexto para obtener el usuario autenticado

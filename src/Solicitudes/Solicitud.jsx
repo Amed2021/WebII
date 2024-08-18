@@ -1,5 +1,5 @@
-
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { handleFriendRequest, Requests } from '../config/friendshipUtils'; 
 import Swal from 'sweetalert2';
 
@@ -45,6 +45,10 @@ const Solicitud = ({ userId }) => {
       ))}
     </div>
   );
+};
+
+Solicitud.propTypes = {
+  userId: PropTypes.string.isRequired, // Validar que userId sea string y obligatorio
 };
 
 export default Solicitud;
