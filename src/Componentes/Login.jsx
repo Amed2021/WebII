@@ -41,10 +41,17 @@ function Login({ onSwitchForm }) {
         displayName: userCredential.user.displayName || 'Usuario Logueado',
       };
 
-      // Verificar si el usuario es administrador
+      // Verificar el perfil del usuario en la base de datos
       const userProfile = await onFindByUserId('perfiles', user.uid);
       if (userProfile.length > 0) {
-        user.isAdmin = userProfile[0].isAdmin || false;
+        const profile = userProfile[0];
+        
+        // Verificar si el usuario está bloqueado
+        if (profile.isActive === false) {
+          throw new Error('Tu cuenta ha sido bloqueada. Contacta al administrador.');
+        }
+
+        user.isAdmin = profile.isAdmin || false; // Asignar rol de administrador si corresponde
       }
 
       setUser(user); // Actualiza el contexto de usuario
@@ -56,6 +63,7 @@ function Login({ onSwitchForm }) {
       }
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
+      alert(error.message || 'Error al iniciar sesión. Verifica tus credenciales.');
     }
   };
 
@@ -70,10 +78,17 @@ function Login({ onSwitchForm }) {
           photoUrl: result.user.photoURL,
         };
 
-        // Verificar si el usuario es administrador
+        // Verificar el perfil del usuario en la base de datos
         const userProfile = await onFindByUserId('perfiles', user.uid);
         if (userProfile.length > 0) {
-          user.isAdmin = userProfile[0].isAdmin || false;
+          const profile = userProfile[0];
+          
+          // Verificar si el usuario está bloqueado
+          if (profile.isActive === false) {
+            throw new Error('Tu cuenta ha sido bloqueada. Contacta al administrador.');
+          }
+
+          user.isAdmin = profile.isAdmin || false; // Asignar rol de administrador si corresponde
         }
 
         setUser(user); // Actualiza el contexto de usuario
@@ -86,6 +101,7 @@ function Login({ onSwitchForm }) {
       })
       .catch((error) => {
         console.error('Error al iniciar sesión con Google:', error);
+        alert(error.message || 'Error al iniciar sesión con Google.');
       });
   };
 
@@ -100,10 +116,17 @@ function Login({ onSwitchForm }) {
           photoUrl: result.user.photoURL,
         };
 
-        // Verificar si el usuario es administrador
+        // Verificar el perfil del usuario en la base de datos
         const userProfile = await onFindByUserId('perfiles', user.uid);
         if (userProfile.length > 0) {
-          user.isAdmin = userProfile[0].isAdmin || false;
+          const profile = userProfile[0];
+          
+          // Verificar si el usuario está bloqueado
+          if (profile.isActive === false) {
+            throw new Error('Tu cuenta ha sido bloqueada. Contacta al administrador.');
+          }
+
+          user.isAdmin = profile.isAdmin || false; // Asignar rol de administrador si corresponde
         }
 
         setUser(user); // Actualiza el contexto de usuario
@@ -116,6 +139,7 @@ function Login({ onSwitchForm }) {
       })
       .catch((error) => {
         console.error('Error al iniciar sesión con GitHub:', error);
+        alert(error.message || 'Error al iniciar sesión con GitHub.');
       });
   };
 

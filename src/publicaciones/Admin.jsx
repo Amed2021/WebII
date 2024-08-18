@@ -1,41 +1,77 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import '../CSS/Admin.css';
+import { onFindByUserEmail, onUpdate } from '../config/api';
+import Swal from 'sweetalert2';
 
 const Admin = () => {
-  const [admins, setAdmins] = useState([]);
+  const [email, setEmail] = useState('');
+  const [userProfile, setUserProfile] = useState(null);
 
-  // Simulación de datos hasta que la base de datos esté disponible
-  useEffect(() => {
-    setAdmins([
-      { id: 1, email: 'Diego2_rojas@gmail.com', name: 'Juan Diego R.', denuncias: 3 },
-      { id: 2, email: 'Allan20@gmail.com', name: 'Allan S.', denuncias: 1 },
-      { id: 3, email: 'Angel_48q@gmail.com', name: 'Angel UQ.', denuncias: 1 },
-      { id: 4, email: 'Diego2_rojas@gmail.com', name: 'Juan Diego R.', denuncias: 0 },
-      { id: 5, email: 'Alvarado777arian@gmail.com', name: 'Arian Alvarado', denuncias: 0 },
-    ]);
-  }, []);
+  const handleSearchUser = async () => {
+    if (email) {
+      const profiles = await onFindByUserEmail('perfiles', email);
+      if (profiles.length > 0) {
+        setUserProfile(profiles[0]);
+      } else {
+        Swal.fire('No encontrado', 'Usuario no encontrado', 'error');
+        setUserProfile(null);
+      }
+    } else {
+      Swal.fire('Error', 'Por favor, ingresa un correo electrónico válido', 'error');
+    }
+  };
+
+  const handleBlockUser = async () => {
+    if (userProfile) {
+      const updatedProfile = { ...userProfile, isActive: false };
+      await onUpdate('perfiles', userProfile.id, updatedProfile);
+      Swal.fire('Bloqueado', 'El usuario ha sido bloqueado', 'success');
+      setUserProfile(updatedProfile); // Actualizar el perfil localmente
+    }
+  };
+
+  const handleUnblockUser = async () => {
+    if (userProfile) {
+      const updatedProfile = { ...userProfile, isActive: true };
+      await onUpdate('perfiles', userProfile.id, updatedProfile);
+      Swal.fire('Desbloqueado', 'El usuario ha sido desbloqueado', 'success');
+      setUserProfile(updatedProfile); // Actualizar el perfil localmente
+    }
+  };
 
   return (
     <div className="App">
       <div className="sidebar">
-        <button className="sidebar-button active">Users</button>
+        <button className="sidebar-button active">Usuarios</button>
         <button className="sidebar-button">Otros datos</button>
         <button className="sidebar-button">Agregar noticias</button>
       </div>
       <div className="main-content">
         <div className="header">
-          <h2>Admin</h2>
+          <h2>Administración de Usuarios</h2>
         </div>
-        <div className="admin-list">
-          {admins.map((admin) => (
-            <div key={admin.id} className="admin-item">
-              <span>{admin.email}</span>
-              <span>{admin.name}</span>
-              <span>{admin.denuncias}</span>
-              <button className="block-button">Bloquear user</button>
-            </div>
-          ))}
+        <div className="search-section">
+          <input 
+            type="email" 
+            placeholder="Buscar usuario por correo electrónico" 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)} 
+          />
+          <button onClick={handleSearchUser}>Buscar</button>
         </div>
+        {userProfile && (
+          <div className="user-details">
+            <h3>Detalles del Usuario</h3>
+            <p><strong>Nombre:</strong> {userProfile.name}</p>
+            <p><strong>Correo electrónico:</strong> {userProfile.email}</p>
+            <p><strong>Estado:</strong> {userProfile.isActive !== false ? 'Activo' : 'Bloqueado'}</p>
+            <button 
+              onClick={userProfile.isActive !== false ? handleBlockUser : handleUnblockUser} 
+              className={userProfile.isActive !== false ? "block-button" : "unblock-button"}>
+              {userProfile.isActive !== false ? 'Bloquear usuario' : 'Desbloquear usuario'}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

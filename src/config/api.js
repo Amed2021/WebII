@@ -81,7 +81,13 @@ export const onUpdate = async (collectionStr, paramId, newDocument) => {
 
 // Nueva función: Bloquear un usuario actualizando su estado
 export const blockUser = async (collectionStr, userId) => {
-  await updateDoc(doc(db, collectionStr, userId), { isActive: false });
+  try {
+    await updateDoc(doc(db, collectionStr, userId), { isActive: false });
+    console.log('Usuario bloqueado exitosamente');
+  } catch (error) {
+    console.error('Error al bloquear el usuario:', error);
+    throw new Error('No se pudo bloquear al usuario');
+  }
 };
 
 // Función para eliminar un documento de la colección
