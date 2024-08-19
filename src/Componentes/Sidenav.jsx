@@ -2,14 +2,13 @@ import  { useEffect } from 'react';
 
 import '../CSS/Sidenav.css';
 
+import M from 'materialize-css';
+
 const Sidenav = () => {
   useEffect(() => {
-    // Initialize Materialize Sidenav
-    const elems = document.querySelectorAll('.sidenav');
-    M.Sidenav.init(elems, {
-      edge: 'left',
-      draggable: true,
-    });
+    // Initialize left sidenav
+    const leftSidenav = document.querySelector('#left-sidenav');
+    M.Sidenav.init(leftSidenav, { edge: 'left', draggable: false });
   }, []);
 
   return (

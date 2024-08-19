@@ -14,9 +14,8 @@
     padding: 0px 100px;
   }
   .side-icon{
-
     width: 2%;
-    z-index: 2;
-    position: relative;
+    margin-left: 97%;
+    margin-top: -1%;
   }
 

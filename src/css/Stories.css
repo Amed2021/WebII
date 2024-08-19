@@ -19,8 +19,10 @@
 
 .stories-container {
   padding: 10px 0;
-  background-color: #fff;
+  background-color: none;
   margin-top: -4%;
+  width: 92%;
+  margin-left: 3%;
   /*z-index: -1;*/
   position: relative;
 }

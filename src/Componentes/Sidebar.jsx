@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
-
+import M from 'materialize-css';
 import '../CSS/Sidebar.css';
 
 function Sidebar() {
   useEffect(() => {
-    // Or with jQuery
-    $(document).ready(function(){
-      $('.sidenav').sidenav({ edge: 'right', draggable: false });
-    });
+    const rightSidenav = document.querySelector('#right-sidenav');
+    M.Sidenav.init(rightSidenav, { edge: 'right', draggable: false });
   }, []);
 
   const friends = [
@@ -20,7 +18,7 @@ function Sidebar() {
 
   return (
     <div className="side-icon">
-      <ul id="slide-out" className="sidenav">
+      <ul id="right-sidenav" className="sidenav">
         <li>
           <div className="user-view">
             <div className="background">
@@ -50,7 +48,7 @@ function Sidebar() {
           </li>
         ))}
       </ul>
-      <a href="#" data-target="slide-out" className="sidenav-trigger">
+      <a href="#" data-target="right-sidenav" className="sidenav-trigger">
         <i className="material-icons small">group</i>
       </a>
     </div>
