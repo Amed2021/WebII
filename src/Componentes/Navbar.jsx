@@ -48,9 +48,9 @@ function Navbar() {
   };
 
   return (
-    <div>
+    <div className="nav-wrapper">
       <nav>
-        <div className="nav-wrapper">
+        <div >
           <ul className="hide-on-med-and-down center-icons">
             <li><Link to="/home" className="MenuIcons"><i className="material-icons medium">home</i></Link></li>
             <li><button className="MenuIcons" onClick={handleChatClick}><i className="material-icons medium">chat</i></button></li>

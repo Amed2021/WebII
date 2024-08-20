@@ -1,7 +1,11 @@
 /* src/Navbar.css */
 .nav-wrapper {
   background-color: #d66367; 
-  margin-top: 27%; 
+  margin-top: -13%; 
+  width: 100%;
+  position: absolute;
+  display: block;
+  z-index: 1;
 }
 
 .MenuIcons {

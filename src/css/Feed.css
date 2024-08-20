@@ -1,0 +1,31 @@
+/* Add this CSS to your main stylesheet */
+
+.app-container {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    margin-left: 20%;
+    margin-top: -8%;
+    
+  }
+  
+  .feedbtn{
+    color: red !important;
+  }
+  
+  .feed-container {
+    margin-top: 60px; /* Adjust based on header height */
+    margin-left: 200px; /* Adjust based on sidebar width */
+    padding: 1rem;
+    height: calc(100% - 259px);
+    overflow-y: scroll;
+  }
+
+  .feed-container::-webkit-scrollbar {
+    display: none;
+}
+  
+  .card {
+    margin-bottom: 20px;
+  }
+  
