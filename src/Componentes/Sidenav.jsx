@@ -1,32 +1,60 @@
-import  { useEffect } from 'react';
 
-import '../CSS/Sidenav.css';
 
+import { useEffect, useState } from 'react';
 import M from 'materialize-css';
+import '../CSS/Sidenav.css';
+import { Amigos } from '../Solicitudes/Amigos';
 
 const Sidenav = () => {
+  const [isSidenavVisible, setSidenavVisible] = useState(true);
+  const [selectedOption, setSelectedOption] = useState('');
+
   useEffect(() => {
-    // Initialize left sidenav
-    const leftSidenav = document.querySelector('#left-sidenav');
-    M.Sidenav.init(leftSidenav, { edge: 'left', draggable: false });
+    const elems = document.querySelectorAll('.sidenav');
+    M.Sidenav.init(elems, { edge: 'left', draggable: false });
   }, []);
 
+  const handleMenuClick = (option) => {
+    console.log(`Selected option: ${option}`);
+    setSelectedOption(option);
+    setSidenavVisible(false);
+  };
+
+  const renderContent = () => {
+    console.log(`Rendering content for: ${selectedOption}`);
+    switch (selectedOption) {
+      case 'Amigos':
+        return <Amigos />;
+      
+      default:
+        return <div>Selecciona una opción del menú.</div>;
+    }
+  };
+
   return (
-    <>
-      <ul id="left-sidenav" className="sidenav">
-        <li><a href="#!">Amigos</a></li>
-        <li><a href="#!">Guardado</a></li>
-        <li><a href="#!">Grupos</a></li>
-        <li><a href="#!">Notificaciones</a></li>
-        <li><a href="#!">Noticias</a></li>
-        <li><a href="#!">Recuerdos</a></li>
-        <li><a href="#!">Videos</a></li>
+    <div className="sidenav-container">
+      <ul
+        id="left-sidenav"
+        className={`sidenav ${isSidenavVisible ? '' : 'sidenav-hidden'}`}
+      >
+        <li><a href="#" onClick={(e) => { e.preventDefault(); handleMenuClick('Amigos'); }}><i className="material-icons">group</i> Amigos</a></li>
+       
       </ul>
-      <a href="#!" data-target="left-sidenav" className="sidenav-trigger">
-        <i className="material-icons">menu</i>
-      </a>
-    </>
+      <div className={`content-container ${isSidenavVisible ? '' : 'full-width'}`}>
+        {renderContent()}
+        {!isSidenavVisible && (
+          <a
+            href="#!"
+            className="sidenav-trigger"
+            onClick={() => setSidenavVisible(true)}
+          >
+            <i className="material-icons">menu</i>
+          </a>
+        )}
+      </div>
+    </div>
   );
 };
 
 export default Sidenav;
+

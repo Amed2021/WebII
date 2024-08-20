@@ -1,23 +1,76 @@
 
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden; 
+}
+
 .sidenav {
-    width: 250px; 
-  }
-  
-  .sidenav .user-view {
-    background-color: #111;
-    color: #fff;
-  }
-  
-  .sidenav .user-view .background {
-    height: 200px;
-  }
-  
-  .sidenav .user-view .circle {
-    width: 100px;
-    height: 100px;
-  }
-  
-  .sidenav .sidenav-trigger {
-    display: block; 
-  }
-  
+  width: 250px;
+  background-color: #fff;
+  transition: transform 0.3s ease-in-out;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif; 
+}
+
+.sidenav-hidden {
+  transform: translateX(-100%);
+}
+
+.sidenav-trigger {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  background-color: #4cb5f9;
+  border-radius: 50%;
+  padding: 8px;
+  color: #fff;
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif; 
+}
+
+.content-container {
+  margin-left: 250px;
+  padding: 16px;
+  transition: margin-left 0.3s ease-in-out;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif; 
+}
+
+.content-container.full-width {
+  margin-left: 0;
+}
+
+.sidenav li {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.sidenav li .material-icons {
+  margin-right: 15px; 
+  font-size: 24px; 
+}
+
+.sidenav li a {
+  text-decoration: none;
+  color: #000;
+  display: flex;
+  align-items: center;
+  width: 100%; 
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif; 
+}
+
+.sidenav li a:hover {
+  background-color: #f0f0f0; 
+}
