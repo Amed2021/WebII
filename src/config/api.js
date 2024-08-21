@@ -30,9 +30,7 @@ export const onFindById = async (collectionStr, paramId) => {
   if (result.data()) {
     let item = {
       id: result.id,
-      task: result.data().task,
-      deadline: result.data().deadline,
-      completed: result.data().completed,
+      ...result.data(),  // Mantener todos los datos del documento
     };
   
     return item;
@@ -54,10 +52,10 @@ export const onFindByUserId = async (collectionStr, paramId) => {
   return items;
 }
 
-// Nueva función: Función para obtener documentos por email
-export const onFindByUserEmail = async (collectionStr, email) => {
+// Función para obtener documentos por email en la colección 'perfiles'
+export const onFindByUserEmail = async (email) => {
   const result = await getDocs(
-    query(collection(db, collectionStr), where("email", "==", email))
+    query(collection(db, 'perfiles'), where("email", "==", email))
   );
 
   let items = result.docs.map((doc) => {
@@ -66,6 +64,19 @@ export const onFindByUserEmail = async (collectionStr, email) => {
 
   return items;
 }
+
+// Función para buscar un usuario por su nombre en la colección 'perfiles'
+export const onFindByUserName = async (userName) => {
+  const result = await getDocs(
+    query(collection(db, 'perfiles'), where("name", "==", userName))
+  );
+
+  let items = result.docs.map((doc) => {
+    return { ...doc.data(), id: doc.id };
+  });
+
+  return items.length > 0 ? items[0] : null; // Devolver el primer resultado si existe
+};
 
 // Función para insertar un nuevo documento en la colección
 export const onInsert = async (collectionStr, document) => {
@@ -79,10 +90,10 @@ export const onUpdate = async (collectionStr, paramId, newDocument) => {
   await updateDoc(doc(db, collectionStr, paramId), newDocument);
 };
 
-// Nueva función: Bloquear un usuario actualizando su estado
-export const blockUser = async (collectionStr, userId) => {
+// Función para bloquear un usuario actualizando su estado en la colección 'perfiles'
+export const blockUser = async (userId) => {
   try {
-    await updateDoc(doc(db, collectionStr, userId), { isActive: false });
+    await updateDoc(doc(db, 'perfiles', userId), { isActive: false });
     console.log('Usuario bloqueado exitosamente');
   } catch (error) {
     console.error('Error al bloquear el usuario:', error);
@@ -95,14 +106,24 @@ export const onDelete = async (collectionStr, paramId) => {
   await deleteDoc(doc(db, collectionStr, paramId));
 };
 
-export const getUserData = async (userId) => {
-  const docRef = doc(db, 'users', userId); // Asume que la colección se llama 'users'
-  const docSnap = await getDoc(docRef);
-
-  if (docSnap.exists()) {
-    return docSnap.data();
-  } else {
-    console.log('No such document!');
-    return null;
+// Función para insertar un nuevo reporte de abuso
+export const onInsertReport = async (report) => {
+  try {
+    await addDoc(collection(db, "reports"), report);
+    console.log("Reporte enviado exitosamente");
+  } catch (error) {
+    console.error("Error al enviar el reporte:", error);
+    throw new Error("No se pudo enviar el reporte");
   }
+};
+
+// Función para obtener todas las denuncias de la colección 'reports'
+export const onFindAllReports = async () => {
+  const result = await getDocs(collection(db, "reports"));
+  
+  let items = result.docs.map((doc) => {
+    return { ...doc.data(), id: doc.id };
+  });
+
+  return items;
 };

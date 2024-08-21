@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../CSS/Styleconfiguraciones.css';
 import { useUser } from '../Contexto/UserContext';
-import { onFindByUserEmail, onInsert } from '../config/api';
+import { onFindByUserEmail, onInsert, onInsertReport, onFindByUserName } from '../config/api';
 import Swal from 'sweetalert2';
 import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "firebase/auth";
 import { auth } from '../config/firebase';
@@ -14,13 +14,17 @@ export function Configuraciones() {
   const [contacts, setContacts] = useState([]);
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [searchedUser, setSearchedUser] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
       if (user) {
         try {
+          console.log("Fetching user data for email: ", user.email);
           // Buscando los datos del usuario por su email
-          const data = await onFindByUserEmail('perfiles', user.email);
+          const data = await onFindByUserEmail(user.email);
+          console.log("Fetched data: ", data); 
+
           let dbProfile = data[0] || undefined;
 
           if (!dbProfile) {
@@ -124,6 +128,28 @@ export function Configuraciones() {
     }
   };
 
+  const handleUserSearch = async (event) => {
+    const userName = event.target.value;
+
+    if (userName.trim() === "") {
+      setSearchedUser(null);
+      return;
+    }
+
+    try {
+      const user = await onFindByUserName(userName); 
+      setSearchedUser(user);
+    } catch (error) {
+      console.error('Error al buscar el usuario:', error);
+      setSearchedUser(null);
+      Swal.fire({
+        title: "Error",
+        text: "Hubo un error al buscar el usuario. Por favor, intenta nuevamente.",
+        icon: "error"
+      });
+    }
+  };
+
   const handleReportSubmit = async (event) => {
     event.preventDefault();
     const form = event.target;
@@ -131,20 +157,34 @@ export function Configuraciones() {
     const reason = form.reason.value;
     const description = form.description.value;
 
-    try {
-      const response = await axios.post('/report-abuse', {
-        reportedUser,
-        reason,
-        description,
+    if (!searchedUser) {
+      Swal.fire({
+        title: "Error",
+        text: "Debes buscar un usuario válido antes de enviar un reporte.",
+        icon: "error"
       });
-      if (response.status === 200) {
-        Swal.fire({
-          title: "Éxito",
-          text: "Reporte enviado exitosamente",
-          icon: "success"
-        });
-        form.reset();
-      }
+      return;
+    }
+
+    // Crear el objeto de reporte, incluyendo el correo electrónico del usuario reportado
+    const report = {
+      reportedUser,
+      reportedUserEmail: searchedUser.email,  // Incluir el email del usuario reportado
+      reason,
+      description,
+      reporterId: user.uid, // Usar el ID del usuario autenticado
+      reportDate: new Date().toISOString(),
+    };
+
+    try {
+      // Guardar el reporte en Firebase
+      await onInsertReport(report);
+      Swal.fire({
+        title: "Éxito",
+        text: "Reporte enviado exitosamente",
+        icon: "success"
+      });
+      form.reset();
     } catch (error) {
       console.error('Error al enviar el reporte:', error);
       Swal.fire({
@@ -247,8 +287,15 @@ export function Configuraciones() {
             <form onSubmit={handleReportSubmit}>
               <label>
                 Usuario a reportar
-                <input type="text" name="reportedUser" required />
+                <input type="text" name="reportedUser" onChange={handleUserSearch} required />
               </label>
+              {searchedUser && (
+                <div>
+                  <p><strong>Nombre:</strong> {searchedUser.name}</p>
+                  <p><strong>Bio:</strong> {searchedUser.bio}</p>
+                  <p><strong>Email:</strong> {searchedUser.email}</p>
+                </div>
+              )}
               <label>
                 Motivo
                 <select name="reason" required>
