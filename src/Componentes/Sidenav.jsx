@@ -5,18 +5,20 @@ import { Amigos } from '../Solicitudes/Amigos';
 
 
 const Sidenav = () => {
-  const [isSidenavVisible, setSidenavVisible] = useState(true);
+  const [isSidenavVisible, setSidenavVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState('');
 
   useEffect(() => {
-    const elems = document.querySelectorAll('.sidenav');
+    console.log(isSidenavVisible)
+    const elems = document.querySelectorAll('#left-sidenav');
     M.Sidenav.init(elems, { edge: 'left', draggable: false });
   }, []);
 
   const handleMenuClick = (option) => {
     console.log(`Selected option: ${option}`); 
     setSelectedOption(option);
-    setSidenavVisible(false); 
+    setSidenavVisible(true); 
+    console.log(isSidenavVisible)
   };
 
   const renderContent = () => {
@@ -31,7 +33,7 @@ const Sidenav = () => {
     <div className="sidenav-container">
       <ul
         id="left-sidenav"
-        className={`sidenav ${isSidenavVisible ? '' : 'sidenav-hidden'}`}
+       className="sidenav"
       >
         <li><a href="#" onClick={(e) => { e.preventDefault(); handleMenuClick('Amigos'); }}><i className="material-icons">group</i> Amigos</a></li>
         <li><a href="#" onClick={(e) => { e.preventDefault(); handleMenuClick('Guardado'); }}><i className="material-icons">bookmark</i> Guardado</a></li>
@@ -42,16 +44,17 @@ const Sidenav = () => {
         <li><a href="#" onClick={(e) => { e.preventDefault(); handleMenuClick('Videos'); }}><i className="material-icons">videocam</i> Videos</a></li>
       </ul>
       <div
-        className={`content-container ${isSidenavVisible ? '' : 'full-width'}`}
+        className={`Content-Container ${isSidenavVisible ? '' : 'full-width'}`}
       >
         {renderContent()}
         {!isSidenavVisible && (
           <a
             href="#!"
-            className="sidenav-trigger"
-            onClick={() => setSidenavVisible(true)}
+            data-target="left-sidenav"
+            className="sideNav-trigger"
+            onClick={() => setSidenavVisible(false)}
           >
-            <i className="material-icons">menu</i>
+            <i className="material-icons small">menu</i>
           </a>
         )}
       </div>

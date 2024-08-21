@@ -9,7 +9,7 @@ body {
   overflow: hidden; 
 }
 
-.sidenav {
+.sideNav {
   width: 250px;
   background-color: #fff;
   transition: transform 0.3s ease-in-out;
@@ -18,25 +18,13 @@ body {
     sans-serif; 
 }
 
-.sidenav-hidden {
+.sideNav-hidden {
   transform: translateX(-100%);
 }
 
-.sidenav-trigger {
-  position: fixed;
-  bottom: 16px;
-  left: 16px;
-  background-color: #4cb5f9;
-  border-radius: 50%;
-  padding: 8px;
-  color: #fff;
-  cursor: pointer;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif; 
-}
 
-.content-container {
+
+.Content-Container {
   margin-left: 250px;
   padding: 16px;
   transition: margin-left 0.3s ease-in-out;
@@ -45,22 +33,22 @@ body {
     sans-serif; 
 }
 
-.content-container.full-width {
+.Content-Container.full-width {
   margin-left: 0;
 }
 
-.sidenav li {
+.sideNav li {
   padding: 10px;
   display: flex;
   align-items: center;
 }
 
-.sidenav li .material-icons {
+.sideNav li .material-icons {
   margin-right: 15px; 
   font-size: 24px; 
 }
 
-.sidenav li a {
+.sideNav li a {
   text-decoration: none;
   color: #000;
   display: flex;
@@ -71,6 +59,6 @@ body {
     sans-serif; 
 }
 
-.sidenav li a:hover {
+.sideNav li a:hover {
   background-color: #f0f0f0; 
 }
