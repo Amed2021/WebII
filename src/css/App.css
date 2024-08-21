@@ -1,239 +1,129 @@
-/*letra*/
-
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
+/* Contenedor principal */
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f0f0;
+  padding: 20px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-
+/* Contenedor del formulario */
 .login-container {
-  max-width: 360px;
-  margin: 20px auto;
+  width: 100%;
+  max-width: 500px; /* Ancho máximo del formulario */
   padding: 20px;
   border: 1px solid #000;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
-  height: fit-content; 
-  margin-top: 150px; 
-  left: 90px;
-  background-color: rgba(255, 255, 255, 0.8); 
-  display: grid;
-  justify-content: center;
-  justify-items: center;
+  min-height: 400px; /* Establece una altura mínima */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  overflow: hidden; 
 }
 
+/* Estilo para el título */
 h2 {
-  text-align: center; 
+  text-align: center;
+  margin-bottom: 10px;
 }
 
-input[type="text"],
+/* Estilo para la animación Lottie */
+.lottie-animation {
+  width: 100%;
+  height: auto;
+  max-width: 200px;
+  margin: -40px 0; /* Aumenta el margen para darle más espacio */
+}
+
+/* Estilo para los inputs */
+input[type="email"],
 input[type="password"] {
-  width: calc(100% - 10px);
+  width: calc(100% - 20px); 
   height: 40px;
-  margin: 69px auto -60px auto;
+  margin: 10px 0; 
   padding: 10px;
   border: 1px solid #ccc;
-  box-sizing: border-box; 
-  border-radius: 5px; 
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
-  display: block; 
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
+/* Estilo para el botón de inicio de sesión */
 button[type="submit"] {
-  width: calc(100% - 70px); 
-  background-color: #4cb5f9; 
+  width: calc(100% - 20px);
+  background-color: #4cb5f9;
   color: #fff;
-  padding: 7px; 
+  padding: 10px;
   border: none;
-  border-radius: 10px; 
+  border-radius: 10px;
   cursor: pointer;
-  margin-top: 25px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
-  display: block;
-  margin: 62px auto; 
+  margin-top: 10px;
 }
+
 button[type="submit"]:hover {
   background-color: #0098f7;
 }
 
-.contenedor {
-  width: 365px; 
-  height: 40px; 
-  margin: 10px auto 0; 
-  display: flex; 
-  justify-content: center; 
-  align-items: center;
-  border: 1px solid #000;
-  position: relative; 
-  left: 90px; 
-}
-
-.texto-abajo {
-  width: 100%;
-  margin-top: 170px; 
-  display: flex; 
-  justify-content: center; 
-  margin-left: 100px;
-  font-weight: bold;
-}
-
-.texto-abajo p {
-  margin: 0 10px; 
-}
-
-
-.login-container p {
-  text-align: center;
-  position: relative;
-}
-
-.login-container p::before,
-.login-container p::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  width: 40%;
-  height: 1px;
-  background-color: #ddd;
-}
-
-.login-container p::before {
-  left: 0;
-}
-
-.login-container p::after {
-  right: 0;
-}
-
-.login-container p span {
-  background-color: #fff;
-  padding: 0 10px;
-  position: relative;
-  z-index: 1;
-}
-
-
-.img-3d {
-  perspective: 1000px; 
-}
-
-.img-3d img {
-  position: absolute;
-  top: 150px; 
-  left: 240px; 
-  max-width: 90%;
-  height: auto;
-  z-index: -1;
-  transform: rotateY(30deg) rotateX(15deg); /* Transformaciones 3D */
-  transition: transform 0.5s ease; /* Transición suave para la transformación */
-}
-
-.img-3d img:hover {
-  transform: rotateY(0deg) rotateX(0deg); 
-}
-
-/* Estilos para los botones de Google, Facebook y GitHub */
+/* Estilo para los botones de Google y GitHub */
 .loginButton {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 300px;
-  margin: 10px 0;
-  padding: 14px;
-  border: 1px solid #ccc;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.loginButton button {
+  width: calc(100% - 20px);
+  padding: 10px;
+  border: none;
   border-radius: 5px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  background-color: #f5f5f5;
 }
 
-.loginButton button,
-.loginButton button div {
-    display: inline-flex;
-    align-content: center;
-    align-items: center;
-    justify-content: center;
-}
-
-.icon {
-  width: 25px;
-  height: 25px;
-  margin-right: 14px;
-}
-
-/* Colores para los botones de Google, Facebook y GitHub */	
-
-.google,
 .google-button {
-  background-color: #df4930;
+  background-color: #4285F4;
+  color: #fff;
 }
 
-.facebook {
-  background-color: #507cc0;
-}
-
-.github,
 .github-button {
-  background-color: gray;
+  background-color: #333;
+  color: #fff;
 }
 
-/* Fix para otros estilos que se estaban aplicando a los botones de Google, Facebook y GitHub */
+.google-button img,
+.github-button img {
+  width: 24px;
+  height: auto;
+  margin-right: 10px;
+}
 
-.google-button,
-.github-button {
-  padding: 0;
+.google-button:hover {
+  background-color: #357ae8;
+}
+
+.github-button:hover {
+  background-color: #444;
+}
+
+/* Estilo para el enlace de registro */
+.texto-abajo {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.texto-abajo button {
+  background: none;
   border: none;
+  color: #4cb5f9;
   cursor: pointer;
-  border-radius: 0;
-  margin-top: 0;
+  text-decoration: underline;
 }
 
-@media only screen and (max-width: 768px) {
-  .login-container {
-    max-width: 300px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  input[type="text"],
-  input[type="password"] {
-    margin: 40px auto -40px auto;
-  }
-
-  .contenedor {
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .texto-abajo {
-    margin-top: 70px;
-  }
-}
-
-@media only screen and (max-width: 576px) {
-  .login-container {
-    max-width: 250px;
-  }
-
-  input[type="text"],
-  input[type="password"] {
-    margin: 30px auto -30px auto;
-  }
-
-  .contenedor {
-    left: 50%;
-    transform: translateX(-50%);
-    width: 250px;
-  }
-
-  .texto-abajo {
-    margin-top: 50px;
-  }
+.texto-abajo button:hover {
+  color: #0098f7;
 }

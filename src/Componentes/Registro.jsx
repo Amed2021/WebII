@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types'; // Importa PropTypes
 import '../CSS/Registro.css';
-import imagen4 from '../imagenes/imagen4.png';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebase';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
-import { onInsert } from '../config/api'; // Asegúrate de tener esta función para guardar en Firestore
+import { onInsert } from '../config/api'; 
+import Lottie from 'react-lottie';
+import animationData from '../imagenes/drawkit-grape-animation-8-LOOP.json'; 
 
 const Registro = ({ onSwitchForm }) => {
   const [email, setEmail] = useState('');
@@ -95,10 +96,19 @@ const Registro = ({ onSwitchForm }) => {
     navigate(path);
   };
 
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice'
+    }
+  };
+
   return (
     <div className='registro-wrapper'>
-      <div className='img-4'>
-        <img src={imagen4} alt="img4" />
+      <div className='lottie-animation-container'>
+        <Lottie options={defaultOptions} height={400} width={400} />
       </div>
       <div className="registro-container">
         <h2>FACECHAT</h2>

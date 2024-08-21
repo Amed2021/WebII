@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { gapi } from 'gapi-script';
-import { getAuth, signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebase'; 
 import { useUser } from '../Contexto/UserContext';
 import { onFindByUserId } from '../config/api';
+import Lottie from 'lottie-react';
+import animationData from '../imagenes/drawkit-grape-animation-3-LOOP.json';
 
 import '../CSS/App.css';
-import imagen from '../imagenes/image3.png';
 import GoogleIcon from '../imagenes/google.png';
 import GithubIcon from '../imagenes/github.png';
 
@@ -41,25 +42,21 @@ function Login({ onSwitchForm }) {
         displayName: userCredential.user.displayName || 'Usuario Logueado',
       };
 
-      // Verificar el perfil del usuario en la base de datos
       const userProfile = await onFindByUserId('perfiles', user.uid);
       if (userProfile.length > 0) {
         const profile = userProfile[0];
-        
-        // Verificar si el usuario está bloqueado
         if (profile.isActive === false) {
           throw new Error('Tu cuenta ha sido bloqueada. Contacta al administrador.');
         }
-
-        user.isAdmin = profile.isAdmin || false; // Asignar rol de administrador si corresponde
+        user.isAdmin = profile.isAdmin || false;
       }
 
-      setUser(user); // Actualiza el contexto de usuario
-      
+      setUser(user);
+
       if (user.isAdmin) {
-        navigate('/admin'); // Redirigir a la página de administración si es administrador
+        navigate('/admin');
       } else {
-        navigate('/home'); // Redirigir a la página de inicio si no es administrador
+        navigate('/home');
       }
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
@@ -78,25 +75,21 @@ function Login({ onSwitchForm }) {
           photoUrl: result.user.photoURL,
         };
 
-        // Verificar el perfil del usuario en la base de datos
         const userProfile = await onFindByUserId('perfiles', user.uid);
         if (userProfile.length > 0) {
           const profile = userProfile[0];
-          
-          // Verificar si el usuario está bloqueado
           if (profile.isActive === false) {
             throw new Error('Tu cuenta ha sido bloqueada. Contacta al administrador.');
           }
-
-          user.isAdmin = profile.isAdmin || false; // Asignar rol de administrador si corresponde
+          user.isAdmin = profile.isAdmin || false;
         }
 
-        setUser(user); // Actualiza el contexto de usuario
-        
+        setUser(user);
+
         if (user.isAdmin) {
-          navigate('/admin'); // Redirigir a la página de administración si es administrador
+          navigate('/admin');
         } else {
-          navigate('/home'); // Redirigir a la página de inicio si no es administrador
+          navigate('/home');
         }
       })
       .catch((error) => {
@@ -116,25 +109,21 @@ function Login({ onSwitchForm }) {
           photoUrl: result.user.photoURL,
         };
 
-        // Verificar el perfil del usuario en la base de datos
         const userProfile = await onFindByUserId('perfiles', user.uid);
         if (userProfile.length > 0) {
           const profile = userProfile[0];
-          
-          // Verificar si el usuario está bloqueado
           if (profile.isActive === false) {
             throw new Error('Tu cuenta ha sido bloqueada. Contacta al administrador.');
           }
-
-          user.isAdmin = profile.isAdmin || false; // Asignar rol de administrador si corresponde
+          user.isAdmin = profile.isAdmin || false;
         }
 
-        setUser(user); // Actualiza el contexto de usuario
-        
+        setUser(user);
+
         if (user.isAdmin) {
-          navigate('/admin'); // Redirigir a la página de administración si es administrador
+          navigate('/admin');
         } else {
-          navigate('/home'); // Redirigir a la página de inicio si no es administrador
+          navigate('/home');
         }
       })
       .catch((error) => {
@@ -145,55 +134,43 @@ function Login({ onSwitchForm }) {
 
   return (
     <div className='login-wrapper'>
-      <div className='img-3d'>
-        <img src={imagen} alt="image3" />
-      </div>
-      <div className="App">
-        <div className="login-container">
-          <h2>FACECHAT</h2>
-          <form onSubmit={handleLogin}>
-            <input 
-              type="email" 
-              placeholder='Correo electrónico' 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-              required 
-            />
-            <br />
-            <input 
-              type="password" 
-              placeholder='Contraseña' 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-              required 
-            />
-            <br />
-            <button type="submit">Iniciar sesión</button>
-            <p>OR</p>
-            <div className="loginButton google">
-              <button onClick={handleGoogleLogin} className="google-button">
-                <div>
-                  <img src={GoogleIcon} alt="Google" className="icon" />
-                  Google
-                </div>
-              </button>
-            </div>
-            <div className="loginButton github">
-              <button onClick={handleGithubLogin} className="github-button">
-                <img src={GithubIcon} alt="Github" className="icon" />
-                <span>GitHub</span>
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div className='contenedor'>
-        <p>No tienes una cuenta? <button onClick={onSwitchForm} style={{background: 'none', border: 'none', color: 'blue', textDecoration: 'underline', cursor: 'pointer'}}>Registrate</button></p>
-      </div>
-      <div className='texto-abajo'>
-        <p><button onClick={() => navigate('/privacidad')} style={{background: 'none', border: 'none', color: 'blue', textDecoration: 'underline', cursor: 'pointer'}}>Privacidad</button></p>
-        <p>2024 Facechat from web II</p>
-        <p><button onClick={() => navigate('/normas')} style={{background: 'none', border: 'none', color: 'blue', textDecoration: 'underline', cursor: 'pointer'}}>Normas y reglamento</button></p>
+      <div className='login-container'>
+        <h2>FACECHAT</h2>
+        <Lottie animationData={animationData} loop={true} className="lottie-animation" />
+        <form onSubmit={handleLogin}>
+          <input 
+            type="email" 
+            placeholder='Correo electrónico' 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)} 
+            required 
+          />
+          <input 
+            type="password" 
+            placeholder='Contraseña' 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
+            required 
+          />
+          <button type="submit">Iniciar sesión</button>
+          <div className='loginButton'>
+            <button className="google-button" onClick={handleGoogleLogin}>
+              <img src={GoogleIcon} alt="Google" className="icon" />
+              Google
+            </button>
+          </div>
+          <div className='loginButton'>
+            <button className="github-button" onClick={handleGithubLogin}>
+              <img src={GithubIcon} alt="Github" className="icon" />
+              Github
+            </button>
+          </div>
+          <div className='contenedor'>
+            <p className='texto-abajo'>
+              ¿No tienes una cuenta? <button onClick={() => onSwitchForm('register')}>Regístrate</button>
+            </p>
+          </div>
+        </form>
       </div>
     </div>
   );

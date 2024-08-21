@@ -1,176 +1,136 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Contenedor principal del formulario */
+.registro-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+  position: relative;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
+/* Contenedor del formulario de registro */
 .registro-container {
-  max-width: 360px;
-  margin: 20px auto;
+  max-width: 400px; 
+  width: 100%; /* Asegura que el formulario ocupe todo el ancho disponible hasta el máximo especificado */
   padding: 20px;
   border: 1px solid #000;
-  position: relative;
-  height: 575px; 
-  margin-top: 150px; 
-  left: 90px; 
-  background-color: rgba(255, 255, 255, 0.8); 
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
+  border-radius: 8px; 
+  box-sizing: border-box;  
+  margin: 0 auto; /* Centra el formulario horizontalmente */
 }
 
+/* Estilo para el título */
 h2 {
-  text-align: center; 
+  text-align: center;
+  margin-bottom: 15px; 
 }
 
+/* Estilo para los campos de entrada */
 input[type="email"],
 input[type="text"],
 input[type="password"], 
-input[type="date"]{
-  width: calc(100% - 10px);
-  height: 40px;
-  margin: 69px auto -60px auto;
-  padding: 10px;
+input[type="date"] {
+  width: 100%; /* Ancho completo dentro del formulario */
+  height: 40px; 
+  margin: 10px 0; 
+  padding: 10px; 
   border: 1px solid #ccc;
-  box-sizing: border-box; 
   border-radius: 5px; 
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
-  display: block; 
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  display: block;
+  box-sizing: border-box; 
 }
 
+/* Estilo para el botón de envío */
 button[type="submit"] {
-  width: calc(100% - 70px); 
-  background-color: #4cb5f9; 
+  width: 100%; /* Ancho completo dentro del formulario */
+  background-color: #4cb5f9;
   color: #fff;
-  padding: 7px; 
+  padding: 12px; 
   border: none;
-  border-radius: 10px; 
+  border-radius: 8px;
   cursor: pointer;
-  margin-top: 25px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
+  margin-top: 15px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   display: block;
-  margin: 12px auto; 
+  font-size: 15px; 
 }
 
 button[type="submit"]:hover {
   background-color: #0098f7;
 }
 
-.img-4 {
-  perspective: 1000px; /* Añadir perspectiva para un efecto 3D */
+/* Contenedor de la animación Lottie */
+.lottie-animation-container {
+  position: fixed; 
+  top: 50%;
+  left: 20px; 
+  width: 150px; 
+  height: 200px; 
+  transform: translateY(-50%); 
 }
 
-.img-4 img {
-  position: absolute;
-  top: 50px; 
-  left: 180px; 
-  width: 400px; 
-  height: auto; 
-  z-index: -1;
-  transform: rotateY(45deg) rotateX(10deg); /* Transformaciones 3D */
-  transition: transform 0.5s ease; /* Transición suave para la transformación */
-}
-
-.img-4 img:hover {
-  transform: rotateY(0deg) rotateX(0deg); 
-}
-
-
+/* Estilo para el texto en la parte inferior del formulario */
 .registro-texto-abajo {
-  width: 30%;
-  margin-top: 90px;
+  width: 100%;
+  margin-top: 20px;
   display: flex;
-  justify-content: space-between; 
+  flex-direction: column;
+  align-items: center;
   font-weight: bold;
-  margin-left: 140px;
 }
 
 .registro-texto-abajo p {
-  margin: 0 -200px; 
+  margin: 5px 0;
   text-align: center;
-  right: 150px;
 }
 
+/* Estilo para el pie de página */
 .registro-footer {
   text-align: center;
-  margin-top: 60px;
-  background-color: rgba(255, 255, 255, 0.8); 
-  padding: 5px;
+  margin-top: 15px;
+  background-color: rgba(255, 255, 255, 0.9); 
+  padding: 10px;
   border: 1px solid #000;
-  width: 360px;
-  margin-left: -20px
-
+  width: 100%;
 }
 
-.registro-footer a {
-  color: #007bff;
-  text-decoration: none;
+/* Estilo para los términos */
+.terminos {
+  text-align: center;
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: small;
 }
 
-.registro-footer a:hover {
-  text-decoration: underline;
-}
-.terminos{
-text-align: center;
-margin-top: -70px;
-font-weight: bold;
-font-size: small;
-}
-
-@media only screen and (max-width: 768px) {
+/* Estilos responsivos para pantallas más pequeñas */
+@media only screen and (max-width: 568px) {
   .registro-container {
-    max-width: 300px;
-    left: 50%;
-    transform: translateX(-50%);
+    max-width: 150px;
+    width: 90%; 
   }
 
-  input[type="email"],
-  input[type="text"],
-  input[type="password"] {
-    margin: 40px auto -40px auto;
-  }
-
-
-  .registro-texto-abajo {
-    margin-top: 70px;
-    margin-left: 0;
-    text-align: center; 
-  }
-  
-  .registro-texto-abajo p {
-    margin: 0px 0; 
-  }
-  .img-4 img {
-    top: 50px;
-    left: 20px;
-    width: 200px;
-  }
-}
-
-@media only screen and (max-width: 576px) {
-  .registro-container {
-    max-width: 250px;
-  }
-
-  input[type="email"],
-  input[type="text"],
-  input[type="password"],
-  input[type="date"]{
-    margin: 30px auto -30px auto;
-  }
-
-  .registro-texto-abajo {
-    margin-top: 50px;
-  }
-
-  .img-4 img {
-    top: 30px;
+  .lottie-animation-container {
+    width: 120px;
+    height: 160px;
     left: 10px;
-    width: 150px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+@media only screen and (max-width: 556px) {
+  .registro-container {
+    max-width: 200px; /* Ajusta el ancho en pantallas pequeñas */
+    width: 50%; /* Asegura que el formulario no se alargue demasiado */
+  }
+
+  .lottie-animation-container {
+    width: 100px;
+    height: 150px;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }

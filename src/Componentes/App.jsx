@@ -1,27 +1,21 @@
+
+import PropTypes from 'prop-types';
 import { Routes, Route } from 'react-router-dom';
 import Login from '../Componentes/Login';
+import Registro from './Registro';
 import Home from '../home';
-import Registro from './Registro';  
-import Normas from '../Facechat/Normas';
 import Privacidad from '../Facechat/Privacidad';
+import Normas from '../Facechat/Normas';
 import Perfil from '../publicaciones/Perfil';
 import Configuraciones from '../publicaciones/Configuraciones';
-import Admin from '../publicaciones/Admin'
-import { useUser } from '../Contexto/UserContext';
-import 'materialize-css/dist/css/materialize.min.css';
-
-
-
-
-
+import Admin from '../publicaciones/Admin';
 
 function App({ onSwitchForm, isLogin }) {
-  const { user } = useUser();
+  console.log('App props:', { onSwitchForm, isLogin });
   return (
     <Routes>
       <Route path="/" element={isLogin ? <Login onSwitchForm={onSwitchForm} /> : <Registro onSwitchForm={onSwitchForm} />} />
       <Route path="/home" element={<Home />} />
-      <Route path="/registro" element={isLogin ? <Registro onSwitchForm={onSwitchForm} /> : <Login onSwitchForm={onSwitchForm} />} />
       <Route path="/privacidad" element={<Privacidad />} />
       <Route path="/normas" element={<Normas />} />
       <Route path="/perfil" element={<Perfil />} />
@@ -30,5 +24,10 @@ function App({ onSwitchForm, isLogin }) {
     </Routes>
   );
 }
+
+App.propTypes = {
+  onSwitchForm: PropTypes.func.isRequired,
+  isLogin: PropTypes.bool.isRequired,
+};
 
 export default App;
