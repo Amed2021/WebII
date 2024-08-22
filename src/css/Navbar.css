@@ -1,15 +1,16 @@
 /* src/Navbar.css */
 .nav-wrapper {
-  background-color: #d66367; 
+  background-color: #fff; 
   margin-top: -13%; 
   width: 100%;
   position: absolute;
   display: block;
   z-index: 1;
+  color: black;
 }
 
 .MenuIcons {
-  color: #fff; 
+  color: #000; 
   font-size: 24px; 
   border: none; 
   background: none; 
@@ -17,7 +18,7 @@
 }
 
 .MenuIcons:hover {
-  color: #f5c6c7; 
+  color: #645757; 
 }
 
 button {
@@ -30,4 +31,8 @@ button {
 
 .material-icons.medium {
   vertical-align: middle; 
+}
+nav{
+  background-color: #d6d6d6;
+  border-color: black;
 }

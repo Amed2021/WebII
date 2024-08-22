@@ -49,7 +49,7 @@ function Sidebar() {
         ))}
       </ul>
       <a href="#" data-target="right-sidenav" className="sidenav-trigger">
-        <i className="material-icons small">group</i>
+        <i className="material-icons small ">group</i>
       </a>
     </div>
   );

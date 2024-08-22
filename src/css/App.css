@@ -1,4 +1,7 @@
 /* Contenedor principal */
+body{
+  overflow-y: hidden;
+}
 .login-wrapper {
   display: flex;
   justify-content: center;
