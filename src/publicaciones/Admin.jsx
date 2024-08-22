@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import '../CSS/Admin.css';
-import { onFindByUserEmail, onFindAllReports, onDelete } from '../config/api';
+import { onFindByUserEmail, onFindAllReports, onDelete, onUpdate } from '../config/api';
 import Swal from 'sweetalert2';
 
 const Admin = () => {
@@ -37,6 +37,30 @@ const Admin = () => {
       }
     } else {
       Swal.fire('Error', 'Por favor, ingresa un correo electrónico válido', 'error');
+    }
+  };
+
+  const handleBlockUser = async () => {
+    if (userProfile) {
+      try {
+        await onUpdate('perfiles', userProfile.id, { ...userProfile, isActive: false });
+        Swal.fire('Usuario bloqueado', `El usuario ${userProfile.name} ha sido bloqueado`, 'success');
+        setUserProfile({ ...userProfile, isActive: false });
+      } catch (error) {
+        Swal.fire('Error', `Hubo un problema al bloquear al usuario: ${error.message}`, 'error');
+      }
+    }
+  };
+
+  const handleUnblockUser = async () => {
+    if (userProfile) {
+      try {
+        await onUpdate('perfiles', userProfile.id, { ...userProfile, isActive: true });
+        Swal.fire('Usuario desbloqueado', `El usuario ${userProfile.name} ha sido desbloqueado`, 'success');
+        setUserProfile({ ...userProfile, isActive: true });
+      } catch (error) {
+        Swal.fire('Error', `Hubo un problema al desbloquear al usuario: ${error.message}`, 'error');
+      }
     }
   };
 
@@ -90,6 +114,15 @@ const Admin = () => {
             <p><strong>Nombre:</strong> {userProfile.name}</p>
             <p><strong>Correo electrónico:</strong> {userProfile.email}</p>
             <p><strong>Estado:</strong> {userProfile.isActive !== false ? 'Activo' : 'Bloqueado'}</p>
+            {userProfile.isActive !== false ? (
+              <button className="block-button" onClick={handleBlockUser}>
+                Bloquear usuario
+              </button>
+            ) : (
+              <button className="unblock-button" onClick={handleUnblockUser}>
+                Desbloquear usuario
+              </button>
+            )}
           </div>
         )}
         {showAllReports && (

@@ -137,8 +137,14 @@ export function Configuraciones() {
     }
 
     try {
-      const user = await onFindByUserName(userName); 
-      setSearchedUser(user);
+      const user = await onFindByUserName(userName);
+      console.log('Usuario encontrado:', user);
+
+      if (user.length > 0) {
+        setSearchedUser(user[0]);
+      } else {
+        setSearchedUser(null);
+      }
     } catch (error) {
       console.error('Error al buscar el usuario:', error);
       setSearchedUser(null);
