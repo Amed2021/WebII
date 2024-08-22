@@ -28,10 +28,6 @@
   box-sizing: border-box;
 }
 
-.amigos-container > *:not(.search-container) {
-  margin-top: auto; 
-}
-
 .volver-button {
   position: fixed; 
   bottom: 20px; 
@@ -46,6 +42,7 @@
 /* Estilos para los resultados de búsqueda */
 .results-container {
   margin-top: 20px; /* Espacio superior para los resultados de búsqueda */
+  margin-bottom: 20px; 
 }
 
 .results-list {

@@ -57,24 +57,21 @@ export const onFindByUserEmail = async (email) => {
 
 // Función para buscar un usuario por su nombre en la colección 'perfiles'
 export const onFindByUserName = async (userName) => {
+  console.log('Buscando usuarios con el nombre:', userName);
   try {
-    const result = await getDocs(
-      query(collection(db, 'perfiles'), where("name", "==", userName))
+    const q = query(
+      collection(db, 'perfiles'),
+      where('name', '>=', userName),
+      where('name', '<=', userName + '\uf8ff')
     );
-    let items = result.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
-
-    // Verificar si se encontraron usuarios
-    if (items.length === 0) {
-      console.warn('No se encontró ningún usuario con ese nombre.');
-    }
-
-    return items;
+    const querySnapshot = await getDocs(q);
+    console.log('Número de documentos encontrados:', querySnapshot.size);
+    const users = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    console.log('Usuarios encontrados:', users);
+    return users;
   } catch (error) {
-    console.error('Error al buscar usuarios por nombre:', error);
-    return []; // Devuelve una lista vacía en caso de error
+    console.error('Error buscando usuarios:', error);
+    return [];
   }
 };
 
