@@ -1,6 +1,4 @@
 
-// src/components/PerfilUsuario.jsx
-import React from 'react';
 import { sendFriendRequest } from '../config/friendshipUtils'; 
 import Swal from 'sweetalert2';
 
@@ -23,5 +21,3 @@ const PerfilUsuario = ({ toUserId, userId }) => {
 };
 
 export default PerfilUsuario;
-
-

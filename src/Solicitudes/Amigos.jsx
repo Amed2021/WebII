@@ -1,9 +1,39 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+import { onFindByUserName } from '../config/api';
+
 import '../CSS/Amigos.css';
 
 export const Amigos = ({ onBack }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchResults = async () => {
+      if (searchTerm.trim() === '') {
+        setSearchResults([]);
+        return;
+      }
+      
+      setLoading(true);
+      try {
+        const results = await onFindByUserName(searchTerm);
+        
+        // Verifica que `results` sea una lista
+        console.log('Resultados de la búsqueda:', results);
+        setSearchResults(Array.isArray(results) ? results : []);
+      } catch (error) {
+        console.error('Error al buscar usuarios:', error);
+        setSearchResults([]); // Limpia los resultados en caso de error
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchResults();
+  }, [searchTerm]);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -31,6 +61,18 @@ export const Amigos = ({ onBack }) => {
       >
         <i className="material-icons">arrow_back</i> Volver
       </a>
+      {loading && <p>Cargando...</p>}
+      <div className="search-results">
+        {searchResults.length > 0 ? (
+          searchResults.map((user) => (
+            <div key={user.id} className="result-item">
+              <p className="result-name">{user.name}</p>
+            </div>
+          ))
+        ) : (
+          !loading && <p className="no-results">No se encontraron resultados</p>
+        )}
+      </div>
     </div>
   );
 };

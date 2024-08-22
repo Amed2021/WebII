@@ -30,7 +30,7 @@ export const onFindById = async (collectionStr, paramId) => {
   if (result.data()) {
     let item = {
       id: result.id,
-      ...result.data(),  // Mantener todos los datos del documento
+      ...result.data(),  
     };
   
     return item;
@@ -67,17 +67,28 @@ export const onFindByUserEmail = async (email) => {
 
 // Función para buscar un usuario por su nombre en la colección 'perfiles'
 export const onFindByUserName = async (userName) => {
-  const result = await getDocs(
-    query(collection(db, 'perfiles'), where("name", "==", userName))
-  );
+  try {
+    const result = await getDocs(
+      query(collection(db, 'perfiles'), where("name", "==", userName))
+    );
 
-  let items = result.docs.map((doc) => {
-    return { ...doc.data(), id: doc.id };
-  });
+    // Verifica los resultados en la consola
+    console.log('Resultados de la búsqueda:', result);
 
-  return items.length > 0 ? items[0] : null; // Devolver el primer resultado si existe
+    let items = result.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+
+    // Verifica los ítems antes de devolverlos
+    console.log('Ítems obtenidos:', items);
+
+    return items;
+  } catch (error) {
+    console.error('Error al buscar usuarios por nombre:', error);
+    return []; // Devuelve una lista vacía en caso de error
+  }
 };
-
 // Función para insertar un nuevo documento en la colección
 export const onInsert = async (collectionStr, document) => {
   delete document.id;

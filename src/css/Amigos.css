@@ -42,3 +42,31 @@
   text-decoration: none; 
   color: inherit; 
 }
+
+/* Estilos para los resultados de búsqueda */
+.results-container {
+  margin-top: 20px; /* Espacio superior para los resultados de búsqueda */
+}
+
+.results-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.result-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.result-name {
+  font-size: 16px;
+}
+
+.no-results {
+  text-align: center;
+  color: #888;
+}
