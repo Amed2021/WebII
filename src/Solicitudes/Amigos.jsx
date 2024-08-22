@@ -1,7 +1,8 @@
-import  { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
 import '../CSS/Amigos.css';
 
-export const Amigos = () => {
+export const Amigos = ({ onBack }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearchChange = (e) => {
@@ -20,10 +21,20 @@ export const Amigos = () => {
           onChange={handleSearchChange}
         />
       </div>
-      <div>
-        <p>Amigos</p>
- 
-      </div>
+      <a
+        href="#"
+        className="volver-button"
+        onClick={(e) => {
+          e.preventDefault();
+          if (onBack) onBack(); 
+        }}
+      >
+        <i className="material-icons">arrow_back</i> Volver
+      </a>
     </div>
   );
+};
+
+Amigos.propTypes = {
+  onBack: PropTypes.func.isRequired,
 };

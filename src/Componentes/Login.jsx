@@ -8,7 +8,7 @@ import { auth } from '../config/firebase';
 import { useUser } from '../Contexto/UserContext';
 import { onFindByUserId } from '../config/api';
 import Lottie from 'lottie-react';
-import animationData from '../imagenes/drawkit-grape-animation-3-LOOP.json';
+import animationData from  '../imagenes/drawkit-grape-animation-3-LOOP.json';
 
 import '../CSS/App.css';
 import GoogleIcon from '../imagenes/google.png';
@@ -171,9 +171,12 @@ function Login({ onSwitchForm }) {
             </p>
           </div>
         </form>
+      
       </div>
     </div>
+     
   );
+ 
 }
 
 Login.propTypes = {
