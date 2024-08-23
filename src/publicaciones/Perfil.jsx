@@ -1,4 +1,4 @@
-import { useState, useEffect, useHistory } from 'react';
+import { useState, useEffect } from 'react';
 import "../CSS/Perfil.css";
 
 import Navbar from '../Componentes/Navbar';
@@ -7,9 +7,11 @@ import { useUser } from '../Contexto/UserContext';
 import { onFindByUserId, onInsert, onUpdate } from '../config/api';
 import defaultProfile from '../imagenes/default-profile.png';
 import sendIcon from '../imagenes/send-icon.png';
+import { useNavigate } from 'react-router-dom';
 
 function Perfil() {
   const { user, setUser } = useUser(); 
+  const navigate = useNavigate();
 
   const initialData = {
     id: '', // Solo Firebase ID, no confundir con el ID de usuario
@@ -28,12 +30,12 @@ function Perfil() {
   const [amigos, setAmigos] = useState([]); 
   const [publicaciones, setPublicaciones] = useState([]);
 
+  async function fetchData(user) {
+    return await onFindByUserId('perfiles', user.uid);
+  }
+
   useEffect( () => {
     if (user) {
-      async function fetchData(user) {
-        return await onFindByUserId('perfiles', user.uid);
-      }
-
       fetchData(user).then((data) => {
         let dbProfile = data[0] || undefined;
 
@@ -73,14 +75,23 @@ function Perfil() {
       });
     } else {
       // Redirect home
-      let history = useHistory();
-      history.push("/");
+      navigate('/');
     }
   }, [user]);
 
   const handleImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
-      setProfile(prevInfo => ({ ...prevInfo, photoUrl: URL.createObjectURL(event.target.files[0]) }));
+      const file = event.target.files[0];
+      const reader = new FileReader();
+  
+      reader.onloadend = async () => {
+        const imageSrcString = reader.result;
+        let newProfile = {...profile, photoUrl: imageSrcString}
+        setProfile(newProfile);
+        await onUpdate('perfiles', profile.id, newProfile);
+      };
+  
+      reader.readAsDataURL(file);
     }
   };
 
@@ -90,6 +101,7 @@ function Perfil() {
   };
 
   const handleSaveChanges = async () => {
+    console.log(profile);
     await onUpdate('perfiles', profile.id, profile);
     Swal.fire({
       title: 'Éxito',
