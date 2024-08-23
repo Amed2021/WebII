@@ -2,7 +2,9 @@ body, html {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', sans-serif; /* Cambio de tipografía a Roboto */
+  background-color: #f5f7fa; /* Fondo suave */
+  color: #333; /* Color de texto más oscuro */
 }
 
 .App {
@@ -15,7 +17,7 @@ body, html {
   display: flex;
   flex-direction: column;
   width: 250px;
-  background-color: #f0f0f0;
+  background-color: #343a40; /* Fondo oscuro para la barra lateral */
   padding: 10px;
   position: fixed;
   height: 100%;
@@ -23,23 +25,25 @@ body, html {
 }
 
 .sidebar-button {
-  background-color: #d3d3d3;
+  background-color: #495057; /* Fondo gris oscuro */
   border: none;
   padding: 15px;
   text-align: left;
   cursor: pointer;
   margin-bottom: 10px;
   font-size: 16px;
+  color: #fff; /* Texto blanco */
   transition: background-color 0.3s, color 0.3s;
+  border-radius: 5px; /* Bordes redondeados */
 }
 
 .sidebar-button.active {
-  background-color: #1e90ff;
+  background-color: #007bff; /* Azul para el botón activo */
   color: white;
 }
 
 .sidebar-button:hover {
-  background-color: #1e90ff;
+  background-color: #0056b3; /* Azul más oscuro al pasar el mouse */
   color: white;
 }
 
@@ -50,6 +54,9 @@ body, html {
   display: flex;
   flex-direction: column;
   transition: margin-left 0.3s;
+  background-color: #fff; /* Fondo blanco para el contenido principal */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
 .admin-list {
@@ -61,33 +68,42 @@ body, html {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
+  padding: 15px;
+  border-bottom: 1px solid #dee2e6; /* Línea sutil de separación */
+  background-color: #fff;
+  border-radius: 5px; /* Bordes redondeados */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra ligera */
 }
 
 .block-button {
-  background-color: #1e90ff;
+  background-color: #dc3545; /* Rojo */
   color: white;
   border: none;
-  padding: 5px 10px;
+  padding: 8px 15px;
   cursor: pointer;
+  border-radius: 3px;
+  font-size: 14px;
 }
 
 .unblock-button {
-  background-color: #32cd32;
+  background-color: #28a745; /* Verde */
   color: white;
   border: none;
-  padding: 5px 10px;
+  padding: 8px 15px;
   cursor: pointer;
+  border-radius: 3px;
+  font-size: 14px;
 }
 
 .search-input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   font-size: 16px;
   margin-bottom: 20px;
   border-radius: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid #ced4da; /* Borde gris */
+  background-color: #fff; /* Fondo blanco */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra interna */
 }
 
 .reports-section ul {
@@ -98,13 +114,13 @@ body, html {
 
 .reports-section li {
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 1px solid #ced4da;
   border-radius: 5px;
   padding: 15px;
   margin-bottom: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
   position: relative;
-  padding-top: 40px; /* Añadir espacio para el botón */
+  padding-top: 40px; /* Espacio para el botón */
 }
 
 .block-user-button {
@@ -127,6 +143,63 @@ body, html {
 
 .all-reports {
   margin-top: 20px;
+}
+
+.add-news-button, .delete-news-button {
+  background-color: #007bff; /* Azul */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.add-news-button:hover, .delete-news-button:hover {
+  background-color: #0056b3; /* Azul más oscuro */
+}
+
+.news-section h3 {
+  color: #343a40; /* Título oscuro */
+  margin-bottom: 20px;
+}
+
+.news-form input, .news-form textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+  background-color: #fff;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.news-list ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.news-item {
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.news-item h4 {
+  margin: 0 0 10px 0;
+}
+
+.news-image {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  margin-top: 10px;
 }
 
 @media (max-width: 768px) {

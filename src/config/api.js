@@ -9,7 +9,11 @@ import {
   getDocs,
   query,
   updateDoc,
+<<<<<<< HEAD
  
+=======
+  serverTimestamp,
+>>>>>>> 1021cb7c72f46abcd80b7bae6fc224cabf473131
 } from "firebase/firestore";
 
 
@@ -134,6 +138,7 @@ export const onFindAllReports = async () => {
   return items;
 };
 
+<<<<<<< HEAD
 
  // Función para enviar una solicitud de amistad
 export const onSendFriendRequest = async (friendRequestData) => {
@@ -172,4 +177,23 @@ export const checkFriendRequestExists = async (fromUserId, toUserId) => {
     console.error("Error al verificar la existencia de la solicitud de amistad:", error);
     throw error;
   }
+=======
+// Función para agregar una nueva noticia a la colección 'news'
+export const onAddNews = async (newsData) => {
+  try {
+    await addDoc(collection(db, "news"), {
+      ...newsData,
+      timestamp: serverTimestamp(),
+    });
+    console.log("Noticia agregada exitosamente");
+  } catch (error) {
+    console.error("Error al agregar la noticia: ", error);
+    throw new Error("No se pudo agregar la noticia");
+  }
+};
+
+// Función para obtener todas las noticias de la colección 'news'
+export const onGetAllNews = async () => {
+  return await onFindAll('news');
+>>>>>>> 1021cb7c72f46abcd80b7bae6fc224cabf473131
 };
