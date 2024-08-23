@@ -1,0 +1,138 @@
+/* Estilos generales para la sección de noticias */
+.news-section {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: calc(100vh - 100px); /* Ajuste para ocupar toda la altura de la ventana menos el espacio del encabezado */
+    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido excede la altura */
+}
+
+/* Estilos para cada noticia individual */
+.news-item {
+    background-color: #fff;
+    border-radius: 10px;
+    margin: 20px 0;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Asegura que el contenido se mantenga dentro del cuadro */
+}
+
+/* Encabezado de la noticia que contiene el avatar y detalles del autor */
+.news-item-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* Estilos para la imagen del avatar */
+.news-item-header .avatar {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-right: 15px;
+    border: 2px solid #2196F3; /* Borde azul para destacar la imagen de perfil */
+}
+
+/* Estilos para los detalles del autor */
+.news-item-details h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #000;
+}
+
+.news-item-details p {
+    margin: 5px 0 0;
+    font-size: 16px;
+    color: #666;
+}
+
+/* Estilos para el contenido de la noticia */
+.news-content {
+    margin: 10px 0;
+    color: #333;
+    font-size: 16px;
+}
+
+/* Estilos para la imagen dentro de la noticia */
+.news-image {
+    width: 100%;
+    height: auto; /* Mantiene la proporción de la imagen */
+    border-radius: 10px;
+    margin-top: 10px;
+    object-fit: cover; /* Asegura que la imagen se ajuste al cuadro */
+}
+
+/* Estilo para la lista de noticias */
+.news-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Espaciado entre las noticias */
+}
+
+/* Botón para agregar una noticia */
+.add-news-button {
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 24px; /* Bordes redondeados */
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-news-button:hover {
+    background-color: #1976D2; /* Color más oscuro al pasar el cursor */
+}
+
+/* Estilos para el formulario de agregar noticias */
+.news-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 24px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+.news-form input,
+.news-form textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px; /* Bordes ligeramente redondeados */
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.news-form input:focus,
+.news-form textarea:focus {
+    outline: none;
+    border-color: #2196F3; /* Color azul en foco */
+    box-shadow: 0 0 5px rgba(33, 150, 243, 0.5); /* Sombra azul en foco */
+}
+
+.news-form button {
+    padding: 10px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.news-form button:hover {
+    background-color: #1976D2;
+}

@@ -9,6 +9,7 @@ import {
   getDocs,
   query,
   updateDoc,
+  serverTimestamp,
 } from "firebase/firestore";
 
 // Función para obtener todos los documentos de una colección
@@ -122,4 +123,23 @@ export const onFindAllReports = async () => {
     return { ...doc.data(), id: doc.id };
   });
   return items;
+};
+
+// Función para agregar una nueva noticia a la colección 'news'
+export const onAddNews = async (newsData) => {
+  try {
+    await addDoc(collection(db, "news"), {
+      ...newsData,
+      timestamp: serverTimestamp(),
+    });
+    console.log("Noticia agregada exitosamente");
+  } catch (error) {
+    console.error("Error al agregar la noticia: ", error);
+    throw new Error("No se pudo agregar la noticia");
+  }
+};
+
+// Función para obtener todas las noticias de la colección 'news'
+export const onGetAllNews = async () => {
+  return await onFindAll('news');
 };

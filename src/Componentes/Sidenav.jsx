@@ -52,7 +52,7 @@ const Sidenav = () => {
       case 'Guardado':
         return <Guardado />;
       case 'Noticias':
-        return <Noticias />;
+        return <Noticias onBack={handleBackClick} />; 
       case 'Videos':
         return <Videos />;
       case 'Notificaciones':

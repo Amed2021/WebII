@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import '../CSS/Admin.css';
-import { onFindByUserEmail, onFindAllReports, onDelete, onUpdate } from '../config/api';
+import { onFindByUserEmail, onFindAllReports, onDelete, onUpdate, onGetAllNews, onAddNews } from '../config/api';
 import Swal from 'sweetalert2';
 
 const Admin = () => {
@@ -8,6 +8,16 @@ const Admin = () => {
   const [userProfile, setUserProfile] = useState(null);
   const [reports, setReports] = useState([]);
   const [showAllReports, setShowAllReports] = useState(false);
+  const [news, setNews] = useState([]);
+  const [newNews, setNewNews] = useState({
+    author: 'Admin',
+    photoUrl: '', 
+    title: '',
+    content: '',
+    imageUrl: '',
+  });
+  const [showNews, setShowNews] = useState(false);
+  const [isFormVisible, setFormVisible] = useState(false); 
 
   useEffect(() => {
     // Cargar todas las denuncias al cargar el componente
@@ -25,12 +35,29 @@ const Admin = () => {
     }
   }, [showAllReports]);
 
+  useEffect(() => {
+    // Cargar todas las noticias al mostrar la sección de noticias
+    const loadNews = async () => {
+      try {
+        const allNews = await onGetAllNews();
+        setNews(allNews);
+      } catch (error) {
+        console.error("Error al cargar las noticias:", error);
+      }
+    };
+
+    if (showNews) {
+      loadNews();
+    }
+  }, [showNews]);
+
   const handleSearchUser = async () => {
     if (email) {
       const profiles = await onFindByUserEmail(email); 
       if (profiles.length > 0) {
         setUserProfile(profiles[0]);
         setShowAllReports(false); 
+        setShowNews(false);
       } else {
         Swal.fire('No encontrado', 'Usuario no encontrado', 'error');
         setUserProfile(null);
@@ -78,26 +105,65 @@ const Admin = () => {
   const handleShowAllReports = () => {
     setShowAllReports(true);
     setUserProfile(null);
+    setShowNews(false);
   };
 
   const handleShowUsers = () => {
     setShowAllReports(false);
     setUserProfile(null);
+    setShowNews(false);
+  };
+
+  const handleShowNews = () => {
+    setShowNews(true);
+    setShowAllReports(false);
+    setUserProfile(null);
+  };
+
+  const handleDeleteNews = async (newsId, newsIndex) => {
+    try {
+      await onDelete('news', newsId); 
+      Swal.fire('Noticia eliminada', 'La noticia ha sido eliminada con éxito', 'success');
+      // Remover la noticia de la vista
+      setNews(news.filter((_, index) => index !== newsIndex));
+    } catch (error) {
+      Swal.fire('Error', `Hubo un problema al eliminar la noticia: ${error.message}`, 'error');
+    }
+  };
+
+  const handleAddNews = async (e) => {
+    e.preventDefault();
+    try {
+      await onAddNews(newNews);
+      Swal.fire('Noticia agregada', 'La noticia se agregó correctamente', 'success');
+      setNewNews({
+        author: 'Admin',
+        photoUrl: '',
+        title: '',
+        content: '',
+        imageUrl: '',
+      });
+      setFormVisible(false); 
+      const fetchedNews = await onGetAllNews();
+      setNews(fetchedNews);
+    } catch (error) {
+      Swal.fire('Error', `Hubo un problema al agregar la noticia: ${error.message}`, 'error');
+    }
   };
 
   return (
     <div className="App">
       <div className="sidebar">
-        <button className={`sidebar-button ${!showAllReports && 'active'}`} onClick={handleShowUsers}>Usuarios</button>
+        <button className={`sidebar-button ${!showAllReports && !showNews && 'active'}`} onClick={handleShowUsers}>Usuarios</button>
         <button className="sidebar-button">Otros datos</button>
-        <button className="sidebar-button">Agregar noticias</button>
+        <button className={`sidebar-button ${showNews && 'active'}`} onClick={handleShowNews}>Noticias</button>
         <button className={`sidebar-button ${showAllReports && 'active'}`} onClick={handleShowAllReports}>Denuncias</button>
       </div>
       <div className="main-content">
         <div className="header">
-          <h2>Administración de Usuarios</h2>
+          <h2>Administración</h2>
         </div>
-        {!showAllReports && (
+        {!showAllReports && !showNews && (
           <div className="search-section">
             <input 
               type="email" 
@@ -150,6 +216,64 @@ const Admin = () => {
                 </ul>
               ) : (
                 <p>No hay denuncias registradas.</p>
+              )}
+            </div>
+          </div>
+        )}
+        {showNews && (
+          <div className="news-section">
+            <h3>Noticias</h3>
+            {!isFormVisible && (
+              <button onClick={() => setFormVisible(true)} className="add-news-button">
+                Agregar Noticia
+              </button>
+            )}
+            {isFormVisible && (
+              <form onSubmit={handleAddNews} className="news-form">
+                <input
+                  type="text"
+                  name="title"
+                  value={newNews.title}
+                  onChange={(e) => setNewNews({ ...newNews, title: e.target.value })}
+                  placeholder="Título de la noticia"
+                  required
+                />
+                <textarea
+                  name="content"
+                  value={newNews.content}
+                  onChange={(e) => setNewNews({ ...newNews, content: e.target.value })}
+                  placeholder="Contenido de la noticia"
+                  required
+                ></textarea>
+                <input
+                  type="text"
+                  name="imageUrl"
+                  value={newNews.imageUrl}
+                  onChange={(e) => setNewNews({ ...newNews, imageUrl: e.target.value })}
+                  placeholder="URL de la imagen"
+                />
+                <button type="submit">Agregar Noticia</button>
+              </form>
+            )}
+            <div className="news-list">
+              {news.length > 0 ? (
+                <ul>
+                  {news.map((item, index) => (
+                    <li key={item.id} className="news-item">
+                      <button
+                        className="delete-news-button"
+                        onClick={() => handleDeleteNews(item.id, index)}
+                      >
+                        Eliminar
+                      </button>
+                      <h4>{item.title}</h4>
+                      <p>{item.content}</p>
+                      {item.imageUrl && <img src={item.imageUrl} alt={item.title} className="news-image" />}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No hay noticias registradas.</p>
               )}
             </div>
           </div>
