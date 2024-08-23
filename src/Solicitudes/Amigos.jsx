@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { onFindByUserName } from '../config/api';
 import '../CSS/Amigos.css';
 
@@ -7,6 +8,7 @@ export const Amigos = ({ onBack }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -14,7 +16,7 @@ export const Amigos = ({ onBack }) => {
         setSearchResults([]);
         return;
       }
-      
+
       setLoading(true);
       try {
         const results = await onFindByUserName(searchTerm);
@@ -35,45 +37,49 @@ export const Amigos = ({ onBack }) => {
     setSearchTerm(e.target.value);
   };
 
+  const handleUserClick = (userId) => {
+    navigate(`/perfilusuario/${userId}`); // Redirigir al perfil del usuario
+  };
+
   return (
-<div className="amigos-container">
-  <div className="search-container">
-    <i className="material-icons search-icon">search</i>
-    <input
-      type="text"
-      placeholder="Buscar personas..."
-      className="search-input"
-      value={searchTerm}
-      onChange={handleSearchChange}
-    />
-  </div>
+    <div className="amigos-container">
+      <div className="search-container">
+        <i className="material-icons search-icon">search</i>
+        <input
+          type="text"
+          placeholder="Buscar personas..."
+          className="search-input"
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+      </div>
 
-  <a
-    href="#"
-    className="volver-button"
-    onClick={(e) => {
-      e.preventDefault();
-      if (onBack) onBack(); 
-    }}
-  >
-    <i className="material-icons">arrow_back</i> Volver
-  </a>
+      <a
+        href="#"
+        className="volver-button"
+        onClick={(e) => {
+          e.preventDefault();
+          if (onBack) onBack();
+        }}
+      >
+        <i className="material-icons">arrow_back</i> Volver
+      </a>
 
-  {loading && <p>Cargando...</p>}
-  <div className="results-container">
-    {searchResults.length > 0 ? (
-      <ul className="results-list">
-        {searchResults.map((user) => (
-          <li key={user.id} className="result-item">
-            <p className="result-name">{user.name}</p>
-          </li>
-        ))}
-      </ul>
-    ) : (
-      !loading && <p className="no-results">No se encontraron resultados</p>
-    )}
-  </div>
-</div>
+      {loading && <p>Cargando...</p>}
+      <div className="results-container">
+        {searchResults.length > 0 ? (
+          <ul className="results-list">
+            {searchResults.map((user) => (
+              <li key={user.id} className="result-item" onClick={() => handleUserClick(user.id)}>
+                <p className="result-name">{user.name}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          !loading && <p className="no-results">No se encontraron resultados</p>
+        )}
+      </div>
+    </div>
   );
 };
 

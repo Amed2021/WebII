@@ -9,7 +9,10 @@ import {
   getDocs,
   query,
   updateDoc,
+ 
 } from "firebase/firestore";
+
+
 
 // Función para obtener todos los documentos de una colección
 export const onFindAll = async (collectionStr) => {
@@ -20,17 +23,23 @@ export const onFindAll = async (collectionStr) => {
   return items;
 };
 
+
 // Función para obtener un documento por su ID
 export const onFindById = async (collectionStr, paramId) => {
-  const result = await getDoc(doc(db, collectionStr, paramId));
-  if (result.data()) {
-    let item = {
-      id: result.id,
-      ...result.data(),
-    };
-    return item;
+  try {
+    const docRef = doc(db, collectionStr, paramId);
+    const result = await getDoc(docRef);
+    if (result.exists()) {
+      return {
+        id: result.id,
+        ...result.data(),
+      };
+    }
+    return null; // Devuelve null si el documento no existe
+  } catch (error) {
+    console.error('Error al obtener el documento:', error);
+    throw error; // Lanza el error para que pueda ser capturado en el componente
   }
-  return null;
 };
 
 // Función para obtener documentos por el userId
@@ -65,15 +74,16 @@ export const onFindByUserName = async (userName) => {
       where('name', '<=', userName + '\uf8ff')
     );
     const querySnapshot = await getDocs(q);
-    console.log('Número de documentos encontrados:', querySnapshot.size);
+  
     const users = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    console.log('Usuarios encontrados:', users);
+   
     return users;
   } catch (error) {
     console.error('Error buscando usuarios:', error);
     return [];
   }
 };
+
 
 // Función para insertar un nuevo documento en la colección
 export const onInsert = async (collectionStr, document) => {
@@ -122,4 +132,44 @@ export const onFindAllReports = async () => {
     return { ...doc.data(), id: doc.id };
   });
   return items;
+};
+
+
+ // Función para enviar una solicitud de amistad
+export const onSendFriendRequest = async (friendRequestData) => {
+  try {
+    await addDoc(collection(db, "friendRequests"), friendRequestData);
+    console.log("Solicitud de amistad enviada con éxito");
+  } catch (error) {
+    console.error("Error al enviar la solicitud de amistad:", error);
+    throw error;
+  }
+};
+
+// Función para cancelar una solicitud de amistad
+export const onCancelFriendRequest = async (friendRequestId) => {
+  try {
+    const docRef = doc(db, "friendRequests", friendRequestId);
+    await deleteDoc(docRef);
+    console.log("Solicitud de amistad cancelada con éxito");
+  } catch (error) {
+    console.error("Error al cancelar la solicitud de amistad:", error);
+    throw error;
+  }
+};
+
+// Función para verificar si una solicitud de amistad ya existe
+export const checkFriendRequestExists = async (fromUserId, toUserId) => {
+  try {
+    const q = query(
+      collection(db, "friendRequests"),
+      where("from", "==", fromUserId),
+      where("to", "==", toUserId)
+    );
+    const querySnapshot = await getDocs(q);
+    return !querySnapshot.empty;
+  } catch (error) {
+    console.error("Error al verificar la existencia de la solicitud de amistad:", error);
+    throw error;
+  }
 };

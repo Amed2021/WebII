@@ -9,6 +9,7 @@ import Normas from '../Facechat/Normas';
 import Perfil from '../publicaciones/Perfil';
 import Configuraciones from '../publicaciones/Configuraciones';
 import Admin from '../publicaciones/Admin';
+import PerfilUsuario from '../publicaciones/PerfilUsuario';
 
 function App({ onSwitchForm, isLogin }) {
   console.log('App props:', { onSwitchForm, isLogin });
@@ -21,6 +22,7 @@ function App({ onSwitchForm, isLogin }) {
       <Route path="/perfil" element={<Perfil />} />
       <Route path="/configuraciones" element={<Configuraciones />} />
       <Route path="/admin" element={<Admin />} />
+      <Route path="/perfilusuario/:userId" element={<PerfilUsuario />} />
     </Routes>
   );
 }
