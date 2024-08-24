@@ -12,11 +12,11 @@ function Main() {
   };
 
   return (
-    <BrowserRouter>
-      <UserProvider>
+    <UserProvider>
+      <BrowserRouter>
         <App onSwitchForm={switchForm} isLogin={isLogin} />
-      </UserProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </UserProvider>
   );
 }
 

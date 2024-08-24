@@ -130,3 +130,15 @@ button[type="submit"]:hover {
 .texto-abajo button:hover {
   color: #0098f7;
 }
+
+div.home {
+    max-height: 100vh;
+}
+
+div.content-container {
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+}
+

@@ -25,6 +25,7 @@
   margin-left: 3%;
   /*z-index: -1;*/
   position: relative;
+  max-height: 27vh;
 }
 
 .stories-carousel .carousel-item {

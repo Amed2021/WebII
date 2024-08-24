@@ -9,6 +9,7 @@ import Perfil from '../publicaciones/Perfil';
 import Configuraciones from '../publicaciones/Configuraciones';
 import Admin from '../publicaciones/Admin';
 import PerfilUsuario from '../publicaciones/PerfilUsuario';
+import NuevoPost from '../publicaciones/NuevoPost';
 
 function App({ onSwitchForm, isLogin }) {
   console.log('App props:', { onSwitchForm, isLogin });
@@ -22,6 +23,7 @@ function App({ onSwitchForm, isLogin }) {
       <Route path="/configuraciones" element={<Configuraciones />} />
       <Route path="/admin" element={<Admin />} />
       <Route path="/perfilusuario/:userId" element={<PerfilUsuario />} />
+      <Route path="/nuevo-post" element={<NuevoPost />} />
     </Routes>
   );
 }

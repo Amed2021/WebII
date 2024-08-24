@@ -11,10 +11,12 @@ import {
   updateDoc,
   serverTimestamp,
   arrayUnion,
+<<<<<<< HEAD
   arrayRemove,
+=======
+  increment,
+>>>>>>> a5abcf8c6076dcce1c2c382ff2bd5fa9eaa718fd
 } from "firebase/firestore";
-
-
 
 // Función para obtener todos los documentos de una colección
 export const onFindAll = async (collectionStr) => {
@@ -24,7 +26,6 @@ export const onFindAll = async (collectionStr) => {
   });
   return items;
 };
-
 
 // Función para obtener un documento por su ID
 export const onFindById = async (collectionStr, paramId) => {
@@ -43,6 +44,13 @@ export const onFindById = async (collectionStr, paramId) => {
     throw error; // Lanza el error para que pueda ser capturado en el componente
   }
 };
+
+export const onFindByQuery = async (collectionStr, field, operator, value) => {
+  const q = query(collection(db, collectionStr), where(field, operator, value));
+  const querySnapshot = await getDocs(q);
+  const items = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  return items;
+}
 
 // Función para obtener documentos por el userId
 export const onFindByUserId = async (collectionStr, paramId) => {
@@ -103,6 +111,18 @@ export const onUpdate = async (collectionStr, paramId, newData) => {
     throw error;
   }
 };
+
+export const onUpdateArrayField = async (collectionStr, paramId, field, value) => {
+  await updateDoc(doc(db, collectionStr, paramId), {
+    [field]: arrayUnion(value),
+  });
+}
+
+export const onUpdateIntFieldBy = async (collectionStr, paramId, field, value) => {
+  await updateDoc(doc(db, collectionStr, paramId), {
+    [field]: increment(value),
+  });
+}
 
 // Función para bloquear un contacto
 export const onBlockContact = async (contactId) => {

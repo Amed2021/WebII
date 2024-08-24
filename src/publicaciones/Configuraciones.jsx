@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../CSS/Styleconfiguraciones.css';
+import '../css/Styleconfiguraciones.css';
 import { useUser } from '../Contexto/UserContext';
 import { onFindByUserEmail, onInsert, onInsertReport, onFindByUserName } from '../config/api';
 import Swal from 'sweetalert2';

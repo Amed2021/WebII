@@ -1,6 +1,6 @@
 import  { useEffect } from 'react';
 import M from 'materialize-css';
-import '../CSS/Sidebar.css';
+import '../css/Sidebar.css';
 
 function Sidebar() {
   useEffect(() => {

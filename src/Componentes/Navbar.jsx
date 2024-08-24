@@ -1,16 +1,14 @@
 import  { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import '../CSS/Navbar.css';
+import '../css/Navbar.css';
 import Chat from '../Chats/Chat'; 
 import Historias from '../publicaciones/Historias'; 
-import Publicar from '../publicaciones/Publicar'; 
 import Configuraciones  from '../publicaciones/Configuraciones';
 
 function Navbar() {
   const [showChat, setShowChat] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
-  const [showPost, setShowPost] = useState(false);
-  const [showConfig, setShowCofig] = useState(false);
+  const [showConfig, setShowConfig] = useState(false);
   const navigate = useNavigate();
 
   const handleProfileClick = () => {
@@ -20,22 +18,17 @@ function Navbar() {
   const handleChatClick = () => {
     setShowChat(!showChat);
     setShowHistory(false); 
-    setShowPost(false);
-    setShowCofig(false);
+    setShowConfig(false);
   };
 
   const handleHistoryClick = () => {
     setShowHistory(!showHistory);
     setShowChat(false); 
-    setShowPost(false);
-    setShowCofig(false);
+    setShowConfig(false);
   };
 
   const handlePostClick = () => {
-    setShowPost(!showPost);
-    setShowChat(false); 
-    setShowHistory(false); 
-    setShowCofig(false);
+    navigate('/nuevo-post');
   };
 
   const configuraciones = async () => {
@@ -63,7 +56,6 @@ function Navbar() {
       </nav>
       {showChat && <Chat />}
       {showHistory && <Historias />}
-      {showPost && <Publicar />}
       {showConfig && <Configuraciones />}
     </div>
   );

@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 import { onGetAllNews, onAddNews } from '../config/api';
 import { useUser } from '../Contexto/UserContext';
 import PropTypes from 'prop-types'; // Importar PropTypes
-import '../CSS/Noticias.css';
+import '../css/Noticias.css';
 
 export const Noticias = ({ onBack }) => { 
   const { user } = useUser(); // Obtener el usuario autenticado

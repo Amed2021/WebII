@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import M from 'materialize-css';
-import '../CSS/Sidenav.css';
+import '../css/Sidenav.css';
 import { Amigos } from '../Solicitudes/Amigos';
 import { Grupo } from '../publicaciones/Grupo';
 import { Guardado } from '../publicaciones/Guardado';

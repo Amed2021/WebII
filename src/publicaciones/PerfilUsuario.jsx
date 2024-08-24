@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 import Swal from 'sweetalert2'; 
-import "../CSS/Perfil.css";
-import "../CSS/PerfilUsuario.css";
+import "../css/Perfil.css";
+import "../css/PerfilUsuario.css";
 import Navbar from '../Componentes/Navbar';
 import Sidenav from '../Componentes/Sidenav';  
 import Sidebar from '../Componentes/Sidebar';  
 import { useUser } from '../Contexto/UserContext'; 
 import { onSendFriendRequest, onCancelFriendRequest, checkFriendRequestExists } from '../config/api';
 import defaultProfile from '../imagenes/default-profile.png';
-import { useNavigate, useParams } from 'react-router-dom';
+import {  useParams } from 'react-router-dom';
 import useUserProfile from '../publicaciones/useUserProfile';
 
 function PerfilUsuario() {
   const { user } = useUser(); 
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const { userId } = useParams(); 
 
   const { profile, loading, error } = useUserProfile(userId);
