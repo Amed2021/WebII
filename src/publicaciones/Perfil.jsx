@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import "../css/Perfil.css";
 import Navbar from '../Componentes/Navbar';
+import Feed from '../Componentes/Feed';
 import Swal from 'sweetalert2';
 import { useUser } from '../Contexto/UserContext'; 
 import { onFindByUserId, onInsert, onUpdate } from '../config/api';
@@ -219,9 +220,7 @@ function Perfil() {
         <div className="profilePosts">
           <p><b>Publicaciones</b></p>
           <ul>
-            {publicaciones.map((publicacion, index) => (
-              <li key={index}>{publicacion}</li>
-            ))}
+            <Feed selfPosts={true} />
           </ul>
         </div>
         

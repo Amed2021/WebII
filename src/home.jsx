@@ -13,7 +13,7 @@ function Home() {
       <Sidebar />
       <div className="content-container">
         <Stories />
-        <Feed/>
+        <Feed selfPosts={false} />
       </div>
       <Navbar />
     </div>

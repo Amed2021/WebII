@@ -5,6 +5,11 @@ export const ReadAllPosts = async () => {
   return result;
 }
 
+export const ReadAllPostsFromUser = async (userId) => {
+  const result = await onFindByQuery("publicaciones", "authorId", "==", userId);
+  return result;
+}
+
 // Solo hay que pasarle la lista de amigos
 export const ReadPostsFromFriends = async (friends) => {
   const result = await onFindByQuery("publicaciones", "authorId", "in", friends);

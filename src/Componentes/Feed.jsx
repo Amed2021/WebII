@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
   { id: 5, user: '_0Shakira', image: 'https://images.unsplash.com/photo-1531722596216-1fb4fbace9b7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8c3R5bGV8ZW58MHx8MHx8fDA%3D' , likes: 0, comments: [] }
 ] */
 
-const Feed = () => {
+const Feed = (selfPosts) => {
   const { user, setUser } = useUser();
   const navigate = useNavigate();
 
@@ -35,7 +35,7 @@ const Feed = () => {
 
     const fetchPosts = async () => {
       try {
-        let fetchedPosts = await ReadAllPosts();
+        let fetchedPosts = selfPosts ? await ReadAllPosts(user.uid) : await ReadAllPosts();
         fetchedPosts = fetchedPosts.map((post) => ({ ...post, liked: false }));
         setPosts(fetchedPosts);
       } catch (error) {
@@ -55,14 +55,6 @@ const Feed = () => {
 
     verifyLogin();
 
-    let post = posts.find((post) => post.id === id);
-
-    if (post.liked) {
-      await UnlikePost(id);
-    } else {
-      await LikePost(id);
-    }
-
     const updatedPosts = posts.map((post) =>
       post.id === id
         ? {
@@ -73,6 +65,14 @@ const Feed = () => {
         : post
     );
     setPosts(updatedPosts);
+
+    let post = posts.find((post) => post.id === id);
+
+    if (post.liked) {
+      await UnlikePost(id);
+    } else {
+      await LikePost(id);
+    }
   };
 
   const handleComment = async (id, comment) => {
