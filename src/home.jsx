@@ -8,11 +8,13 @@ import Sidenav from './Componentes/Sidenav';
 
 function Home() {
   return (
-    <div>
+    <div className="home">
       <Sidenav />
       <Sidebar />
-      <Stories />
-      <Feed/>
+      <div className="content-container">
+        <Stories />
+        <Feed/>
+      </div>
       <Navbar />
     </div>
   );
