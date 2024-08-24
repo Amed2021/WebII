@@ -10,7 +10,7 @@ import { onFindByUserId } from '../config/api';
 import Lottie from 'lottie-react';
 import animationData from  '../imagenes/drawkit-grape-animation-3-LOOP.json';
 
-import '../CSS/App.css';
+import '../css/App.css';
 import GoogleIcon from '../imagenes/google.png';
 import GithubIcon from '../imagenes/github.png';
 

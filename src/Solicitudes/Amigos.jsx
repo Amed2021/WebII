@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { onFindByUserName } from '../config/api';
-import '../CSS/Amigos.css';
+import '../css/Amigos.css';
 
 export const Amigos = ({ onBack }) => {
   const [searchTerm, setSearchTerm] = useState('');

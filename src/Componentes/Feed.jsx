@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import '../CSS/Feed.css';
+import '../css/Feed.css';
 
 
 const Feed = () => {

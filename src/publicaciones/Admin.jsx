@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import '../CSS/Admin.css';
+import '../css/Admin.css';
 import { onFindByUserEmail, onFindAllReports, onDelete, onUpdate, onGetAllNews, onAddNews } from '../config/api';
 import Swal from 'sweetalert2';
 

@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Swal from 'sweetalert2'; 
-import "../CSS/Perfil.css";
-import "../CSS/PerfilUsuario.css";
+import "../css/Perfil.css";
+import "../css/PerfilUsuario.css";
 import Navbar from '../Componentes/Navbar';
 import Sidenav from '../Componentes/Sidenav';  
 import Sidebar from '../Componentes/Sidebar';  

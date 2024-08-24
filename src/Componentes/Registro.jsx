@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types'; // Importa PropTypes
-import '../CSS/Registro.css';
+import '../css/Registro.css';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebase';
 import Swal from 'sweetalert2';
