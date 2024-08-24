@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useUser } from '../Contexto/UserContext'; 
+import NavBar from '../Componentes/Navbar';
 import '../css/NuevoPost.css';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
@@ -87,40 +88,43 @@ const NuevoPost = () => {
   }
 
   return (
-    <div className="container">
-      <h2>{postType === 'post' ? 'Crea un Nuevo Post' : 'Crea una Nueva Historia'}</h2>
-      <div className="tab-bar">
-        <button
-          className={postType === 'post' ? 'tab active' : 'tab'}
-          onClick={() => setPostType('post')}
-        >
-          Post
-        </button>
-        <button
-          className={postType === 'story' ? 'tab active' : 'tab'}
-          onClick={() => setPostType('story')}
-        >
-          Story
-        </button>
+    <>
+      <div className="container">
+        <h2>{postType === 'post' ? 'Crea un Nuevo Post' : 'Crea una Nueva Historia'}</h2>
+        <div className="tab-bar">
+          <button
+            className={postType === 'post' ? 'tab active' : 'tab'}
+            onClick={() => setPostType('post')}
+          >
+            Post
+          </button>
+          <button
+            className={postType === 'story' ? 'tab active' : 'tab'}
+            onClick={() => setPostType('story')}
+          >
+            Story
+          </button>
+        </div>
+        <form onSubmit={handleSubmit} className="form">
+          { postType === 'post' ? ( <textarea
+            value={postContent}
+            onChange={handleContentChange}
+            placeholder="¿Qué estás pensando?"
+            className="textarea"
+          /> ) : null }
+          { selectedFile ? (
+            <img
+              src={selectedFile}
+              alt="Post preview"
+              className="preview"
+            />
+          ) : null }
+          <input type="file" onChange={handleFileChange} className="file-input" />
+          <button type="submit" className="button">Post</button>
+        </form>
       </div>
-      <form onSubmit={handleSubmit} className="form">
-        { postType === 'post' ? ( <textarea
-          value={postContent}
-          onChange={handleContentChange}
-          placeholder="¿Qué estás pensando?"
-          className="textarea"
-        /> ) : null }
-        { selectedFile ? (
-          <img
-            src={selectedFile}
-            alt="Post preview"
-            className="preview"
-          />
-        ) : null }
-        <input type="file" onChange={handleFileChange} className="file-input" />
-        <button type="submit" className="button">Post</button>
-      </form>
-    </div>
+      <NavBar />
+    </>
   );
 };
 
