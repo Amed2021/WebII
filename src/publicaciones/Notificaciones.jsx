@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Card, Collection, CollectionItem } from 'react-materialize';
+import  { useState } from 'react';
+import { Button,  Collection, CollectionItem } from 'react-materialize';
 
 export const Notificaciones = () => {
   const [friendRequests, setFriendRequests] = useState([

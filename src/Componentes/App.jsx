@@ -1,4 +1,3 @@
-
 import PropTypes from 'prop-types';
 import { Routes, Route } from 'react-router-dom';
 import Login from '../Componentes/Login';

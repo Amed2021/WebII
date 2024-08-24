@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import Swal from 'sweetalert2'; 
 import "../CSS/Perfil.css";
 import "../CSS/PerfilUsuario.css";
@@ -6,75 +6,28 @@ import Navbar from '../Componentes/Navbar';
 import Sidenav from '../Componentes/Sidenav';  
 import Sidebar from '../Componentes/Sidebar';  
 import { useUser } from '../Contexto/UserContext'; 
-import { onFindById, onSendFriendRequest, onCancelFriendRequest, checkFriendRequestExists } from '../config/api';
-
+import { onSendFriendRequest, onCancelFriendRequest, checkFriendRequestExists } from '../config/api';
 import defaultProfile from '../imagenes/default-profile.png';
 import { useNavigate, useParams } from 'react-router-dom';
+import useUserProfile from '../publicaciones/useUserProfile';
 
 function PerfilUsuario() {
   const { user } = useUser(); 
   const navigate = useNavigate();
   const { userId } = useParams(); 
 
-  const initialData = useMemo(() => ({
-    id: '',
-    userId: '',
-    name: '',
-    photoUrl: defaultProfile,
-    relationship: '',
-    workplace: '',
-    address: '',
-    bio: '',
-    friendRequestSent: false,
-    friendRequestReceived: false,
-  }), []);
+  const { profile, loading, error } = useUserProfile(userId);
 
-  const [profile, setProfile] = useState(initialData);
-
-  const fetchUserProfile = useCallback(async (userId) => {
-    console.log('Fetching profile for userId:', userId);
-    try {
-      const userData = await onFindById('perfiles', userId);
-      console.log('User data fetched:', userData);
-      if (!userData) {
-        console.error('Error: No se encontró el perfil del usuario');
-        return;
-      }
-      setProfile({
-        ...userData,
-        photoUrl: userData?.photoUrl || defaultProfile,
-        friendRequestSent: userData?.friendRequestsSent?.includes(user.id) || false,
-        friendRequestReceived: userData?.friendRequestsReceived?.includes(user.id) || false,
-        userId: userData.userId
-      });
-    } catch (error) {
-      console.error('Error al obtener el perfil del usuario:', error);
-    }
-  }, [user.id]);
+  const [friendRequestSent, setFriendRequestSent] = useState(false);
 
   useEffect(() => {
-
-  
-    console.log('userId desde useParams:', userId);
-  
-    if (user && userId) {
-      fetchUserProfile(userId);
-    } else {
-      navigate('/');
+    if (user && userId && profile) {
+      setFriendRequestSent(profile.friendRequestsSent?.includes(user.id) || false);
     }
-  }, [user, userId, navigate, fetchUserProfile]);
+  }, [user, userId, profile]);
 
   const handleSendFriendRequest = async () => {
-    console.log('Usuario actual (user):', user);
-    console.log('Perfil actual (profile):', profile);
-  
-    if (!user || !profile) {
-      console.error('Error: Los datos de usuario o perfil no están disponibles');
-      return;
-    }
-  
-    if (!user.id || !profile.userId) {
-      console.error('Error: Uno de los IDs es inválido o indefinido');
+    if (!user.id || !profile?.userId) {
       Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -82,8 +35,8 @@ function PerfilUsuario() {
       });
       return;
     }
-  
-    if (profile.friendRequestSent) {
+
+    if (friendRequestSent) {
       Swal.fire({
         icon: 'info',
         title: 'Solicitud Enviada',
@@ -91,7 +44,7 @@ function PerfilUsuario() {
       });
       return;
     }
-  
+
     try {
       const requestExists = await checkFriendRequestExists(user.id, profile.userId);
       if (requestExists) {
@@ -102,19 +55,15 @@ function PerfilUsuario() {
         });
         return;
       }
-  
+
       await onSendFriendRequest({ from: user.id, to: profile.userId });
-      setProfile((prevProfile) => ({
-        ...prevProfile,
-        friendRequestSent: true,
-      }));
+      setFriendRequestSent(true);
       Swal.fire({
         icon: 'success',
         title: 'Solicitud Enviada',
         text: `Solicitud de amistad enviada a ${profile.name}`,
       });
     } catch (error) {
-      console.error("Error al enviar la solicitud de amistad:", error);
       Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -124,7 +73,7 @@ function PerfilUsuario() {
   };
 
   const handleCancelFriendRequest = async () => {
-    if (!profile.friendRequestSent) {
+    if (!friendRequestSent) {
       Swal.fire({
         icon: 'info',
         title: 'No hay Solicitud',
@@ -132,20 +81,16 @@ function PerfilUsuario() {
       });
       return;
     }
+
     try {
-      // Suponiendo que `onCancelFriendRequest` maneje la cancelación correctamente.
-      await onCancelFriendRequest(`${user.id}_${profile.userId}`);
-      setProfile((prevProfile) => ({
-        ...prevProfile,
-        friendRequestSent: false,
-      }));
+      await onCancelFriendRequest(user.id, profile.userId);
+      setFriendRequestSent(false);
       Swal.fire({
         icon: 'success',
         title: 'Solicitud Cancelada',
         text: `Solicitud de amistad cancelada a ${profile.name}`,
       });
     } catch (error) {
-      console.error("Error al cancelar la solicitud de amistad:", error);
       Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -153,6 +98,10 @@ function PerfilUsuario() {
       });
     }
   };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (!profile) return <div>No profile found</div>;
 
   return (
     <div className="profilePage">
@@ -163,7 +112,7 @@ function PerfilUsuario() {
         <div className="profileHeader">
           <div className="profileImageContainer">
             <img 
-              src={profile.photoUrl} 
+              src={profile.photoUrl || defaultProfile} 
               alt="Foto de Perfil" 
               className="profileImage"
             />
@@ -182,11 +131,11 @@ function PerfilUsuario() {
           <button 
             onClick={handleSendFriendRequest} 
             className="sendFriendRequestButton"
-            disabled={profile.friendRequestSent}
+            disabled={friendRequestSent}
           >
-            {profile.friendRequestSent ? 'Solicitud Enviada' : 'Enviar Solicitud de Amistad'}
+            {friendRequestSent ? 'Solicitud Enviada' : 'Enviar Solicitud de Amistad'}
           </button>
-          {profile.friendRequestSent && (
+          {friendRequestSent && (
             <button 
               onClick={handleCancelFriendRequest} 
               className="cancelFriendRequestButton"
