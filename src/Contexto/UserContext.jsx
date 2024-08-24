@@ -1,9 +1,9 @@
-import  { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import PropTypes from 'prop-types'; 
 
-export const UserContext = createContext();
+const UserContext = createContext();
 
-export function UserProvider({ children }) {
+export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   return (
@@ -11,12 +11,10 @@ export function UserProvider({ children }) {
       {children}
     </UserContext.Provider>
   );
-}
+};
 
 UserProvider.propTypes = {
   children: PropTypes.node.isRequired, 
 };
 
-export function useUser() {
-  return useContext(UserContext);
-}
+export const useUser = () => useContext(UserContext);

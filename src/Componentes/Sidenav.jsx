@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate para redirección
 import M from 'materialize-css';
 import '../css/Sidenav.css';
 import { Amigos } from '../Solicitudes/Amigos';
@@ -13,6 +14,7 @@ const Sidenav = () => {
   const [isSidenavVisible, setSidenavVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState('');
   const sidenavRef = useRef(null);
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const elems = document.querySelectorAll('#left-sidenav');
@@ -41,6 +43,11 @@ const Sidenav = () => {
   const handleBackClick = () => {
     console.log('Volver clicked');
     setSelectedOption('');
+  };
+
+  const handleLogout = () => {
+    
+    navigate('/login'); // Redirige a la página de login
   };
 
   const renderContent = () => {
@@ -106,6 +113,12 @@ const Sidenav = () => {
               <li>
                 <a href="#" onClick={(e) => { e.preventDefault(); handleMenuClick('Videos'); }}>
                   <i className="material-icons">videocam</i> Videos
+                </a>
+              </li>
+              {/* Agregamos el botón de cerrar sesión aquí */}
+              <li>
+                <a href="#" onClick={(e) => { e.preventDefault(); handleLogout(); }}>
+                  <i className="material-icons">logout</i> Cerrar sesión
                 </a>
               </li>
             </>

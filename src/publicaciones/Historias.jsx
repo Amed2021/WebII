@@ -8,4 +8,4 @@ const Historias = () => {
   );
 };
 
-export default Historias; 
+export default Historias;

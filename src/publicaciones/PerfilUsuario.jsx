@@ -1,3 +1,4 @@
+import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Swal from 'sweetalert2'; 
 import "../css/Perfil.css";
@@ -8,26 +9,28 @@ import Sidebar from '../Componentes/Sidebar';
 import { useUser } from '../Contexto/UserContext'; 
 import { onSendFriendRequest, onCancelFriendRequest, checkFriendRequestExists } from '../config/api';
 import defaultProfile from '../imagenes/default-profile.png';
-import {  useParams } from 'react-router-dom';
 import useUserProfile from '../publicaciones/useUserProfile';
 
 function PerfilUsuario() {
+  const { userId } = useParams();
   const { user } = useUser(); 
-  //const navigate = useNavigate();
-  const { userId } = useParams(); 
-
   const { profile, loading, error } = useUserProfile(userId);
-
   const [friendRequestSent, setFriendRequestSent] = useState(false);
 
   useEffect(() => {
-    if (user && userId && profile) {
+    if (user && profile) {
       setFriendRequestSent(profile.friendRequestsSent?.includes(user.id) || false);
     }
-  }, [user, userId, profile]);
+  }, [user, profile]);
+  
+  useEffect(() => {
+    console.log('User:', user);
+    console.log('Profile:', profile);
+  }, [user, profile]);
 
   const handleSendFriendRequest = async () => {
-    if (!user.id || !profile?.userId) {
+    if (!user || !user.id || !profile?.userId) {
+      console.error('User or profile IDs are missing');
       Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -35,7 +38,7 @@ function PerfilUsuario() {
       });
       return;
     }
-
+  
     if (friendRequestSent) {
       Swal.fire({
         icon: 'info',
@@ -44,9 +47,12 @@ function PerfilUsuario() {
       });
       return;
     }
-
+  
     try {
+      console.log('Checking if request exists...');
       const requestExists = await checkFriendRequestExists(user.id, profile.userId);
+      console.log('Request exists:', requestExists);
+  
       if (requestExists) {
         Swal.fire({
           icon: 'info',
@@ -55,7 +61,8 @@ function PerfilUsuario() {
         });
         return;
       }
-
+  
+      console.log('Sending friend request...');
       await onSendFriendRequest({ from: user.id, to: profile.userId });
       setFriendRequestSent(true);
       Swal.fire({
@@ -64,6 +71,7 @@ function PerfilUsuario() {
         text: `Solicitud de amistad enviada a ${profile.name}`,
       });
     } catch (error) {
+      console.error('Error sending friend request:', error);
       Swal.fire({
         icon: 'error',
         title: 'Error',

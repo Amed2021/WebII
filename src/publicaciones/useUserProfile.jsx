@@ -1,37 +1,29 @@
+import { useState, useEffect } from 'react';
+import { onFindById } from '../config/api'; 
 
-import { useEffect, useState } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../config/firebase'; 
-
-const useUserProfile = (userId) => {
+function useUserProfile(userId) {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!userId) return; 
+
     const fetchProfile = async () => {
       try {
-        const docRef = doc(db, 'perfiles', userId);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setProfile(docSnap.data());
-        } else {
-          console.log("No such document!");
-        }
-      } catch (e) {
-        setError(e);
-        console.error("Error fetching profile:", e);
+        const profileData = await onFindById('perfiles', userId); 
+        setProfile(profileData);
+      } catch (err) {
+        setError(err);
       } finally {
         setLoading(false);
       }
     };
 
-    if (userId) {
-      fetchProfile();
-    }
+    fetchProfile();
   }, [userId]);
 
   return { profile, loading, error };
-};
+}
 
 export default useUserProfile;
